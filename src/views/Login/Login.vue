@@ -10,12 +10,14 @@
                                 <v-text-field v-model="username" class="input" label="Введите имя пользователя:" placeholder="Алмат"/>
                                 <v-text-field v-model="password" class="input" label="Введите пароль:"/>
                                 <v-btn type="submit" class="form__button" block>
-                                    Войти
+                                        Войти
                                 </v-btn>
                                 <p class="form__text">Или</p>
-                                <v-btn class="form__button" block>
-                                    Зарегистрироваться
-                                </v-btn>
+                                <router-link to="/registration/1">
+                                    <v-btn class="form__button" block>
+                                        Зарегистрироваться
+                                    </v-btn>
+                                </router-link>
                                 <router-link  to=""><a class="form__link" href="">Забыли пароль?</a></router-link>
                             </v-form>
                         </v-card>
@@ -39,7 +41,8 @@ export default {
             {
                 username: this.username,
                 password: this.password
-            }).then(() => {
+            }).then((response) => {
+                console.log(response.data)
                 this.$router.push('/main')
             })
         }

@@ -36,7 +36,24 @@ export default {
     }),
     methods: {
         submitHandler(){
-            
+            axios.patch('http://87.255.194.27:8001/users/' + localStorage.getItem('id') + '/update/', 
+            {
+                first_name: this.first_name,
+                last_name: this.last_name,
+                phone: this.phone,
+                email: this.email
+            },
+            )
+            .then((response) => {
+                // localStorage.setItem('id', response.data)
+                console.log(response.data)
+                
+                this.$router.push('/registration/3')
+            })
+            .catch((error) => {
+                console.log(error)
+                
+            })
         }
     }
 }

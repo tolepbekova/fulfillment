@@ -9,16 +9,21 @@
                                 <h2>Регистрация</h2>
                                 <h2>Этап 3</h2>
                                 <v-select
-                                :items="items"
+                                :items="typeList"
                                 label="Тип организации"
                                 ></v-select>
                                 <v-text-field class="input" label="Имя организации" placeholder="Имя организации"/>
                                 <v-text-field class="input" label="BIN" placeholder="BIN"/>
                                 <v-text-field class="input" label="Адрес" placeholder="Адрес"/>
                                 <v-select
-                                :items="banks"
+                                v-model="bankId"
+                                
+                                :items="bankList"
                                 label="Выберите банк"
-                                ></v-select>
+                                >
+                                    
+                                </v-select>
+                                {{bankId}}
                                 <v-text-field class="input" label="IBAN" placeholder="IBAN"/>
                                 <v-text-field class="input" label="Телефон" placeholder="+77001616757"/>
                                 <v-text-field class="input" label="Имя директора" placeholder="Имя директора"/>
@@ -40,9 +45,18 @@
 <script>
 export default {
     data: () => ({
-        types: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-        banks: []
-    })
+        typeList: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+        bankList: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+        bankId: ''
+    }),
+    methods:{
+        getOrgType(){
+            
+        }
+    },
+    mounted(){
+
+    }
 }
 </script>
 
