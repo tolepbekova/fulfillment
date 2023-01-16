@@ -44,6 +44,9 @@ export default {
                 // localStorage.setItem('id', response.data)
                 console.log(response)
             })
+            .catch((error) => {
+                console.log(error)
+            })
         }
     }
 }
