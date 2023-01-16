@@ -9,7 +9,10 @@
                                 <h2>Регистрация</h2>
                                 <h2>Этап 3</h2>
                                 <v-select
+                                v-model="typeId"
                                 :items="typeList"
+                                item-text="title"
+                                item-value="id"
                                 label="Тип организации"
                                 ></v-select>
                                 <v-text-field class="input" label="Имя организации" placeholder="Имя организации"/>
@@ -19,6 +22,8 @@
                                 v-model="bankId"
                                 
                                 :items="bankList"
+                                item-text="name"
+                                item-value="id"
                                 label="Выберите банк"
                                 >
                                     
@@ -43,19 +48,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data: () => ({
-        typeList: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-        bankList: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-        bankId: ''
+        typeList: [],
+        bankList: [],
+        bankId: '',
+        typeId: ''
     }),
     methods:{
         getOrgType(){
-            
+            axios.get('http://87.255.194.27:8001/api/org_types/')
+            .then((response) => {
+                console.log(response.data)
+                this.typeList = response.data
+            })
+        },
+        getBankList(){
+            axios.get('http://87.255.194.27:8001/api/banks/')
+            .then((response) => {
+                console.log(response.data)
+                this.bankList = response.data
+            })
         }
     },
     mounted(){
-
+        this.getOrgType(),
+        this.getBankList()
     }
 }
 </script>
