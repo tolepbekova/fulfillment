@@ -5,11 +5,11 @@
                 <v-row class="form__row">
                     <v-col cols="6" >
                         <v-card class="form__card">
-                            <v-form class="form">
+                            <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Вход</h2>
-                                <v-text-field class="input" label="Введите имя пользователя:" placeholder="Алмат"/>
-                                <v-text-field class="input" label="Введите пароль:"/>
-                                <v-btn class="form__button" block>
+                                <v-text-field v-model="username" class="input" label="Введите имя пользователя:" placeholder="Алмат"/>
+                                <v-text-field v-model="password" class="input" label="Введите пароль:"/>
+                                <v-btn type="submit" class="form__button" block>
                                     Войти
                                 </v-btn>
                                 <p class="form__text">Или</p>
@@ -27,9 +27,23 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
-    
+    data: () => ({
+        username: '',
+        password: ''
+    }),
+    methods:{
+        submitHandler(){
+            axios.post('http://87.255.194.27:8001/auth/token/login/', 
+            {
+                username: this.username,
+                password: this.password
+            }).then(() => {
+                this.$router.push('/main')
+            })
+        }
+    }
 }
 </script>
 

@@ -5,7 +5,7 @@
                 <v-row class="login__row">
                     <v-col cols="6" >
                         <v-card class="login__card">
-                            <v-form class="form">
+                            <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Регистрация</h2>
                                 <v-text-field class="input" label="Ф.И.О" placeholder="Ф.И.О"/>
                                 <v-text-field class="input" label="E-mail" placeholder="E-mail"/>
@@ -24,6 +24,18 @@
         </div>
     </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+    data: () => ({
+        
+    }),
+    methods:{
+
+    }
+}
+</script>
 
 <style lang="scss" scoped>
 .login {
