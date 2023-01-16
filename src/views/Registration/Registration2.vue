@@ -7,11 +7,11 @@
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Регистрация</h2>
-                                <h2>Этап 1</h2>
-                                
-                                <v-text-field v-model="username" class="input" label="Имя пользователя:" placeholder="Логин"/>
-                                <v-text-field v-model="password" class="input" label="Пароль" placeholder="Пароль"/>
-                                <v-text-field v-model="repeatPassword" class="input" label="Повторить пароль:" placeholder="Пароль"/>
+                                <h2>Этап 2</h2>
+                                <v-text-field v-model="first_name" class="input" label="Фамилия" placeholder="Фамилия"/>
+                                <v-text-field v-model="last_name" class="input" label="Имя" placeholder="Имя"/>
+                                <v-text-field v-model="email" class="input" label="E-mail" placeholder="E-mail"/>
+                                <v-text-field v-model="phone" class="input" label="Телефон" placeholder="E-mail"/>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Далее
                                 </v-btn>
@@ -29,28 +29,14 @@
 import axios from 'axios'
 export default {
     data: () => ({
-        username: '',
-        password: '',
-        repeatPassword: '',
-        errors: []
+        first_name: '',
+        last_name: '',
+        phone: '',
+        email: ''
     }),
-    methods:{
+    methods: {
         submitHandler(){
-            axios.post('http://87.255.194.27:8001/auth/users/', 
-            {
-                username: this.username,
-                password: this.password
-            })
-            .then((response) => {
-                // localStorage.setItem('id', response.data)
-                console.log(response)
-                localStorage.setItem('id', response.data.id)
-                this.$router.push('/registration/2')
-            })
-            .catch((error) => {
-                console.log(error)
-                this.errors = error
-            })
+            
         }
     }
 }

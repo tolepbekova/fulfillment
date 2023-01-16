@@ -18,9 +18,21 @@ const routes = [
   },
   {
     path: '/registration/1',
-    name: 'registration',
+    name: 'registration-1',
     meta: {layout: 'auth'},
     component: () => import('../views/Registration/Registration1.vue')
+  },
+  {
+    path: '/registration/2',
+    name: 'registration-2',
+    meta: {layout: 'auth'},
+    component: () => import('../views/Registration/Registration2.vue')
+  },
+  {
+    path: '/registration/3',
+    name: 'registration-3',
+    meta: {layout: 'auth'},
+    component: () => import('../views/Registration/Registration3.vue')
   },
   {
     path: '/main',
