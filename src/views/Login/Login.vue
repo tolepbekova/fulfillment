@@ -1,22 +1,22 @@
 <template>
-    <div class="login">
-        <div class="login__inner">
+    <div class="form">
+        <div class="form__inner">
             <v-container>
-                <v-row class="login__row">
+                <v-row class="form__row">
                     <v-col cols="6" >
-                        <v-card class="login__card">
+                        <v-card class="form__card">
                             <v-form class="form">
                                 <h2>Вход</h2>
                                 <v-text-field class="input" label="Введите имя пользователя:" placeholder="Алмат"/>
                                 <v-text-field class="input" label="Введите пароль:"/>
-                                <v-btn class="login__button" block>
+                                <v-btn class="form__button" block>
                                     Войти
                                 </v-btn>
-                                <p class="login__text">Или</p>
-                                <v-btn class="login__button" block>
+                                <p class="form__text">Или</p>
+                                <v-btn class="form__button" block>
                                     Зарегистрироваться
                                 </v-btn>
-                                <router-link  to=""><a class="login__link" href="">Забыли пароль?</a></router-link>
+                                <router-link  to=""><a class="form__link" href="">Забыли пароль?</a></router-link>
                             </v-form>
                         </v-card>
                     </v-col>
@@ -27,7 +27,7 @@
 </template>
 
 <style lang="scss" scoped>
-.login {
+.form {
 
 		&__inner {
 		}
