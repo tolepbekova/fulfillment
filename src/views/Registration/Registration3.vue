@@ -15,9 +15,9 @@
                                 item-value="id"
                                 label="Тип организации"
                                 ></v-select>
-                                <v-text-field class="input" label="Имя организации" placeholder="Имя организации"/>
-                                <v-text-field class="input" label="BIN" placeholder="BIN"/>
-                                <v-text-field class="input" label="Адрес" placeholder="Адрес"/>
+                                <v-text-field class="input" v-model="name" label="Имя организации" placeholder="Имя организации"/>
+                                <v-text-field class="input" v-model="BIN" label="BIN" placeholder="BIN"/>
+                                <v-text-field class="input" v-model="address" label="Адрес" placeholder="Адрес"/>
                                 <v-select
                                 v-model="bankId"
                                 
@@ -29,15 +29,15 @@
                                     
                                 </v-select>
                                 {{bankId}}
-                                <v-text-field class="input" label="IBAN" placeholder="IBAN"/>
-                                <v-text-field class="input" label="Телефон" placeholder="+77001616757"/>
-                                <v-text-field class="input" label="Имя директора" placeholder="Имя директора"/>
-                                <v-text-field class="input" label="Телефон директора" placeholder="+77001616757"/>
-                                <v-text-field class="input" label="Fulfillment" placeholder="Fulfillment"/>
+                                <v-text-field class="input" v-model="IBAN" label="IBAN" placeholder="IBAN"/>
+                                <v-text-field class="input" v-model="phone" label="Телефон" placeholder="+77001616757"/>
+                                <v-text-field class="input" v-model="director_name" label="Имя директора" placeholder="Имя директора"/>
+                                <v-text-field class="input" v-model="director_phone" label="Телефон директора" placeholder="+77001616757"/>
+                                <v-text-field class="input" v-model="fulfillment" label="Fulfillment" placeholder="Fulfillment"/>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Зарегистрироваться
                                 </v-btn>
-                                {{errors}}
+                                
                             </v-form>
                         </v-card>
                     </v-col>
@@ -54,7 +54,15 @@ export default {
         typeList: [],
         bankList: [],
         bankId: '',
-        typeId: ''
+        typeId: '',
+        name: '',
+        BIN: '',
+        address: '',
+        IBAN: '',
+        phone: '',
+        director_name: '',
+        director_phone: '',
+        fulfillment: ''
     }),
     methods:{
         getOrgType(){
@@ -69,6 +77,38 @@ export default {
             .then((response) => {
                 console.log(response.data)
                 this.bankList = response.data
+            })
+        },
+        submitHandler(){
+            axios.post('http://87.255.194.27:8001/api/user/organization/create/', 
+            {
+                type: this.typeId,
+                name: this.name,
+                BIN: this.BIN,
+                address: this.address,
+                bank: this.bankId,
+                IBAN: this.IBAN,
+                phone: this.phone,
+                director_name: this.director_name,
+                director_phone: this.director_phone,
+                fulfillment: this.fulfillment
+            },
+            {
+                params: {
+                    user: localStorage.getItem('id')
+                }
+            }
+            )
+            .then((response) => {
+                // localStorage.setItem('id', response.data)
+                // console.log(response.data)
+                alert('Успешно')
+                // this.$router.push('/registration/3')
+                // localStorage.removeItem('id')
+            })
+            .catch((error) => {
+                console.log(error)
+                
             })
         }
     },
