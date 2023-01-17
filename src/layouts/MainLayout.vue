@@ -26,7 +26,7 @@
                 </div>
                 <v-spacer></v-spacer>
                 <div class="main__user-header">
-                    <p>Алмат</p>
+                    <p>{{username}}</p>
                     <v-btn @click="logout()" class="main__nav-btn">
                         Выйти
                     </v-btn>
@@ -42,6 +42,9 @@
 <script>
 import axios from 'axios'
 export default {
+    data: () => ({
+        username: ''
+    }),
     methods:{
         logout(){
             axios.post('http://87.255.194.27:8001/auth/token/logout/',
@@ -57,18 +60,19 @@ export default {
             })
         },
         getUserName(){
-            axios.post('http://87.255.194.27:8001/auth/users/' + localStorage.getItem('id'),
-            {
-
-            },
+            axios.get('http://87.255.194.27:8001/auth/users/' + localStorage.getItem('id'),
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
-            }).then(() => {
-                this.$router.push('/login')
+            }).then((response) => {
+                console.log(response.data)
+                this.username = response.data.username
             })
         }
+    },
+    mounted(){
+        this.getUserName()
     }
 }
 </script>
