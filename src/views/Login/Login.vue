@@ -7,8 +7,26 @@
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Вход</h2>
-                                <v-text-field v-model="username" class="input" label="Введите имя пользователя:" placeholder="Алмат"/>
-                                <v-text-field v-model="password" class="input" label="Введите пароль:"/>
+                                <v-text-field 
+                                v-model="username" 
+                                class="input" 
+                                label="Введите имя пользователя:" 
+                                placeholder="Алмат"
+                                :error-messages="usernameErrors"
+                                required
+                                @input="$v.username.$touch()"
+                                @blur="$v.username.$touch()"/>
+
+                                <v-text-field 
+                                v-model="password" 
+                                class="input" 
+                                label="Введите пароль:"
+                                :error-messages="passwordErrors"
+                                required
+                                @input="$v.password.$touch()"
+                                @blur="$v.password.$touch()"
+                                />
+
                                 <v-btn type="submit" class="form__button" block>
                                         Войти
                                 </v-btn>
@@ -30,6 +48,7 @@
 
 <script>
 import axios from 'axios'
+import { required } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         username: '',
@@ -37,15 +56,37 @@ export default {
     }),
     methods:{
         submitHandler(){
-            axios.post('http://87.255.194.27:8001/auth/token/login/', 
-            {
-                username: this.username,
-                password: this.password
-            }).then((response) => {
-                console.log(response.data)
-                this.$router.push('/main')
-            })
+            this.$v.$touch()
+            if(!this.$v.$invalid){
+                axios.post('http://87.255.194.27:8001/auth/token/login/', 
+                {
+                    username: this.username,
+                    password: this.password
+                }).then((response) => {
+                    console.log(response.data)
+                    this.$router.push('/main')
+                })
+            }
+        },
+        
+    },
+    computed:{
+        usernameErrors () {
+            const errors = []
+            if (!this.$v.username.$dirty) return errors
+            !this.$v.username.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        passwordErrors(){
+            const errors = []
+            if (!this.$v.password.$dirty) return errors
+            !this.$v.password.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
         }
+    },
+    validations:{
+        username: {required},
+        password: {required}
     }
 }
 </script>
@@ -84,5 +125,9 @@ export default {
 }
 .input {
 }
+
+
+
+
 
 </style>
