@@ -4,6 +4,7 @@
             <v-app-bar
                 elevation="6"
                 outlined
+                color="#66FF99"
             >
                 <v-toolbar-title>Fulfillment</v-toolbar-title>
                 <div class="main__menu">
@@ -54,6 +55,19 @@ export default {
             }).then(() => {
                 this.$router.push('/login')
             })
+        },
+        getUserName(){
+            axios.post('http://87.255.194.27:8001/auth/users/' + localStorage.getItem('id'),
+            {
+
+            },
+            {
+                headers:{
+                    Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            }).then(() => {
+                this.$router.push('/login')
+            })
         }
     }
 }
@@ -63,6 +77,7 @@ export default {
 .main {
 
 		&__inner {
+            
 		}
 
         &__menu{

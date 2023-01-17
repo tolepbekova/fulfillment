@@ -46,11 +46,12 @@
                                 label="Телефон"
                                 maxlength="12" 
                                 placeholder="E-mail"
-                                :error-messages="phoneErrors"
+                                
+                                @keypress="isNumber"/>
+                                <!-- :error-messages="phoneErrors"
                                 required
                                 @input="$v.phone.$touch()"
-                                @blur="$v.phone.$touch()"
-                                @keypress="isNumber"/>
+                                @blur="$v.phone.$touch()" -->
 
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Далее

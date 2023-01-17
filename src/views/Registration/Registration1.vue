@@ -27,6 +27,10 @@
                                 placeholder="Пароль"
                                 :error-messages="passwordErrors"
                                 required
+                                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="showPassword ? 'text' : 'password'"
+                                @click:append="showPassword = !showPassword"
+                                
                                 @input="$v.password.$touch()"
                                 @blur="$v.password.$touch()"
                                 />
@@ -37,12 +41,15 @@
                                 label="Повторить пароль:" 
                                 placeholder="Пароль"
                                 :error-messages="repeatPasswordErrors"
+                                :append-icon="showRepeatPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="showRepeatPassword ? 'text' : 'password'"
+                                @click:append="showRepeatPassword = !showRepeatPassword"
                                 required
                                 @input="$v.repeatPassword.$touch()"
                                 @blur="$v.repeatPassword.$touch()"
                                 />
-                                <p class="invalid-feedback" v-if="errors.similiar != ''">{{errors.similiar}}</p>
-                                <p class="invalid-feedback" v-if="errors.common != ''">{{errors.common}}</p>
+                                <p class="invalid-feedback" v-if="errors.similiar">{{errors.similiar}}</p>
+                                <p class="invalid-feedback" v-if="errors.common">{{errors.common}}</p>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Далее
                                 </v-btn>
@@ -64,6 +71,8 @@ export default {
         username: '',
         password: '',
         repeatPassword: '',
+        showPassword: false,
+        showRepeatPassword: false,
         errors: {
             similiar: '',
             common: ''
@@ -85,20 +94,15 @@ export default {
                     this.$router.push('/registration/2')
                 })
                 .catch((error) => {
-                    console.log(error)
-                    if(error){
-                        for(let i in error.response.data.password){
-                            if(i == 'This password is too common.'){
+                    console.log(error.response.data.password)
+                        error.response.data.password.forEach((element) => {
+                            if(element == 'This password is too common.'){
                                 this.errors.common = 'Этот пароль слишком распространен'
                             }
-                            if(i == 'The password is too similar to the username.'){
-                                this.errors.similiar = 'Пароль слишком похож на имя пользователя.'
+                            if(element == 'The password is too similar to the username.'){
+                                this.errors.similiar = 'Пароль похож на имя пользователя.'
                             }
-                        }
-                    }
-                    // if(error){
-                    //     this.error = error.response.data.password
-                    // }
+                        });
                 })
             }
         }

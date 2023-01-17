@@ -25,14 +25,17 @@
                                 required
                                 @input="$v.password.$touch()"
                                 @blur="$v.password.$touch()"
+                                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="showPassword ? 'text' : 'password'"
+                                @click:append="showPassword = !showPassword"
                                 />
-
-                                <v-btn type="submit" class="form__button" block>
+                                <p class="invalid-feedback" v-if="error">{{error}}</p>
+                                <v-btn color="#66FF99" type="submit" class="form__button" block>
                                         Войти
                                 </v-btn>
                                 <p class="form__text">Или</p>
                                 <router-link to="/registration/1">
-                                    <v-btn class="form__button" block>
+                                    <v-btn color="#0099FF" class="form__button mb-5" block>
                                         Зарегистрироваться
                                     </v-btn>
                                 </router-link>
@@ -52,7 +55,9 @@ import { required } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         username: '',
-        password: ''
+        password: '',
+        showPassword: false,
+        error: ''
     }),
     methods:{
         submitHandler(){
@@ -66,6 +71,13 @@ export default {
                     console.log(response.data)
                     localStorage.setItem('usertoken', response.data.auth_token)
                     this.$router.push('/main')
+                }).catch((error) => {
+                    console.log(error.response.data.non_field_errors)
+                    error.response.data.non_field_errors.forEach((element) => {
+                        if(element == 'Unable to log in with provided credentials.'){
+                            this.error = 'Предоставленные учетные данные недействительны'
+                        }
+                    });
                 })
             }
         },
@@ -115,18 +127,24 @@ export default {
 
         &__button{
             margin: 10px 0 0 0;
+            &:last-child{
+                margin-bottom: 10px;
+            }
         }
 
         &__link{
             text-align: center;
             width: 100%;
+            margin: 20px 0 0 0;
         }
 }
 .form {
 }
 .input {
 }
-
+.invalid-feedback{
+    color: rgb(252, 20, 20);
+}
 
 
 

@@ -11,14 +11,14 @@
                                 <v-select
                                 v-model="typeId"
                                 :items="typeList"
-                                item-text="title"
+                                item-text="type"
                                 item-value="id"
                                 label="Тип организации"
                                 :error-messages="orgtypeErrors"
                                 @change="$v.typeId.$touch()"
                                 @blur="$v.typeId.$touch()"
                                 ></v-select>
-
+                                
                                 <v-text-field 
                                 class="input" 
                                 v-model="name" 
@@ -68,6 +68,7 @@
                                 v-model="IBAN" 
                                 label="IBAN" 
                                 placeholder="IBAN"
+                                maxLength="21"
                                 :error-messages="ibanErrors"
                                 @change="$v.IBAN.$touch()"
                                 @blur="$v.IBAN.$touch()"
@@ -81,7 +82,7 @@
                                 :error-messages="phoneErrors"
                                 @change="$v.phone.$touch()"
                                 @blur="$v.phone.$touch()"
-                                maxLength="11"
+                                maxLength="12"
                                 />
 
                                 <v-text-field 
@@ -99,6 +100,7 @@
                                 v-model="director_phone" 
                                 label="Телефон директора" 
                                 placeholder="+77001616757"
+                                maxLength="12"
                                 :error-messages="directorphoneErrors"
                                 @change="$v.director_phone.$touch()"
                                 @blur="$v.director_phone.$touch()"
@@ -140,9 +142,9 @@ export default {
         BIN: '',
         address: '',
         IBAN: '',
-        phone: '',
+        phone: '+',
         director_name: '',
-        director_phone: '',
+        director_phone: '+',
         fulfillment: ''
     }),
     methods:{
@@ -156,7 +158,6 @@ export default {
         getBankList(){
             axios.get('http://87.255.194.27:8001/api/banks/')
             .then((response) => {
-                console.log(response.data)
                 this.bankList = response.data
             })
         },
@@ -165,6 +166,7 @@ export default {
             if(!this.$v.$invalid){
                 axios.post('http://87.255.194.27:8001/api/user/organization/create/', 
                 {
+                    user: localStorage.getItem('id'),
                     type: this.typeId,
                     name: this.name,
                     BIN: this.BIN,
