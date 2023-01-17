@@ -67,7 +67,8 @@ export default {
         errors: {
             similiar: '',
             common: ''
-        }
+        },
+        error: []
     }),
     methods:{
         submitHandler(){
@@ -85,21 +86,19 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error)
-                    // if(error.response.data[0]){
-                    //     this.errors.similiar = 'Пароль слишком похож на имя пользователя.'
-                    // }
-                    // if(error.response.data[2]){
-                    //     this.errors.common = 'Этот пароль слишком распространен'
-                    // }
-                    // this.errors = error
-                    for(let i in error.response.data.password){
-                        if(i == "This password is too common."){
-                            this.errors.common = 'Этот пароль слишком распространен'
-                        }
-                        if(i == "The password is too similar to the username."){
-                            this.errors.similiar = 'Пароль слишком похож на имя пользователя.'
+                    if(error){
+                        for(let i in error.response.data.password){
+                            if(i == 'This password is too common.'){
+                                this.errors.common = 'Этот пароль слишком распространен'
+                            }
+                            if(i == 'The password is too similar to the username.'){
+                                this.errors.similiar = 'Пароль слишком похож на имя пользователя.'
+                            }
                         }
                     }
+                    // if(error){
+                    //     this.error = error.response.data.password
+                    // }
                 })
             }
         }

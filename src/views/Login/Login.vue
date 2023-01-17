@@ -64,6 +64,7 @@ export default {
                     password: this.password
                 }).then((response) => {
                     console.log(response.data)
+                    localStorage.setItem('usertoken', response.data.auth_token)
                     this.$router.push('/main')
                 })
             }
