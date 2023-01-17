@@ -8,14 +8,54 @@
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Регистрация</h2>
                                 <h2>Этап 2</h2>
-                                <v-text-field v-model="first_name" class="input" label="Фамилия" placeholder="Фамилия"/>
-                                <v-text-field v-model="last_name" class="input" label="Имя" placeholder="Имя"/>
-                                <v-text-field v-model="email" class="input" label="E-mail" placeholder="E-mail"/>
-                                <v-text-field v-model="phone" class="input" label="Телефон" placeholder="E-mail"/>
+                                <v-text-field 
+                                v-model="first_name" 
+                                class="input" 
+                                label="Фамилия" 
+                                placeholder="Фамилия"
+                                :error-messages="firstnameErrors"
+                                required
+                                @input="$v.first_name.$touch()"
+                                @blur="$v.first_name.$touch()"
+                                @keypress="isLetter"/>
+
+                                <v-text-field 
+                                v-model="last_name" 
+                                class="input" 
+                                label="Имя" 
+                                placeholder="Имя"
+                                :error-messages="lastnameErrors"
+                                required
+                                @input="$v.last_name.$touch()"
+                                @blur="$v.last_name.$touch()"
+                                @keypress="isLetter"/>
+
+                                <v-text-field 
+                                v-model="email" 
+                                class="input" 
+                                label="E-mail" 
+                                placeholder="E-mail"
+                                :error-messages="emailErrors"
+                                required
+                                @input="$v.email.$touch()"
+                                @blur="$v.email.$touch()"/>
+
+                                <v-text-field 
+                                v-model="phone" 
+                                class="input" 
+                                label="Телефон"
+                                maxlength="12" 
+                                placeholder="E-mail"
+                                :error-messages="phoneErrors"
+                                required
+                                @input="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                @keypress="isNumber"/>
+
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Далее
                                 </v-btn>
-                                {{errors}}
+                                
                             </v-form>
                         </v-card>
                     </v-col>
@@ -27,34 +67,86 @@
 
 <script>
 import axios from 'axios'
+import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         first_name: '',
         last_name: '',
-        phone: '',
+        phone: '+',
         email: ''
     }),
     methods: {
         submitHandler(){
-            axios.patch('http://87.255.194.27:8001/users/' + localStorage.getItem('id') + '/update/', 
-            {
-                first_name: this.first_name,
-                last_name: this.last_name,
-                phone: this.phone,
-                email: this.email
-            },
-            )
-            .then((response) => {
-                // localStorage.setItem('id', response.data)
-                console.log(response.data)
-                
-                this.$router.push('/registration/3')
-            })
-            .catch((error) => {
-                console.log(error)
-                
-            })
+            this.$v.$touch()
+            if(!this.$v.$invalid){
+                axios.patch('http://87.255.194.27:8001/users/' + localStorage.getItem('id') + '/update/', 
+                {
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    phone: this.phone,
+                    email: this.email
+                },
+                )
+                .then((response) => {
+                    // localStorage.setItem('id', response.data)
+                    console.log(response.data)
+                    
+                    this.$router.push('/registration/3')
+                })
+                .catch((error) => {
+                    console.log(error)
+                    
+                })
+            }
+        },
+        isNumber (e) {
+        const regex = /[0-9]/
+        if (!regex.test(e.key)) {
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+            }
+        },
+        isLetter (e) {
+        const regex = /^([а-яё\s]+|[a-z\s]+)$/iu
+        if (!regex.test(e.key)) {
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+            }
         }
+    },
+    computed:{
+        firstnameErrors () {
+            const errors = []
+            if (!this.$v.first_name.$dirty) return errors
+            !this.$v.first_name.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        lastnameErrors () {
+            const errors = []
+            if (!this.$v.last_name.$dirty) return errors
+            !this.$v.last_name.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        phoneErrors () {
+            const errors = []
+            if (!this.$v.phone.$dirty) return errors
+            !this.$v.phone.required && errors.push('Данное поле обязательно для заполнения')
+            !this.$v.phone.minLength && errors.push('Данное поле должно содержать номер телефона')
+            return errors
+        },
+        emailErrors(){
+            const errors = []
+            if (!this.$v.email.$dirty) return errors
+            !this.$v.email.required && errors.push('Данное поле обязательно для заполнения')
+            !this.$v.email.email && errors.push('Данное поле должно содержать электронную почту')
+            return errors
+        }
+    },
+    validations:{
+        first_name: {required},
+        last_name: {required},
+        phone: {required, minLength: minLength(11)},
+        email: {required, email}
     }
 }
 </script>

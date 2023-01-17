@@ -14,26 +14,106 @@
                                 item-text="title"
                                 item-value="id"
                                 label="Тип организации"
+                                :error-messages="orgtypeErrors"
+                                @change="$v.typeId.$touch()"
+                                @blur="$v.typeId.$touch()"
                                 ></v-select>
-                                <v-text-field class="input" v-model="name" label="Имя организации" placeholder="Имя организации"/>
-                                <v-text-field class="input" v-model="BIN" label="BIN" placeholder="BIN"/>
-                                <v-text-field class="input" v-model="address" label="Адрес" placeholder="Адрес"/>
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="name" 
+                                label="Имя организации" 
+                                placeholder="Имя организации"
+                                :error-messages="nameErrors"
+                                @input="$v.name.$touch()"
+                                @blur="$v.name.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="BIN" 
+                                label="BIN" 
+                                placeholder="BIN"
+                                maxLength="12"
+                                @keypress="isNumber"
+                                :error-messages="binErrors"
+                                @input="$v.BIN.$touch()"
+                                @blur="$v.BIN.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="address" 
+                                label="Адрес" 
+                                placeholder="Адрес"
+                                :error-messages="addressErrors"
+                                @input="$v.address.$touch()"
+                                @blur="$v.address.$touch()"
+                                />
+
                                 <v-select
                                 v-model="bankId"
-                                
                                 :items="bankList"
                                 item-text="name"
                                 item-value="id"
                                 label="Выберите банк"
+                                :error-messages="bankErrors"
+                                @change="$v.bankId.$touch()"
+                                @blur="$v.bankId.$touch()"
                                 >
-                                    
                                 </v-select>
-                                {{bankId}}
-                                <v-text-field class="input" v-model="IBAN" label="IBAN" placeholder="IBAN"/>
-                                <v-text-field class="input" v-model="phone" label="Телефон" placeholder="+77001616757"/>
-                                <v-text-field class="input" v-model="director_name" label="Имя директора" placeholder="Имя директора"/>
-                                <v-text-field class="input" v-model="director_phone" label="Телефон директора" placeholder="+77001616757"/>
-                                <v-text-field class="input" v-model="fulfillment" label="Fulfillment" placeholder="Fulfillment"/>
+                                
+                                <v-text-field 
+                                class="input" 
+                                v-model="IBAN" 
+                                label="IBAN" 
+                                placeholder="IBAN"
+                                :error-messages="ibanErrors"
+                                @change="$v.IBAN.$touch()"
+                                @blur="$v.IBAN.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="phone" 
+                                label="Телефон" 
+                                placeholder="+77001616757"
+                                :error-messages="phoneErrors"
+                                @change="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                maxLength="11"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="director_name" 
+                                label="Имя директора" 
+                                placeholder="Имя директора"
+                                :error-messages="directornameErrors"
+                                @change="$v.director_name.$touch()"
+                                @blur="$v.director_name.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="director_phone" 
+                                label="Телефон директора" 
+                                placeholder="+77001616757"
+                                :error-messages="directorphoneErrors"
+                                @change="$v.director_phone.$touch()"
+                                @blur="$v.director_phone.$touch()"
+                                />
+
+                                <v-text-field
+                                class="input" 
+                                v-model="fulfillment" 
+                                label="Fulfillment" 
+                                placeholder="Fulfillment"
+                                :error-messages="fulfillmentErrors"
+                                @change="$v.fulfillment.$touch()"
+                                @blur="$v.fulfillment.$touch()"
+                                />
+
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Зарегистрироваться
                                 </v-btn>
@@ -49,6 +129,7 @@
 
 <script>
 import axios from 'axios'
+import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         typeList: [],
@@ -80,37 +161,130 @@ export default {
             })
         },
         submitHandler(){
-            axios.post('http://87.255.194.27:8001/api/user/organization/create/', 
-            {
-                type: this.typeId,
-                name: this.name,
-                BIN: this.BIN,
-                address: this.address,
-                bank: this.bankId,
-                IBAN: this.IBAN,
-                phone: this.phone,
-                director_name: this.director_name,
-                director_phone: this.director_phone,
-                fulfillment: this.fulfillment
-            },
-            {
-                params: {
-                    user: localStorage.getItem('id')
+            this.$v.$touch()
+            if(!this.$v.$invalid){
+                axios.post('http://87.255.194.27:8001/api/user/organization/create/', 
+                {
+                    type: this.typeId,
+                    name: this.name,
+                    BIN: this.BIN,
+                    address: this.address,
+                    bank: this.bankId,
+                    IBAN: this.IBAN,
+                    phone: this.phone,
+                    director_name: this.director_name,
+                    director_phone: this.director_phone,
+                    fulfillment: this.fulfillment
+                },
+                {
+                    params: {
+                        user: localStorage.getItem('id')
+                    }
                 }
+                )
+                .then((response) => {
+                    // localStorage.setItem('id', response.data)
+                    // console.log(response.data)
+                    alert('Успешно')
+                    // this.$router.push('/registration/3')
+                    // localStorage.removeItem('id')
+                })
+                .catch((error) => {
+                    console.log(error)
+                    
+                })
             }
-            )
-            .then((response) => {
-                // localStorage.setItem('id', response.data)
-                // console.log(response.data)
-                alert('Успешно')
-                // this.$router.push('/registration/3')
-                // localStorage.removeItem('id')
-            })
-            .catch((error) => {
-                console.log(error)
-                
-            })
+        },
+        isNumber (e) {
+        const regex = /[0-9]/
+        if (!regex.test(e.key)) {
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+            }
+        },
+        isLetter (e) {
+        const regex = /^([а-яё\s]+|[a-z\s]+)$/iu
+        if (!regex.test(e.key)) {
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+            }
         }
+    },
+    computed:{
+        bankErrors () {
+            const errors = []
+            if (!this.$v.bankId.$dirty) return errors
+            !this.$v.bankId.required && errors.push('Обязательно для выбора')
+            return errors
+        },
+        orgtypeErrors () {
+            const errors = []
+            if (!this.$v.typeId.$dirty) return errors
+            !this.$v.typeId.required && errors.push('Обязательно для выбора')
+            return errors
+        },
+        nameErrors () {
+            const errors = []
+            if (!this.$v.name.$dirty) return errors
+            !this.$v.name.required && errors.push('Обязательное поле для заполнения')
+            return errors
+        },
+        binErrors () {
+            const errors = []
+            if (!this.$v.BIN.$dirty) return errors
+            !this.$v.BIN.required && errors.push('Обязательное поле для заполнения')
+            !this.$v.BIN.minLength && errors.push('Данное поле должно содержать 12 символов')
+            return errors
+        },
+        addressErrors () {
+            const errors = []
+            if (!this.$v.address.$dirty) return errors
+            !this.$v.address.required && errors.push('Обязательное поле для заполнения')
+            return errors
+        },
+        ibanErrors () {
+            const errors = []
+            if (!this.$v.IBAN.$dirty) return errors
+            !this.$v.IBAN.required && errors.push('Обязательное поле для заполнения')
+            return errors
+        },
+        phoneErrors () {
+            const errors = []
+            if (!this.$v.phone.$dirty) return errors
+            !this.$v.phone.required && errors.push('Обязательное поле для заполнения')
+            !this.$v.phone.minLength && errors.push('Данное поле должно содержать номер телефона')
+            return errors
+        },
+        directornameErrors () {
+            const errors = []
+            if (!this.$v.director_name.$dirty) return errors
+            !this.$v.director_name.required && errors.push('Обязательное поле для заполнения')
+            return errors
+        },
+        directorphoneErrors () {
+            const errors = []
+            if (!this.$v.director_phone.$dirty) return errors
+            !this.$v.director_phone.required && errors.push('Обязательное поле для заполнения')
+            return errors
+        },
+        fulfillmentErrors () {
+            const errors = []
+            if (!this.$v.fulfillment.$dirty) return errors
+            !this.$v.fulfillment.required && errors.push('Обязательное поле для заполнения')
+            return errors
+        },
+    },
+    validations:{
+        bankId: {required},
+        typeId: {required},
+        name: {required},
+        BIN: {required, minLength: minLength(12)},
+        address: {required},
+        IBAN: {required},
+        phone: {required, minLength: minLength(11)},
+        director_name: {required},
+        director_phone: {required},
+        fulfillment: {required}
     },
     mounted(){
         this.getOrgType(),
