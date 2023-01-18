@@ -1,6 +1,7 @@
 <template>
     <div class="goods">
         <div class="goods__inner">
+            <h2 class="mt-5 ml-5">Товары</h2>
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -48,3 +49,19 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data: () => ({
+        goodsList: []
+    }),
+    methods:{
+        getGoodsList(){
+            axios.get('')
+        }
+    },
+    mounted(){
+
+    }
+}
+</script>
