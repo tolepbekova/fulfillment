@@ -40,7 +40,7 @@
                             <td>{{index + 1}}</td>
                             <!-- <td>{{ item.number }}</td> -->
                             <td>
-                                <router-link to="">
+                                <router-link :to="{name: 'invoices-view', params: {id: item.id}}">
                                     <a href="">
                                         {{ item.number }}
                                     </a>
