@@ -41,7 +41,7 @@
                             <!-- <td>{{ item.number }}</td> -->
                             <td>
                                 <router-link :to="{name: 'invoices-view', params: {id: item.id}}">
-                                    <a href="">
+                                    <a @click="setIdToStorage(item.id)" href="">
                                         {{ item.number }}
                                     </a>
                                 </router-link>
@@ -149,6 +149,9 @@ import axios from 'axios'
         },
         pickInvoice(value){
             this.selectedInvoice = value
+        },
+        setIdToStorage(value){
+            localStorage.setItem('invoiceId', value)
         }
     },
     mounted(){
