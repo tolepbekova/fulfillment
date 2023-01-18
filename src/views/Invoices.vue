@@ -19,12 +19,6 @@
                                 №
                             </th>
                             <th class="text-left">
-                                Наименование
-                            </th>
-                            <th class="text-left">
-                                БИН
-                            </th>
-                            <th class="text-left">
                                 Номер накладной
                             </th>
                             <th class="text-left">
@@ -36,9 +30,6 @@
                             <th class="text-left">
                                 Получатель
                             </th>
-                            <th class="text-left">
-                                Добавить файл
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,13 +38,18 @@
                         :key="item.name"
                         >   
                             <td>{{index + 1}}</td>
-                            <td></td>
-                            <td>{{organization.BIN}}</td>
-                            <td>{{ item.number }}</td>
+                            <!-- <td>{{ item.number }}</td> -->
+                            <td>
+                                <router-link to="">
+                                    <a href="">
+                                        {{ item.number }}
+                                    </a>
+                                </router-link>
+                            </td>
                             <td>{{ item.date }}</td>
                             <td>{{organization.name}}</td>
                             <td>{{organization.fulfillment}}</td>
-                            <td>
+                            <!-- <td>
                                 <v-dialog
                                 v-model="dialog"
                                 persistent
@@ -109,15 +105,8 @@
                                     </v-card-actions>
                                 </v-card>
                                 </v-dialog>
-                                <!-- <v-btn
-                                small
-                                color="primary"
-                                dark
-                                @click.prevent="pickInvoice(item)"
-                                >
-                                Добавить Excel
-                                </v-btn> -->
-                            </td>
+                                
+                            </td> -->
                         </tr>
                     </tbody>
                 </template>

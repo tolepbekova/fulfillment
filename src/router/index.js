@@ -53,6 +53,12 @@ const routes = [
     component: () => import('../views/AddInvoice.vue')
   },
   {
+    path: '/invoices',
+    name: 'invoices',
+    meta: {layout: 'main'},
+    component: () => import('../views/Invoices.vue')
+  },
+  {
     path: '/goods',
     name: 'goods',
     meta: {layout: 'main'},
