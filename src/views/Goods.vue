@@ -7,41 +7,72 @@
                 <thead>
                     <tr>
                         <th class="text-left">
+                            ID Накладной
+                        </th>
+                        <th class="text-left">
+                            ID
+                        </th>
+                        <th class="text-left">
                             Наименование
+                        </th>
+                        <th class="text-left">
+                            Артикул
+                        </th>
+                        <th class="text-left">
+                            шт.
+                        </th>
+                        <th class="text-left">
+                            Коробок
+                        </th>
+                        <th class="text-left">
+                            Вложимость штук в коробку
+                        </th>
+                        <th class="text-left">
+                            Общий вес коробки
+                        </th>
+                        <th class="text-left">
+                            Вес 1 шт. 
                         </th>
                         <th class="text-left">
                             Штрих-код
                         </th>
                         <th class="text-left">
-                            Номинал
+                            Цена НДС
                         </th>
                         <th class="text-left">
-                            Величина
+                            Высота, м
                         </th>
                         <th class="text-left">
-                            Остаток
+                            Ширина, м
                         </th>
                         <th class="text-left">
-                            Реализовано
+                            Длина, м
                         </th>
                         <th class="text-left">
-                            Цена за шт
-                        </th>
-                        <th class="text-left">
-                            Сумма
-                        </th>
-                        <th class="text-left">
-                            Сумма НДС
+                            Объем, м3
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                    v-for="item in desserts"
-                    :key="item.name"
+                    v-for="good in goodsList"
+                    :key="good.id"
                     >
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.calories }}</td>
+                        <td>{{ good.invoice }}</td>
+                        <td>{{ good.id }}</td>
+                        <td>{{ good.title }}</td>
+                        <td>{{ good.vendor_code }}</td>
+                        <td>{{ good.good_quantity }}</td>
+                        <td>{{ good.box_quantity }}</td>
+                        <td>{{ good.good_quantity_in_box }}</td>
+                        <td>{{ good.box_full_weight }}</td>
+                        <td>{{ good.good_unit_weight }}</td>
+                        <td>{{ good.bar_code }}</td>
+                        <td>{{ good.tax }}</td>
+                        <td>{{ good.height_m }}</td>
+                        <td>{{ good.width_m }}</td>
+                        <td>{{ good.length_m }}</td>
+                        <td>{{ good.capacity_m3 }}</td>
                     </tr>
                 </tbody>
                 </template>
@@ -51,17 +82,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data: () => ({
         goodsList: []
     }),
     methods:{
         getGoodsList(){
-            axios.get('')
+            axios.get('http://87.255.194.27:8001/api/goods',
+            {
+                headers:{
+                    Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            }).then((response) => {
+                this.goodsList = response.data
+            })
         }
     },
     mounted(){
-
+        this.getGoodsList()
     }
 }
 </script>
