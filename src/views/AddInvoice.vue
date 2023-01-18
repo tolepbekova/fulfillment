@@ -7,12 +7,18 @@
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Добавить накладную</h2>
+
                                 <v-text-field 
                                 v-model="number" 
                                 class="input" 
                                 label="Введите номер накладной:" 
                                 placeholder="012354"
+                                :error-messages="numberErrors"
+                                required
+                                @input="$v.number.$touch()"
+                                @blur="$v.number.$touch()"
                                 />
+
                                 <v-menu
                                 ref="menu"
                                 v-model="menu"
@@ -21,6 +27,7 @@
                                 transition="scale-transition"
                                 offset-y
                                 min-width="auto"
+                                class="mt-5"
                                 >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
@@ -67,6 +74,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { required } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         number: '',
@@ -75,8 +84,36 @@ export default {
     }),
     methods:{
         submitHandler(){
-            axios.post('')
+            this.$v.$touch()
+            if(!this.$v.$invalid){
+                axios.post('http://87.255.194.27:8001/api/invoices/',
+                {
+                    number: this.number,
+                    date: this.date
+                },
+                {
+                    headers:{
+                        Authorization: 'Token ' + localStorage.getItem('usertoken')
+                    }
+                }).then((response) => {
+                    console.log(response)
+                    this.$router.push('/invoices')
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
         }
+    },
+    computed:{
+        numberErrors(){
+            const errors = []
+            if (!this.$v.number.$dirty) return errors
+            !this.$v.number.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        }
+    },
+    validations: {
+        number: {required}
     }
 }
 </script>
