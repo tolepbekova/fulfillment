@@ -26,7 +26,8 @@
                 </div>
                 <v-spacer></v-spacer>
                 <div class="main__user-header">
-                    <p>{{username}}</p>
+                    <!-- <p>{{username}}</p> -->
+                    <p>Алмат</p>
                     <v-btn @click="logout()" class="main__nav-btn">
                         Выйти
                     </v-btn>
@@ -60,7 +61,7 @@ export default {
             })
         },
         getUserName(){
-            axios.get('http://87.255.194.27:8001/auth/users/' + localStorage.getItem('id'),
+            axios.get('http://87.255.194.27:8001/auth/users/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -72,7 +73,7 @@ export default {
         }
     },
     mounted(){
-        this.getUserName()
+        // this.getUserName()
     }
 }
 </script>

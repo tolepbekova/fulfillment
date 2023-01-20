@@ -52,7 +52,7 @@
                                 required
                                 @input="$v.phone.$touch()"
                                 @blur="$v.phone.$touch()" -->
-
+                                <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Далее
                                 </v-btn>
@@ -74,7 +74,10 @@ export default {
         first_name: '',
         last_name: '',
         phone: '+',
-        email: ''
+        email: '',
+        errors:{
+            exists: ''
+        }
     }),
     methods: {
         submitHandler(){
@@ -96,6 +99,13 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error)
+                    if(error.response.data){
+                        error.response.data.phone.forEach((element) => {
+                            if(element == 'user with this phone already exists.'){
+                                this.errors.exists = 'Пользователь с этим телефоном уже существует'
+                            }
+                        });
+                    }
                     
                 })
             }
@@ -187,5 +197,7 @@ export default {
 }
 .input {
 }
-
+.invalid-feedback{
+    color: rgb(252, 20, 20);
+}
 </style>

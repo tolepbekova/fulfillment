@@ -11,6 +11,7 @@ import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
+window.csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 
 new Vue({

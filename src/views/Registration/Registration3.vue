@@ -115,7 +115,7 @@
                                 @change="$v.fulfillment.$touch()"
                                 @blur="$v.fulfillment.$touch()"
                                 />
-
+                                <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Зарегистрироваться
                                 </v-btn>
@@ -145,7 +145,10 @@ export default {
         phone: '+',
         director_name: '',
         director_phone: '+',
-        fulfillment: ''
+        fulfillment: '',
+        errors:{
+            exists: ''
+        }
     }),
     methods:{
         getOrgType(){
@@ -185,15 +188,19 @@ export default {
                 }
                 )
                 .then((response) => {
-                    // localStorage.setItem('id', response.data)
-                    // console.log(response.data)
                     alert('Успешно')
-                    // this.$router.push('/registration/3')
+                    
                     // localStorage.removeItem('id')
                 })
                 .catch((error) => {
                     console.log(error)
-                    
+                    if(error.response.data){
+                        error.response.data.phone.forEach((element) => {
+                            if(element == 'organization with this phone already exists.'){
+                                this.errors.exists = 'Организация с этим телефоном уже существует'
+                            }
+                        });
+                    }
                 })
             }
         },
@@ -329,6 +336,9 @@ export default {
 .form {
 }
 .input {
+}
+.invalid-feedback{
+    color: rgb(252, 20, 20);
 }
 
 </style>

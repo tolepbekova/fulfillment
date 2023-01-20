@@ -2,10 +2,12 @@
     <div class="view-invoice">
         <div class="view-invoice__inner">
             <v-container>
-                {{invoiceNumber}} {{invoiceDate}} {{goodList}}
                 <v-card>
-                    <p>Номер накладной: {{invoiceNumber}}</p>
-                    <p>Дата накладной: {{invoiceDate}}</p>
+                    <v-col>
+                        <h3>Накладная № {{invoiceNumber}}</h3>
+                        <p>Дата накладной: {{invoiceDate}}</p>
+                    </v-col>
+                    
                 </v-card>
                 <form @submit.prevent="sendFile()" action="">
                     <v-row class="mt-5">
@@ -127,6 +129,7 @@ export default {
             // console.log(formData)
             let formData = new FormData();
             formData.append('file', this.file);
+            console.log(csrfToken)
             axios.post('http://87.255.194.27:8001/api/goods/download/',
             
                 formData,
@@ -134,13 +137,13 @@ export default {
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken'),
+                    // 'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'multipart/form-data'
                 }
             })
         },
         handleFileUpload: function(file){
             this.file = file;
-            console.log(this.file)
         },
         getInvoiceGoods(){
             axios.get('http://87.255.194.27:8001/api/organization/invoice/' + localStorage.getItem('invoiceId'),

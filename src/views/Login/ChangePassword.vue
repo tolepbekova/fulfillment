@@ -51,61 +51,6 @@
     </div>
 </template>
 
-<script>
-import axios from 'axios'
-import { required } from 'vuelidate/lib/validators'
-export default {
-    data: () => ({
-        username: '',
-        password: '',
-        showPassword: false,
-        error: ''
-    }),
-    methods:{
-        submitHandler(){
-            this.$v.$touch()
-            if(!this.$v.$invalid){
-                axios.post('http://87.255.194.27:8001/auth/token/login/', 
-                {
-                    username: this.username,
-                    password: this.password
-                }).then((response) => {
-                    console.log(response.data)
-                    localStorage.setItem('usertoken', response.data.auth_token)
-                    this.$router.push('/main')
-                }).catch((error) => {
-                    console.log(error.response.data.non_field_errors)
-                    error.response.data.non_field_errors.forEach((element) => {
-                        if(element == 'Unable to log in with provided credentials.'){
-                            this.error = 'Предоставленные учетные данные недействительны'
-                        }
-                    });
-                })
-            }
-        },
-        
-    },
-    computed:{
-        usernameErrors () {
-            const errors = []
-            if (!this.$v.username.$dirty) return errors
-            !this.$v.username.required && errors.push('Данное поле обязательно для заполнения')
-            return errors
-        },
-        passwordErrors(){
-            const errors = []
-            if (!this.$v.password.$dirty) return errors
-            !this.$v.password.required && errors.push('Данное поле обязательно для заполнения')
-            return errors
-        }
-    },
-    validations:{
-        username: {required},
-        password: {required}
-    }
-}
-</script>
-
 <style lang="scss" scoped>
 .form {
 
