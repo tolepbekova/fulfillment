@@ -1,5 +1,70 @@
 <template>
-    <div class="registration">
+    <div class="form">
+            <v-container>
+                <v-row class="d-flex justify-center align-center">
+                    <v-col class="d-flex align-center" cols="2">
+                        <div class="logo">
+                            <img src="../../assets/logo/fullfilment-logo.svg" alt="logo">
+                        </div>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-card class="form__card">
+                            <v-form @submit.prevent="submitHandler()" class="form">
+                                <h2>Регистрация</h2>
+                                <h2>Этап 2</h2>
+                                <v-text-field 
+                                v-model="first_name" 
+                                class="input" 
+                                label="Фамилия" 
+                                placeholder="Фамилия"
+                                :error-messages="firstnameErrors"
+                                required
+                                @input="$v.first_name.$touch()"
+                                @blur="$v.first_name.$touch()"
+                                @keypress="isLetter"/>
+
+                                <v-text-field 
+                                v-model="last_name" 
+                                class="input" 
+                                label="Имя" 
+                                placeholder="Имя"
+                                :error-messages="lastnameErrors"
+                                required
+                                @input="$v.last_name.$touch()"
+                                @blur="$v.last_name.$touch()"
+                                @keypress="isLetter"/>
+
+                                <v-text-field 
+                                v-model="email" 
+                                class="input" 
+                                label="E-mail" 
+                                placeholder="E-mail"
+                                :error-messages="emailErrors"
+                                required
+                                @input="$v.email.$touch()"
+                                @blur="$v.email.$touch()"/>
+
+                                <v-text-field 
+                                v-model="phone" 
+                                class="input" 
+                                label="Телефон"
+                                maxlength="12" 
+                                placeholder="E-mail"
+                                
+                                @keypress="isNumber"/>
+                                
+                                <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
+                                <v-btn type="submit" class="form__button button-register" color="primary" block>
+                                    Далее
+                                </v-btn>
+                                
+                            </v-form>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+    </div>
+    <!-- <div class="registration">
         <div class="retistration__inner">
             <v-container>
                 <v-row class="form__row">
@@ -48,10 +113,7 @@
                                 placeholder="E-mail"
                                 
                                 @keypress="isNumber"/>
-                                <!-- :error-messages="phoneErrors"
-                                required
-                                @input="$v.phone.$touch()"
-                                @blur="$v.phone.$touch()" -->
+                                
                                 <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Далее
@@ -63,7 +125,12 @@
                 </v-row>
             </v-container>
         </div>
-    </div>
+    </div> -->
+    <!-- :error-messages="phoneErrors"
+                                required
+                                @input="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()" -->
+                        
 </template>
 
 <script>
@@ -164,8 +231,9 @@ export default {
 
 <style lang="scss" scoped>
 .form {
-
+    height: 100%;
 		&__inner {
+            height: 100%;
 		}
 
         &__card{
@@ -185,13 +253,18 @@ export default {
 
         &__button{
             margin: 10px 0 0 0;
-            
+            &:last-child{
+                margin-bottom: 10px;
+            }
         }
 
         &__link{
             text-align: center;
             width: 100%;
+            margin: 20px 0 0 0;
         }
+
+        
 }
 .form {
 }
@@ -200,4 +273,22 @@ export default {
 .invalid-feedback{
     color: rgb(252, 20, 20);
 }
+
+.logo{
+    width: 150px;
+    height: 150px;
+    img{
+        max-width: 100%;
+        border-radius: 50%;
+    }
+}
+
+.container{
+    height: 100%;
+}
+
+.row{
+    height: 100%;
+}
+
 </style>

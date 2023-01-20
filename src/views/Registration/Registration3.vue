@@ -1,5 +1,136 @@
 <template>
-    <div class="registration">
+    <div class="form">
+            <v-container>
+                <v-row class="d-flex justify-center align-center">
+                    <v-col class="d-flex align-center" cols="2">
+                        <div class="logo">
+                            <img src="../../assets/logo/fullfilment-logo.svg" alt="logo">
+                        </div>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-card class="form__card">
+                            <v-form @submit.prevent="submitHandler()" class="form">
+                                <h2>Регистрация</h2>
+                                <h2>Этап 3</h2>
+                                <v-select
+                                v-model="typeId"
+                                :items="typeList"
+                                item-text="type"
+                                item-value="id"
+                                label="Тип организации"
+                                :error-messages="orgtypeErrors"
+                                @change="$v.typeId.$touch()"
+                                @blur="$v.typeId.$touch()"
+                                ></v-select>
+                                
+                                <v-text-field 
+                                class="input" 
+                                v-model="name" 
+                                label="Имя организации" 
+                                placeholder="Имя организации"
+                                :error-messages="nameErrors"
+                                @input="$v.name.$touch()"
+                                @blur="$v.name.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="BIN" 
+                                label="BIN" 
+                                placeholder="BIN"
+                                maxLength="12"
+                                @keypress="isNumber"
+                                :error-messages="binErrors"
+                                @input="$v.BIN.$touch()"
+                                @blur="$v.BIN.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="address" 
+                                label="Адрес" 
+                                placeholder="Адрес"
+                                :error-messages="addressErrors"
+                                @input="$v.address.$touch()"
+                                @blur="$v.address.$touch()"
+                                />
+
+                                <v-select
+                                v-model="bankId"
+                                :items="bankList"
+                                item-text="name"
+                                item-value="id"
+                                label="Выберите банк"
+                                :error-messages="bankErrors"
+                                @change="$v.bankId.$touch()"
+                                @blur="$v.bankId.$touch()"
+                                >
+                                </v-select>
+                                
+                                <v-text-field 
+                                class="input" 
+                                v-model="IBAN" 
+                                label="IBAN" 
+                                placeholder="IBAN"
+                                maxLength="21"
+                                :error-messages="ibanErrors"
+                                @change="$v.IBAN.$touch()"
+                                @blur="$v.IBAN.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="phone" 
+                                label="Телефон" 
+                                placeholder="+77001616757"
+                                :error-messages="phoneErrors"
+                                @change="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                maxLength="12"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="director_name" 
+                                label="Имя директора" 
+                                placeholder="Имя директора"
+                                :error-messages="directornameErrors"
+                                @change="$v.director_name.$touch()"
+                                @blur="$v.director_name.$touch()"
+                                />
+
+                                <v-text-field 
+                                class="input" 
+                                v-model="director_phone" 
+                                label="Телефон директора" 
+                                placeholder="+77001616757"
+                                maxLength="12"
+                                :error-messages="directorphoneErrors"
+                                @change="$v.director_phone.$touch()"
+                                @blur="$v.director_phone.$touch()"
+                                />
+
+                                <v-text-field
+                                class="input" 
+                                v-model="fulfillment" 
+                                label="Fulfillment" 
+                                placeholder="Fulfillment"
+                                :error-messages="fulfillmentErrors"
+                                @change="$v.fulfillment.$touch()"
+                                @blur="$v.fulfillment.$touch()"
+                                />
+                                <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
+                                <v-btn type="submit" class="form__button button-register" color="primary" block>
+                                    Зарегистрироваться
+                                </v-btn>
+                                
+                            </v-form>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+    </div>
+    <!-- <div class="registration">
         <div class="retistration__inner">
             <v-container>
                 <v-row class="form__row">
@@ -126,7 +257,7 @@
                 </v-row>
             </v-container>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -304,8 +435,9 @@ export default {
 
 <style lang="scss" scoped>
 .form {
-
+    height: 100%;
 		&__inner {
+            height: 100%;
 		}
 
         &__card{
@@ -325,13 +457,18 @@ export default {
 
         &__button{
             margin: 10px 0 0 0;
-            
+            &:last-child{
+                margin-bottom: 10px;
+            }
         }
 
         &__link{
             text-align: center;
             width: 100%;
+            margin: 20px 0 0 0;
         }
+
+        
 }
 .form {
 }
@@ -339,6 +476,23 @@ export default {
 }
 .invalid-feedback{
     color: rgb(252, 20, 20);
+}
+
+.logo{
+    width: 150px;
+    height: 150px;
+    img{
+        max-width: 100%;
+        border-radius: 50%;
+    }
+}
+
+.container{
+    height: 100%;
+}
+
+.row{
+    height: 100%;
 }
 
 </style>

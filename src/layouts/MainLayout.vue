@@ -13,7 +13,7 @@
                 <!-- dark -->
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                <v-toolbar-title>Fullfilment</v-toolbar-title>
+                <v-toolbar-title>Fullfilment eTrader</v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
@@ -26,6 +26,7 @@
                 <!-- <v-btn icon>
                     <v-icon>mdi-filter</v-icon>
                 </v-btn> -->
+                <v-toolbar-title>{{username}}</v-toolbar-title>
                 <v-btn @click="logout()" small class="mt-3">
                     Выйти
                 </v-btn>
@@ -146,7 +147,7 @@ export default {
         }
     },
     mounted(){
-        // this.getUserName()
+        this.getUserName()
     },
     watch: {
       group () {
