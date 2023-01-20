@@ -64,6 +64,19 @@
                                 <v-btn color="#66FF99" type="submit" class="form__button" block>
                                     Сохранить
                                 </v-btn>
+                                <v-btn
+                                    class="mt-3"
+                                    
+                                    color="orange darken-2"
+                                    dark
+                                >
+                                    <v-icon
+                                    dark
+                                    left
+                                    >
+                                    mdi-arrow-left
+                                    </v-icon>Назад
+                                </v-btn>
                             </v-form>
                         </v-card>
                     </v-col>
