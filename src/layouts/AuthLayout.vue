@@ -9,11 +9,12 @@
 
 <style lang="scss" scoped>
 .auth-layout {
-    
+    height: 100%;
 		&__inner {
             // position: absolute;
             // top: 20%;
             // left: 50%;
+            height: 100%;
 		}
 }
 
