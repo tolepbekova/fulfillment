@@ -15,7 +15,7 @@
                                     v-model="username" 
                                     class="input" 
                                     label="Введите имя пользователя:" 
-                                    placeholder="Алмат"
+                                    placeholder="Логин"
                                     :error-messages="usernameErrors"
                                     required
                                     @input="$v.username.$touch()"

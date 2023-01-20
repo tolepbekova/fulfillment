@@ -1,6 +1,76 @@
 <template>
     <div class="main">
-        <div class="main__inner">
+        
+            <v-card
+            class="mx-auto overflow-hidden card"
+            >
+                <v-app-bar
+                color="light-blue darken-1"
+                
+                prominent
+                :height="60"
+                >
+                <!-- dark -->
+                <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
+                <v-toolbar-title>Fullfilment</v-toolbar-title>
+
+                <v-spacer></v-spacer>
+
+                <!-- <v-btn icon>
+                    <v-icon>mdi-magnify</v-icon>
+                </v-btn> -->
+
+                <v-spacer></v-spacer>
+
+                <!-- <v-btn icon>
+                    <v-icon>mdi-filter</v-icon>
+                </v-btn> -->
+                <v-btn @click="logout()" small class="mt-3">
+                    Выйти
+                </v-btn>
+
+                </v-app-bar>
+
+                <v-navigation-drawer
+                v-model="drawer"
+                absolute
+                bottom
+                temporary
+                >
+                <v-list
+                    nav
+                    dense
+                >
+                    <v-list-item-group
+                    v-model="group"
+                    active-class="deep-purple--text text--accent-4"
+                    >
+                    <router-link to="/main">
+                        <v-list-item>
+                            <v-list-item-title>Главная</v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+
+                    <router-link to="/invoices">
+                        <v-list-item>
+                            <v-list-item-title>Накладные</v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+
+                    <router-link to="/goods">
+                        <v-list-item>
+                            <v-list-item-title>Товары</v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+
+                    </v-list-item-group>
+                </v-list>
+            </v-navigation-drawer>
+            <router-view/>
+            </v-card>
+        
+        <!-- <div class="main__inner">
             <v-app-bar
                 elevation="6"
                 outlined
@@ -26,7 +96,7 @@
                 </div>
                 <v-spacer></v-spacer>
                 <div class="main__user-header">
-                    <!-- <p>{{username}}</p> -->
+                    
                     <p>Алмат</p>
                     <v-btn @click="logout()" class="main__nav-btn">
                         Выйти
@@ -36,7 +106,7 @@
             <div class="main__content">
                 <router-view/>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -44,7 +114,9 @@
 import axios from 'axios'
 export default {
     data: () => ({
-        username: ''
+        username: '',
+        drawer: false,
+        group: null,
     }),
     methods:{
         logout(){
@@ -58,6 +130,7 @@ export default {
                 }
             }).then(() => {
                 this.$router.push('/login')
+                localStorage.clear()
             })
         },
         getUserName(){
@@ -74,13 +147,18 @@ export default {
     },
     mounted(){
         // this.getUserName()
+    },
+    watch: {
+      group () {
+        this.drawer = false
+      },
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .main {
-
+    height: 100%;
 		&__inner {
             
 		}
@@ -104,5 +182,10 @@ export default {
             }
         }
 }
+
+.card{
+    height: 100%;
+}
+
 
 </style>
