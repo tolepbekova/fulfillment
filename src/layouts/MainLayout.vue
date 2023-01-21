@@ -65,6 +65,12 @@
                         </v-list-item>
                     </router-link>
 
+                    <router-link to="/request/1">
+                        <v-list-item>
+                            <v-list-item-title>Отправить заявку</v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+
                     </v-list-item-group>
                 </v-list>
             </v-navigation-drawer>

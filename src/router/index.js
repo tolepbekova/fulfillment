@@ -71,6 +71,18 @@ const routes = [
     component: () => import('../views/Goods.vue')
   },
   {
+    path: '/request/1',
+    name: 'request',
+    meta: {layout: 'main'},
+    component: () => import('../views/Request/SendRequest1.vue')
+  },
+  {
+    path: '/request/2',
+    name: 'request',
+    meta: {layout: 'main'},
+    component: () => import('../views/Request/SendRequest2.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
