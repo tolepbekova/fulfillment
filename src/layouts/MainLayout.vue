@@ -147,7 +147,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response.data)
+                // console.log(response.data)
                 this.username = response.data.username
             })
         }

@@ -44,9 +44,10 @@
                                         Зарегистрироваться
                                     </v-btn>
                                 </router-link>
-                                <router-link to="/login/change">
+                                <router-link to="/login/change/1">
                                     <a class="form__link" href="">Забыли пароль?</a>
                                 </router-link>
+                                <!-- <a @click.prevent="resetPassword()" class="form__link" href="">Забыли пароль?</a> -->
                             </v-form>
                         </v-card>
                     </v-col>
@@ -87,6 +88,16 @@ export default {
                 })
             }
         },
+        resetPassword(){
+            axios.get('http://87.255.194.27:8001/auth/users/reset_password/',
+            {
+                // headers:{
+                //     Authorization: 'Token ' + localStorage.getItem('usertoken')
+                // }
+            }).then(() => {
+                this.$router.push('/login/change/1')
+            })
+        }
         
     },
     computed:{

@@ -129,6 +129,7 @@ export default {
             // console.log(formData)
             let formData = new FormData();
             formData.append('file', this.file);
+            formData.append('invoice', localStorage.getItem('invoiceId'))
             console.log(csrfToken)
             axios.post('http://87.255.194.27:8001/api/goods/download/',
             
@@ -140,6 +141,8 @@ export default {
                     // 'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'multipart/form-data'
                 }
+            }).then(() => {
+                this.getInvoiceGoods()
             })
         },
         handleFileUpload: function(file){

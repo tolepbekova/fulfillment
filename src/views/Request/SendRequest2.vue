@@ -1,7 +1,6 @@
 <template>
     <div class="request">
         <v-container>
-            {{selectedGoods}}
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -27,15 +26,15 @@
                         <th class="text-left">
                             Выбрать 
                         </th>
-                        <th class="text-left">
+                        <!-- <th class="text-left">
                              
-                        </th>
+                        </th> -->
                         <th class="text-left">
                             Количество на отправку
                         </th>
-                        <th class="text-left">
+                        <!-- <th class="text-left">
                              
-                        </th>
+                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -55,11 +54,12 @@
                         <td>
                             <v-checkbox
                             color="success"
-                            v-model="selectedGoods"
+                            v-model.trim="form.selectedGood[index]"
                             :value="good.id">
                             </v-checkbox>
+                            {{form.selectedGood}}
                         </td>
-                        <td>
+                        <!-- <td>
                             <v-btn
                             class="mx-2 button"
                             fab
@@ -72,13 +72,16 @@
                                     mdi-plus
                                 </v-icon>
                             </v-btn>
-                        </td>
+                        </td> -->
                         <td>
                             <v-text-field
+                            v-model.trim="form.quantity_to_send[index]"
                             :value="counter"
                             @keypress="isNumber"></v-text-field>
+                            {{index}}
+                            {{form.quantity_to_send[index]}}
                         </td>
-                        <td>
+                        <!-- <td>
                             <v-btn
                             class="button"
                             fab
@@ -91,11 +94,16 @@
                                     mdi-minus
                                 </v-icon>
                             </v-btn>
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
                 </template>
             </v-simple-table>
+            <v-btn
+            small
+            @click.prevent="">
+                Сохранить
+            </v-btn>
         </v-container>
     </div>
 </template>
@@ -106,9 +114,9 @@ import axios from 'axios'
 export default {
     data: () => ({
         goodsList: [],
-        selectedGoods: [],
         counter: 0,
         form:{
+            selectedGood:[],
             quantity_to_send: []
         }
     }),
@@ -120,7 +128,6 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response.data)
                 this.goodsList = response.data
             })
         },
@@ -136,7 +143,16 @@ export default {
 			console.log(this.counter)
 			!isNaN(this.counter) && this.counter > 0 ? this.counter : this.counter = 0;
             
-		}
+		},
+        appendQuantity(){
+            
+        },
+        prependQuantity(){
+
+        },
+        sendGoods(){
+            console.log(form)
+        }
     },
     mounted(){
         this.getOrdersGoodList()

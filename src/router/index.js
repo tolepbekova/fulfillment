@@ -16,10 +16,22 @@ const routes = [
     component: () => import('../views/Login/Login.vue')
   },
   {
-    path: '/login/change',
-    name: 'login-change',
+    path: '/login/change/1',
+    name: 'login-change-1',
     meta: {layout: 'auth'},
-    component: () => import('../views/Login/ChangePassword.vue')
+    component: () => import('../views/Login/ChangePassword1.vue')
+  },
+  {
+    path: '/login/change/2',
+    name: 'login-change-2',
+    meta: {layout: 'auth'},
+    component: () => import('../views/Login/ChangePassword2.vue')
+  },
+  {
+    path: '/login/change/after',
+    name: 'login-change-after',
+    meta: {layout: 'auth'},
+    component: () => import('../views/Login/ChangePasswordAfter.vue')
   },
   {
     path: '/registration/1',
