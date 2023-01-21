@@ -52,13 +52,11 @@
                             <p v-if="good.result == null">{{ good.good_quantity }}</p>
                             <p v-else>{{good.result}}</p>
                         </td>
-                        <!-- <td v-if="good.result == null">{{ good.good_quantity }}</td>
-                        <td v-if="good.resul != null">{{good.result}}</td> -->
                         <td>
                             <v-checkbox
                             color="success"
                             v-model="selectedGoods"
-                            :value="good.title">
+                            :value="good.id">
                             </v-checkbox>
                         </td>
                         <td>
@@ -68,6 +66,7 @@
                             dark
                             color="green"
                             small
+                            @click="changeCounter('1')"
                             >
                                 <v-icon dark>
                                     mdi-plus
@@ -76,6 +75,7 @@
                         </td>
                         <td>
                             <v-text-field
+                            :value="counter"
                             @keypress="isNumber"></v-text-field>
                         </td>
                         <td>
@@ -85,6 +85,7 @@
                             dark
                             small
                             color="red"
+                            @click="changeCounter('-1')"
                             >
                                 <v-icon dark>
                                     mdi-minus
@@ -105,7 +106,11 @@ import axios from 'axios'
 export default {
     data: () => ({
         goodsList: [],
-        selectedGoods: []
+        selectedGoods: [],
+        counter: 0,
+        form:{
+            quantity_to_send: []
+        }
     }),
     methods:{
         getOrdersGoodList(){
@@ -126,6 +131,12 @@ export default {
             if (e.preventDefault) e.preventDefault();
             }
         },
+        changeCounter: function(num){
+			this.counter += +num
+			console.log(this.counter)
+			!isNaN(this.counter) && this.counter > 0 ? this.counter : this.counter = 0;
+            
+		}
     },
     mounted(){
         this.getOrdersGoodList()

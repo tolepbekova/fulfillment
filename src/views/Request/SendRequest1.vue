@@ -70,18 +70,19 @@
                                     @blur="$v.address.$touch()"
                                 />
                                 <v-text-field 
-                                    v-model="phone" 
+                                    v-model="contacts" 
                                     class="input" 
-                                    label="Телефон:" 
-                                    placeholder="+77059064321"
-                                    :error-messages="phoneErrors"
+                                    label="Контактные данные:" 
+                                    placeholder="Контакты"
+                                    :error-messages="contactsErrors"
                                     required
-                                    @input="$v.phone.$touch()"
-                                    @blur="$v.phone.$touch()"
+                                    @input="$v.contacts.$touch()"
+                                    @blur="$v.contacts.$touch()"
                                 />
+                                
                                 <v-select
                                 v-model="distributeType"
-                                :items="typeList"
+                                :items="shippingTypes"
                                 item-text="type"
                                 item-value="id"
                                 label="Тип отправки"
@@ -109,26 +110,43 @@ export default {
         date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         organization: '',
         address: '',
-        phone: '+',
+        contacts: '',
         distributeType: '',
         menu: false,
-
+        shippingTypes: []
     }),
     methods:{
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post('http://87.255.194.27:8001/auth/token/login/', 
+                axios.post('http://87.255.194.27:8001/api/orders/', 
                 {
-                    
+                    date: this.date,
+                    recipient: this.organization,
+                    shipping_address: this.address,
+                    contacts: this.contacts,
+                    shipping_type: this.distributeType
                 }).then((response) => {
-                    console.log(response.data)
-                    
+                    localStorage.setItem('orderId', response.data.id)
+                    this.$router.push('/request/2')
                 }).catch((error) => {
                     console.log(error)
                 })
             }
         },
+        getShippingTypes(){
+            axios.get('http://87.255.194.27:8001/api/shipping_types/',
+            {
+                headers:{
+                    Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            }).then((response) => {
+                this.shippingTypes = response.data
+            })
+        }
+    },
+    mounted(){
+        this.getShippingTypes()
     },
     computed:{
         organizationErrors () {
@@ -143,11 +161,10 @@ export default {
             !this.$v.address.required && errors.push('Данное поле обязательно для заполнения')
             return errors
         },
-        phoneErrors(){
+        contactsErrors(){
             const errors = []
-            if (!this.$v.phone.$dirty) return errors
-            !this.$v.phone.required && errors.push('Данное поле обязательно для заполнения')
-            !this.$v.phone.minLength && errors.push('Данное поле должно содержать номер телефона')
+            if (!this.$v.contacts.$dirty) return errors
+            !this.$v.contacts.required && errors.push('Данное поле обязательно для заполнения')
             return errors
         },
         distributeTypeErrors(){
@@ -160,7 +177,7 @@ export default {
     validations:{
         organization: {required},
         address: {required},
-        phone: {required, minLength: minLength(11)},
+        contacts: {required},
         distributeType: {required},
     }
 }
