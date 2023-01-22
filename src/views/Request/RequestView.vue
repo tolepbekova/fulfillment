@@ -26,6 +26,10 @@
             @click="generateBarCode()">
                 Сгенерировать штрих-код
             </v-btn>
+            <span v-html="barcode">
+
+            </span>
+            
         </v-container>
     </div>
 </template>
@@ -34,7 +38,8 @@
 import axios from 'axios'
 export default {
     data: () => ({
-        request: {}
+        request: {},
+        barcode: ''
     }),
     methods:{
         getRequestData(){
@@ -44,14 +49,16 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                // console.log(response.data)
-                this.request = response.data
+                console.log(response.data)
+                this.request = response.data,
+                this.barcode = response.data.barcode_file.join('')
+                
             })
         },
         generateBarCode(){
             axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('requestId') + '/barcode/generate/',
             {
-                order_id: localStorage.getItem('requestId')
+                
             },
             {
                 headers:{
@@ -59,7 +66,7 @@ export default {
                 }
             }).then((response) => {
                 console.log(response.data)
-                
+                this.getRequestData()
             })
         }
     },

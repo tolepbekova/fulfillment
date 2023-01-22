@@ -1,6 +1,6 @@
 <template>
     <div class="request">
-        <v-container>
+        <v-form ref="form" @submit.prevent="sendGoods()">
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -59,78 +59,49 @@
                             </v-checkbox>
                             {{form.selectedGood}}
                         </td>
-                        <!-- <td>
-                            <v-btn
-                            class="mx-2 button"
-                            fab
-                            dark
-                            color="green"
-                            small
-                            @click="appendQuantity(form.quantity_to_send[index], good.result, good.good_quantity)"
-                            >
-                                <v-icon dark>
-                                    mdi-plus
-                                </v-icon>
-                            </v-btn>
-                        </td> -->
+                        
                         <td>
                             <v-text-field
-                            
                             v-model.trim="form.quantity_to_send[index]"
-                            :value="counter"
+                            
                             @keypress="isNumber"
+                            :rules="[rules.required]"
+                            required
                             :disabled="!form.selectedGood[index]"></v-text-field>
                             <!-- {{index}} -->
                             <!-- v-if="form.selectedGood[index] != null" -->
-                            {{form.quantity_to_send[index]}}
+                            <!-- <p class="" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p> -->
+                            <!-- <div v-if="!$v.form.quantity_to_send[index].required">Description is required.</div> -->
                         </td>
-                        <!-- <td>
-                            <v-btn
-                            class="button"
-                            fab
-                            dark
-                            small
-                            color="red"
-                            @click="changeCounter('-1')"
-                            >
-                                <v-icon dark>
-                                    mdi-minus
-                                </v-icon>
-                            </v-btn>
-                        </td> -->
+                        
                     </tr>
                 </tbody>
                 </template>
             </v-simple-table>
             <v-btn
             small
-            @click.prevent="sendGoods()">
+            type="submit">
                 Сохранить
             </v-btn>
-        </v-container>
+        </v-form>
     </div>
 </template>
 
 
 <script>
 import axios from 'axios'
+import { required, maxValue } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         goodsList: [],
-        counter: 0,
-        selectedGood: [],
         form:{
             order: localStorage.getItem('orderId'),
             selectedGood: [],
             quantity_to_send: []
+        },
+        rules:{
+            required: value => !!value || 'Данное поле обязательно',
         }
-        // form:[
-        //     {
-        //         order: localStorage.getItem('orderId'),
-        //         selectedGood: [],
-        //         quantity_to_send: []
-        //     }
-        // ]
     }),
     methods:{
         getOrdersGoodList(){
@@ -166,15 +137,9 @@ export default {
 
         },
         sendGoods(){
-            
             let goods = this.form.selectedGood
             let quantity = this.form.quantity_to_send
             let array = []
-            // console.log(goods)
-            // console.log(quantity)
-            // goods.forEach((element) => {
-            //     console.log(element)
-            // })
             for(let i in goods){
                 if(goods[i] != null){
                     
@@ -198,34 +163,31 @@ export default {
             }).catch((error) => {
                 console.log(error)
             })
-            // const filteredGoods = goods.filter(removeGood);
-            // console.log(filteredGoods)
-
-
-            // axios.post('http://87.255.194.27:8001/api/good_to_send/',
-            // {
-
-            // },
-            // {
-            //     headers:{
-            //         Authorization: 'Token ' + localStorage.getItem('usertoken')
-            //     }
-            // }).then(() => {
-            //     this.$router.push('/login')
-            //     localStorage.clear()
-            // })
-        }
-    },
-    watch:{
-        'form.selectedGood': function(index){
-            if(this.form.selectedGood[index] == null){
-                this.form.selectedGood[index] == ''
-            }
+            
         }
     },
     mounted(){
         this.getOrdersGoodList()
-    }
+    },
+    computed:{
+        // quantityToSendErrors () {
+        //     const errors = []
+        //     if (!this.$v.username.$dirty) return errors
+        //     !this.$v.username.required && errors.push('Данное поле обязательно для заполнения')
+        //     return errors
+        // },
+    },
+    // validations(){
+    //     if(!this.form.selectedGood){
+    //         return {
+    //             form:{
+    //                 quantity_to_send: {
+    //                     required
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
 </script>
 
@@ -236,3 +198,33 @@ export default {
     height: 20px;
 }
 </style>
+
+<!-- <td>
+                            <v-btn
+                            class="mx-2 button"
+                            fab
+                            dark
+                            color="green"
+                            small
+                            @click="appendQuantity(form.quantity_to_send[index], good.result, good.good_quantity)"
+                            >
+                                <v-icon dark>
+                                    mdi-plus
+                                </v-icon>
+                            </v-btn>
+                        </td> -->
+
+                        <!-- <td>
+                            <v-btn
+                            class="button"
+                            fab
+                            dark
+                            small
+                            color="red"
+                            @click="changeCounter('-1')"
+                            >
+                                <v-icon dark>
+                                    mdi-minus
+                                </v-icon>
+                            </v-btn>
+                        </td> -->
