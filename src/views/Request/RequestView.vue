@@ -1,5 +1,5 @@
 <template>
-    <div class="request">
+    <div id="element-to-convert" class="request">
         <v-container>
             <router-link to="/requests">
                 <v-btn>
@@ -43,7 +43,8 @@
             
             </div>
             <v-btn
-            class="mt-5">
+            class="mt-5"
+            @click="exportToPDF">
                 Сохранить в PDF
             </v-btn>
         </v-container>
@@ -52,6 +53,7 @@
 
 <script>
 import axios from 'axios'
+import html2pdf from "html2pdf.js";
 export default {
     data: () => ({
         request: {},
@@ -88,7 +90,13 @@ export default {
                 
                 this.getRequestData()
             })
-        }
+        },
+        exportToPDF() {
+			html2pdf(document.getElementById("element-to-convert"), {
+				margin: 1,
+  			    filename: "Заявка",
+			});
+		},
     },
     mounted(){
         this.getRequestData()
