@@ -66,7 +66,7 @@
                             dark
                             color="green"
                             small
-                            @click="changeCounter('1')"
+                            @click="appendQuantity(form.quantity_to_send[index], good.result, good.good_quantity)"
                             >
                                 <v-icon dark>
                                     mdi-plus
@@ -75,10 +75,13 @@
                         </td> -->
                         <td>
                             <v-text-field
+                            
                             v-model.trim="form.quantity_to_send[index]"
                             :value="counter"
-                            @keypress="isNumber"></v-text-field>
-                            {{index}}
+                            @keypress="isNumber"
+                            :disabled="!form.selectedGood[index]"></v-text-field>
+                            <!-- {{index}} -->
+                            <!-- v-if="form.selectedGood[index] != null" -->
                             {{form.quantity_to_send[index]}}
                         </td>
                         <!-- <td>
@@ -101,7 +104,7 @@
             </v-simple-table>
             <v-btn
             small
-            @click.prevent="">
+            @click.prevent="sendGoods()">
                 Сохранить
             </v-btn>
         </v-container>
@@ -115,10 +118,19 @@ export default {
     data: () => ({
         goodsList: [],
         counter: 0,
+        selectedGood: [],
         form:{
-            selectedGood:[],
+            order: localStorage.getItem('orderId'),
+            selectedGood: [],
             quantity_to_send: []
         }
+        // form:[
+        //     {
+        //         order: localStorage.getItem('orderId'),
+        //         selectedGood: [],
+        //         quantity_to_send: []
+        //     }
+        // ]
     }),
     methods:{
         getOrdersGoodList(){
@@ -144,14 +156,71 @@ export default {
 			!isNaN(this.counter) && this.counter > 0 ? this.counter : this.counter = 0;
             
 		},
-        appendQuantity(){
-            
+        appendQuantity(value, result, quantity){
+            value++;
+            // if(result == null){
+            //     if(value > )
+            // }
         },
         prependQuantity(){
 
         },
         sendGoods(){
-            console.log(form)
+            
+            let goods = this.form.selectedGood
+            let quantity = this.form.quantity_to_send
+            let array = []
+            // console.log(goods)
+            // console.log(quantity)
+            // goods.forEach((element) => {
+            //     console.log(element)
+            // })
+            for(let i in goods){
+                if(goods[i] != null){
+                    
+                    array.push({
+                        order: localStorage.getItem('orderId'),
+                        good: goods[i],
+                        quantity: quantity[i]
+                    })
+                }
+            }
+
+            console.log(array)
+            axios.post('http://87.255.194.27:8001/api/goods_to_send/',
+            array,
+            {
+                headers:{
+                    Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
+            // const filteredGoods = goods.filter(removeGood);
+            // console.log(filteredGoods)
+
+
+            // axios.post('http://87.255.194.27:8001/api/good_to_send/',
+            // {
+
+            // },
+            // {
+            //     headers:{
+            //         Authorization: 'Token ' + localStorage.getItem('usertoken')
+            //     }
+            // }).then(() => {
+            //     this.$router.push('/login')
+            //     localStorage.clear()
+            // })
+        }
+    },
+    watch:{
+        'form.selectedGood': function(index){
+            if(this.form.selectedGood[index] == null){
+                this.form.selectedGood[index] == ''
+            }
         }
     },
     mounted(){

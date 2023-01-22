@@ -65,9 +65,9 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link to="/request/1">
+                    <router-link to="/requests">
                         <v-list-item>
-                            <v-list-item-title>Отправить заявку</v-list-item-title>
+                            <v-list-item-title>Заявки на отправку</v-list-item-title>
                         </v-list-item>
                     </router-link>
 

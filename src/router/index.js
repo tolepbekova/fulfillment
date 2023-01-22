@@ -83,14 +83,20 @@ const routes = [
     component: () => import('../views/Goods.vue')
   },
   {
+    path: '/requests',
+    name: 'requests',
+    meta: {layout: 'main'},
+    component: () => import('../views/Request/Requests.vue')
+  },
+  {
     path: '/request/1',
-    name: 'request',
+    name: 'request-1',
     meta: {layout: 'main'},
     component: () => import('../views/Request/SendRequest1.vue')
   },
   {
     path: '/request/2',
-    name: 'request',
+    name: 'request-2',
     meta: {layout: 'main'},
     component: () => import('../views/Request/SendRequest2.vue')
   },
