@@ -52,6 +52,12 @@ const routes = [
     component: () => import('../views/Registration/Registration3.vue')
   },
   {
+    path: '/registration/after',
+    name: 'registration-after',
+    meta: {layout: 'auth'},
+    component: () => import('../views/Registration/RegistrationAfter.vue')
+  },
+  {
     path: '/main',
     name: 'main',
     meta: {layout: 'main'},

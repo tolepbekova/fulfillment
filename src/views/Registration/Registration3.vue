@@ -11,7 +11,7 @@
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Регистрация</h2>
-                                <h2>Этап 3</h2>
+                                <!-- <h2>Этап 3</h2> -->
                                 <v-select
                                 v-model="typeId"
                                 :items="typeList"
@@ -319,8 +319,8 @@ export default {
                 }
                 )
                 .then((response) => {
-                    alert('Успешно')
-                    
+                    // alert('Успешно')
+                    this.$router.push('/registration/after')
                     // localStorage.removeItem('id')
                 })
                 .catch((error) => {
