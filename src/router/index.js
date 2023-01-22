@@ -89,6 +89,13 @@ const routes = [
     component: () => import('../views/Request/Requests.vue')
   },
   {
+    path: '/requests/view/:id',
+    name: 'requests-view',
+    params: true,
+    meta: {layout: 'main'},
+    component: () => import('../views/Request/RequestView.vue')
+  },
+  {
     path: '/request/1',
     name: 'request-1',
     meta: {layout: 'main'},
