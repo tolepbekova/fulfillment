@@ -11,7 +11,7 @@
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h2>Регистрация</h2>
-                                <h2>Этап 2</h2>
+                                <!-- <h2>Этап 2</h2> -->
                                 <v-text-field 
                                 v-model="first_name" 
                                 class="input" 
