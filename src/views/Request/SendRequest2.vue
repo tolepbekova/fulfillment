@@ -70,7 +70,7 @@
                             :disabled="!form.selectedGood[index]"></v-text-field>
                             <!-- {{index}} -->
                             <!-- v-if="form.selectedGood[index] != null" -->
-                            <!-- <p class="" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p> -->
+                            <p class="" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p>
                             <!-- <div v-if="!$v.form.quantity_to_send[index].required">Description is required.</div> -->
                         </td>
                         

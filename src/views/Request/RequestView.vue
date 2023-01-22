@@ -1,9 +1,11 @@
 <template>
     <div class="request">
         <v-container>
-            <v-btn>
-                Назад
-            </v-btn>
+            <router-link to="/requests">
+                <v-btn>
+                    Назад
+                </v-btn>
+            </router-link>
             <v-card
             elevation="7"
             shaped
@@ -12,24 +14,38 @@
                 <v-card-title>
                     Заявка №: {{request.id}}
                 </v-card-title>
-                <div class="">
+                <div class="block">
                     <v-card-subtitle>
                         Дата заявки: {{request.date}}
                     </v-card-subtitle>
                     <v-card-subtitle>
                         Адрес доставки: {{request.shipping_address}}
                     </v-card-subtitle>
+                    <v-card-subtitle>
+                        Получатель: {{request.recipient}}
+                    </v-card-subtitle>
+                    <v-card-subtitle>
+                        Контакты: {{request.contacts}}
+                    </v-card-subtitle>
+                    <v-card-subtitle>
+                        Штрих-код: {{request.bar_code}}
+                    </v-card-subtitle>
                 </div>
             </v-card>
             <v-btn
+            v-if="showButton == true"
             class="mt-5"
             @click="generateBarCode()">
                 Сгенерировать штрих-код
             </v-btn>
-            <span v-html="barcode">
-
-            </span>
+            <h3  class="mt-5">Штрих-код:</h3>
+            <div  class="mt-5" v-html="barcode">
             
+            </div>
+            <v-btn
+            class="mt-5">
+                Сохранить в PDF
+            </v-btn>
         </v-container>
     </div>
 </template>
@@ -39,7 +55,8 @@ import axios from 'axios'
 export default {
     data: () => ({
         request: {},
-        barcode: ''
+        barcode: '',
+        showButton: true
     }),
     methods:{
         getRequestData(){
@@ -49,9 +66,12 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response.data)
-                this.request = response.data,
-                this.barcode = response.data.barcode_file.join('')
+                
+                if(response.data.barcode_file){
+                    this.showButton = false
+                    this.request = response.data,
+                    this.barcode = response.data.barcode_file.join('')
+                }
                 
             })
         },
@@ -65,7 +85,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response.data)
+                
                 this.getRequestData()
             })
         }
@@ -75,3 +95,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.block{
+    display: flex;
+}
+</style>
