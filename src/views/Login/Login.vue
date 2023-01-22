@@ -77,7 +77,7 @@ export default {
                 }).then((response) => {
                     console.log(response.data)
                     localStorage.setItem('usertoken', response.data.auth_token)
-                    this.$router.push('/main')
+                    this.$router.push('/invoices')
                 }).catch((error) => {
                     console.log(error.response.data.non_field_errors)
                     error.response.data.non_field_errors.forEach((element) => {

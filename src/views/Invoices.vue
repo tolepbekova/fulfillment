@@ -1,6 +1,7 @@
 <template>
     <div class="invoices">
         <div class="invoices__inner">
+            <h2 class="mt-5 ml-5">Накладные</h2>
             <router-link to="/invoices/add">
                 <v-btn
                     color="green"

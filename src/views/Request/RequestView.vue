@@ -2,10 +2,20 @@
     <div id="element-to-convert" class="request">
         <v-container>
             <router-link to="/requests">
-                <v-btn>
-                    Назад
+                <v-btn
+                    class="mt-3"
+                                        
+                    color="orange darken-2"
+                    dark
+                >
+                <v-icon
+                dark
+                left
+                >
+                mdi-arrow-left
+                </v-icon>Назад
                 </v-btn>
-            </router-link>
+                </router-link>
             <v-card
             elevation="7"
             shaped
@@ -30,6 +40,15 @@
                     <v-card-subtitle>
                         Штрих-код: {{request.bar_code}}
                     </v-card-subtitle>
+                    <v-card-subtitle>
+                        Тип доставки: {{request.shipping_type}}
+                    </v-card-subtitle>
+                    <v-card-subtitle>
+                        Статус: {{request.status}}
+                    </v-card-subtitle>
+                    <!-- <v-card-subtitle>
+                        Ячейка на складе: {{request.status}}
+                    </v-card-subtitle> -->
                 </div>
             </v-card>
             <v-btn
@@ -62,7 +81,7 @@ export default {
     }),
     methods:{
         getRequestData(){
-            axios.get('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('requestId'),
+            axios.get('http://87.255.194.27:8001/api/orders/' +  localStorage.getItem('requestId') + '/detail/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')

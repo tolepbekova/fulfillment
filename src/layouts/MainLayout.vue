@@ -5,15 +5,15 @@
             class="mx-auto overflow-hidden card"
             >
                 <v-app-bar
-                color="light-blue darken-1"
+                color="rgb(203, 201, 201)"
                 
                 prominent
-                :height="60"
+                :height="55"
                 >
                 <!-- dark -->
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                <v-toolbar-title>Fullfilment eTrader</v-toolbar-title>
+                <v-toolbar-title class="title">Fullfilment eTrader</v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
@@ -27,7 +27,7 @@
                     <v-icon>mdi-filter</v-icon>
                 </v-btn> -->
                 <v-toolbar-title>{{username}}</v-toolbar-title>
-                <v-btn @click="logout()" small class="mt-3">
+                <v-btn @click="logout()" color="#00afef" small class="mt-3">
                     Выйти
                 </v-btn>
 
@@ -38,6 +38,7 @@
                 absolute
                 bottom
                 temporary
+                color=""
                 >
                 <v-list
                     nav
@@ -47,11 +48,11 @@
                     v-model="group"
                     active-class="deep-purple--text text--accent-4"
                     >
-                    <router-link to="/main">
+                    <!-- <router-link to="/main">
                         <v-list-item>
                             <v-list-item-title>Главная</v-list-item-title>
                         </v-list-item>
-                    </router-link>
+                    </router-link> -->
 
                     <router-link to="/invoices">
                         <v-list-item>
@@ -76,44 +77,6 @@
             </v-navigation-drawer>
             <router-view/>
             </v-card>
-        
-        <!-- <div class="main__inner">
-            <v-app-bar
-                elevation="6"
-                outlined
-                color="#66FF99"
-            >
-                <v-toolbar-title>Fulfillment</v-toolbar-title>
-                <div class="main__menu">
-                    <router-link to="/main">
-                        <v-btn >
-                            Главная
-                        </v-btn>
-                    </router-link>
-                    <router-link to="/invoices">
-                        <v-btn class="main__nav-btn">
-                            Накладные
-                        </v-btn>
-                    </router-link>
-                    <router-link to="/goods">
-                        <v-btn class="main__nav-btn">
-                            Товары
-                        </v-btn>
-                    </router-link>
-                </div>
-                <v-spacer></v-spacer>
-                <div class="main__user-header">
-                    
-                    <p>Алмат</p>
-                    <v-btn @click="logout()" class="main__nav-btn">
-                        Выйти
-                    </v-btn>
-                </div>
-            </v-app-bar>
-            <div class="main__content">
-                <router-view/>
-            </div>
-        </div> -->
     </div>
 </template>
 
@@ -186,12 +149,17 @@ export default {
             align-items: center;
             p{
                 margin: 0;
+                
             }
         }
 }
 
 .card{
     height: 100%;
+}
+
+.title{
+    font-size: 1.23rem !important;
 }
 
 

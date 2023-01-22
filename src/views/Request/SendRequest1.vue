@@ -93,6 +93,21 @@
                                 <v-btn color="#66FF99" type="submit" class="form__button mt-3" block>
                                     Продолжить
                                 </v-btn>
+                                <router-link to="/requests">
+                                    <v-btn
+                                        class="mt-3"
+                                        
+                                        color="orange darken-2"
+                                        dark
+                                    >
+                                        <v-icon
+                                        dark
+                                        left
+                                        >
+                                        mdi-arrow-left
+                                        </v-icon>Назад
+                                    </v-btn>
+                                </router-link>
                             </v-form>
                         </v-card>
                     </v-col>

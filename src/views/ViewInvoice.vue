@@ -2,37 +2,60 @@
     <div class="view-invoice">
         <div class="view-invoice__inner">
             <v-container>
-                <v-card>
-                    <v-col>
-                        <h3>Накладная № {{invoiceNumber}}</h3>
-                        <p>Дата накладной: {{invoiceDate}}</p>
-                    </v-col>
-                    
-                </v-card>
-                <form @submit.prevent="sendFile()" action="">
-                    <v-row class="mt-5">
-                        <v-col>
-                            <v-file-input
-                                
-                                id="file"
-                                ref="file"
-                                v-on:change="handleFileUpload"
-                                accept=".xlsx"
-                                label="Загрузить Excel"
-                            ></v-file-input>
-                        </v-col>
-                        <v-col>
-                            <v-btn
-                            color="warning"
+                <router-link to="/invoices">
+                    <v-btn
+                        class="mt-3 mb-5"     
+                        color="orange darken-2"
+                        dark
+                        >
+                            <v-icon
                             dark
-                            type="submit"
+                            left
                             >
-                                Загрузить
-                            </v-btn>
-                        </v-col>
-                        <v-col></v-col>
-                    </v-row>
-                </form>
+                            mdi-arrow-left
+                            </v-icon>Назад
+                        </v-btn>
+                    </router-link>
+                <v-row>
+                    <v-col cols="4">
+                        <v-card
+                        elevation="7"
+                        shaped
+                        >
+                            <v-col class="mt-3 ml-3">
+                                <h3>Накладная № {{invoiceNumber}}</h3>
+                                <p>Дата накладной: {{invoiceDate}}</p>
+                            </v-col>
+                        </v-card>
+                    </v-col>
+                    <v-col>
+                        <form @submit.prevent="sendFile()" action="">
+                            <v-row class="mt-5">
+                                <v-col>
+                                    <v-file-input
+                                        
+                                        id="file"
+                                        ref="file"
+                                        v-on:change="handleFileUpload"
+                                        accept=".xlsx"
+                                        label="Загрузить Excel"
+                                    ></v-file-input>
+                                </v-col>
+                                <v-col>
+                                    <v-btn
+                                    dark
+                                    type="submit"
+                                    color="green"
+                                    >
+                                    
+                                        Загрузить
+                                    </v-btn>
+                                </v-col>
+                                <v-col></v-col>
+                            </v-row>
+                        </form>
+                    </v-col>
+                </v-row>
             </v-container>
             <v-simple-table>
                 <template v-slot:default>
