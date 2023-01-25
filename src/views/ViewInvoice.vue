@@ -47,7 +47,12 @@
                                     type="submit"
                                     color="green"
                                     >
+                                    <v-icon
+                                    dark
                                     
+                                    >
+                                    mdi-checkbox-marked-circle
+                                    </v-icon>
                                         Загрузить
                                     </v-btn>
                                 </v-col>

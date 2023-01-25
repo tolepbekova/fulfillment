@@ -61,7 +61,10 @@
                                         </v-btn>
                                     </v-date-picker>
                                 </v-menu>
-                                <v-btn color="#66FF99" type="submit" class="form__button" block>
+                                <v-btn color="green"
+                                dark 
+                                type="submit" 
+                                class="form__button" block>
                                     Сохранить
                                 </v-btn>
                                 <router-link to="/invoices">

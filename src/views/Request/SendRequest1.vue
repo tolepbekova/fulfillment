@@ -90,7 +90,8 @@
                                 @change="$v.distributeType.$touch()"
                                 @blur="$v.distributeType.$touch()"
                                 ></v-select>
-                                <v-btn color="#66FF99" type="submit" class="form__button mt-3" block>
+                                <v-btn color="green"
+                                dark  type="submit" class="form__button mt-3" block>
                                     Продолжить
                                 </v-btn>
                                 <router-link to="/requests">

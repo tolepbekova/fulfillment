@@ -1,5 +1,5 @@
 <template>
-    <div id="element-to-convert" class="request">
+    <div class="request">
         <v-container>
             <router-link to="/requests">
                 <v-btn
@@ -17,6 +17,7 @@
                 </v-btn>
                 </router-link>
             <v-card
+            id="element-to-convert"
             elevation="7"
             shaped
             class="mt-5"
@@ -54,12 +55,16 @@
             <v-btn
             v-if="showButton == true"
             class="mt-5"
+            color=""
             @click="generateBarCode()">
+            
                 Сгенерировать штрих-код
             </v-btn>
-            <h3  class="mt-5">Штрих-код:</h3>
-            <div  class="mt-5" v-html="barcode">
-            
+            <div id="element-to-convert" class="">
+                <h3  class="mt-5">Штрих-код:</h3>
+                <div  class="mt-5" v-html="barcode">
+                
+                </div>
             </div>
             <v-btn
             class="mt-5"
@@ -87,10 +92,10 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                
+                this.request = response.data
+                // console.log(response.data)
                 if(response.data.barcode_file){
                     this.showButton = false
-                    this.request = response.data,
                     this.barcode = response.data.barcode_file.join('')
                 }
                 

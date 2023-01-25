@@ -14,7 +14,7 @@
                                 <v-text-field 
                                     v-model="username" 
                                     class="input" 
-                                    label="Введите имя пользователя:" 
+                                    label="Введите имя пользователя" 
                                     placeholder="Логин"
                                     :error-messages="usernameErrors"
                                     required
@@ -25,7 +25,7 @@
                                 <v-text-field 
                                     v-model="password" 
                                     class="input" 
-                                    label="Введите пароль:"
+                                    label="Введите пароль"
                                     :error-messages="passwordErrors"
                                     required
                                     @input="$v.password.$touch()"

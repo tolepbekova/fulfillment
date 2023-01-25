@@ -101,7 +101,8 @@ export default {
         },
         rules:{
             required: value => !!value || 'Данное поле обязательно',
-        }
+        },
+        modal: false
     }),
     methods:{
         getOrdersGoodList(){
@@ -159,7 +160,8 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response)
+                // console.log(response)
+                this.modal = true
             }).catch((error) => {
                 console.log(error)
             })
