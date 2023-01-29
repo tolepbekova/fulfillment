@@ -170,7 +170,8 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(() => {
-                this.getInvoiceGoods()
+                this.getInvoiceGoods(),
+                this.file = ''
             })
         },
         handleFileUpload: function(file){

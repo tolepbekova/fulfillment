@@ -44,9 +44,9 @@
                                         Зарегистрироваться
                                     </v-btn>
                                 </router-link>
-                                <router-link to="/login/change/1">
+                                <!-- <router-link to="/login/change/1">
                                     <a class="form__link" href="">Забыли пароль?</a>
-                                </router-link>
+                                </router-link> -->
                                 <!-- <a @click.prevent="resetPassword()" class="form__link" href="">Забыли пароль?</a> -->
                             </v-form>
                         </v-card>

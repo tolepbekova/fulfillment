@@ -11,6 +11,7 @@
                     Добавить заявку
                 </v-btn>
             </router-link>
+            {{orderList}}
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -31,19 +32,21 @@
                             Контакты
                         </th>
                         <th class="text-left">
-                            Штрих-код 
-                        </th>
-                        <th class="text-left">
                             Тип доставки 
                         </th>
                         <th class="text-left">
                             Статус доставки 
                         </th>
                         <th class="text-left">
+                            Статус
+                        </th>
+                        <th class="text-left">
                             Страница заявки
                         </th>
+                        
                     </tr>
                 </thead>
+                
                 <tbody>
                     <tr
                     v-for="(order, index) in ordersList"
@@ -55,9 +58,12 @@
                         <td>{{ order.recipient }}</td>
                         <td>{{ order.shipping_address }}</td>
                         <td>{{ order.contacts }}</td>
-                        <td>{{ order.bar_code }}</td>
                         <td>{{ order.shipping_type }}</td>
                         <td>{{ order.status }}</td>
+                        <td>
+                            <p style="color: red;" v-if="order.is_draft == true">Черновик</p>
+                            <p style="color: green;" v-if="order.is_draft == false">Отправлено</p>
+                        </td>
                         <td>
                             <router-link :to="{name: 'requests-view', params: {id: order.id}}">
                                     <a @click="setIdToStorage(order.id)" href="">
@@ -91,6 +97,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
+                console.log(response.data)
                 this.ordersList = response.data
             })
         },

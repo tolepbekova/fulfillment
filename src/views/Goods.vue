@@ -7,7 +7,7 @@
                 <thead>
                     <tr>
                         <th class="text-left">
-                            ID Накладной
+                            Накладная
                         </th>
                         <th class="text-left">
                             ID
@@ -58,7 +58,7 @@
                     v-for="good in goodsList"
                     :key="good.id"
                     >
-                        <td>{{ good.invoice }}</td>
+                        <td>{{ good.invoice_detail[0] }}</td>
                         <td>{{ good.id }}</td>
                         <td>{{ good.title }}</td>
                         <td>{{ good.vendor_code }}</td>
@@ -95,6 +95,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
+                console.log(response.data)
                 this.goodsList = response.data
             })
         }

@@ -1,6 +1,16 @@
 <template>
     <div class="request">
         <v-form ref="form" @submit.prevent="sendGoods()">
+            <div style="display: flex; justify-content: end;" class="">
+                <v-btn
+                small
+                class="mt-5 mr-5"
+                color="green"
+                :disabled="saveDisabled"
+                type="submit">
+                    Сохранить в черновик
+                </v-btn>
+            </div>
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -26,15 +36,15 @@
                         <th class="text-left">
                             Выбрать 
                         </th>
-                        <!-- <th class="text-left">
+                        <th class="text-left">
                              
-                        </th> -->
+                        </th>
                         <th class="text-left">
                             Количество на отправку
                         </th>
-                        <!-- <th class="text-left">
+                        <th class="text-left">
                              
-                        </th> -->
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,13 +67,26 @@
                             v-model.trim="form.selectedGood[index]"
                             :value="good.id">
                             </v-checkbox>
-                            {{form.selectedGood}}
+                            
                         </td>
-                        
+                        <td>
+                            <!-- <v-btn
+                            class="mx-2 button"
+                            fab
+                            dark
+                            color="green"
+                            small
+                            @click="appendQuantity(form.quantity_to_send[index], good.result, good.good_quantity)"
+                            >
+                                <v-icon dark>
+                                    mdi-plus
+                                </v-icon>
+                            </v-btn> -->
+                        </td>
                         <td>
                             <v-text-field
                             v-model.trim="form.quantity_to_send[index]"
-                            
+                            @change="(value) => validateQuantity(value,good.good_quantity)"
                             @keypress="isNumber"
                             :rules="[rules.required]"
                             required
@@ -73,16 +96,24 @@
                             <p class="" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p>
                             <!-- <div v-if="!$v.form.quantity_to_send[index].required">Description is required.</div> -->
                         </td>
-                        
+                        <td>
+                            <!-- <v-btn
+                            class="button"
+                            fab
+                            dark
+                            small
+                            color="red"
+                            @click="changeCounter('-1')"
+                            >
+                                <v-icon dark>
+                                    mdi-minus
+                                </v-icon>
+                            </v-btn> -->
+                        </td>
                     </tr>
                 </tbody>
                 </template>
             </v-simple-table>
-            <v-btn
-            small
-            type="submit">
-                Сохранить
-            </v-btn>
         </v-form>
     </div>
 </template>
@@ -102,7 +133,8 @@ export default {
         rules:{
             required: value => !!value || 'Данное поле обязательно',
         },
-        modal: false
+        modal: false,
+        saveDisabled: false
     }),
     methods:{
         getOrdersGoodList(){
@@ -126,7 +158,6 @@ export default {
 			this.counter += +num
 			console.log(this.counter)
 			!isNaN(this.counter) && this.counter > 0 ? this.counter : this.counter = 0;
-            
 		},
         appendQuantity(value, result, quantity){
             value++;
@@ -151,7 +182,6 @@ export default {
                     })
                 }
             }
-
             console.log(array)
             axios.post('http://87.255.194.27:8001/api/goods_to_send/',
             array,
@@ -161,35 +191,25 @@ export default {
                 }
             }).then((response) => {
                 // console.log(response)
-                this.modal = true
+                this.getOrdersGoodList()
             }).catch((error) => {
                 console.log(error)
             })
             
+        },
+        validateQuantity(value, maxLimit){
+            console.log("validateQuantity",value,maxLimit);
+            if (value > maxLimit){
+                this.saveDisabled=true;
+            }
+            else {
+                this.saveDisabled=false;
+            }
         }
     },
     mounted(){
         this.getOrdersGoodList()
-    },
-    computed:{
-        // quantityToSendErrors () {
-        //     const errors = []
-        //     if (!this.$v.username.$dirty) return errors
-        //     !this.$v.username.required && errors.push('Данное поле обязательно для заполнения')
-        //     return errors
-        // },
-    },
-    // validations(){
-    //     if(!this.form.selectedGood){
-    //         return {
-    //             form:{
-    //                 quantity_to_send: {
-    //                     required
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    }
 }
 </script>
 

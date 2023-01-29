@@ -110,13 +110,25 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                // console.log(response.data)
-                this.username = response.data.username
+                this.username = response.data.username,
+                localStorage.setItem('user_id', response.data[0].id)
+            })
+        },
+        getUserRole(){
+            axios.get('http://87.255.194.27:8001/users/'+ localStorage.getItem('user_id') +'/role/',
+            {
+                headers:{
+                    Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            }).then((response) => {
+                console.log(response.data)
+                localStorage.setItem('user_role', response.data.role)
             })
         }
     },
     mounted(){
-        this.getUserName()
+        this.getUserName(),
+        this.getUserRole()
     },
     watch: {
       group () {
