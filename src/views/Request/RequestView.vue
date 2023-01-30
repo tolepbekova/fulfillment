@@ -189,14 +189,14 @@
                     
                         Сгенерировать штрих-код
                     </v-btn>
-                    <span v-if="cellBtn == true">
+                    <span v-if="request.package == null">
                         <v-dialog
                         transition="dialog-top-transition"
                         max-width="600"
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
-                            v-if="request.package == null"
+                        
                             class="mt-3 ml-3"
                             color="primary"
                             v-bind="attrs"
@@ -221,6 +221,8 @@
                                                 @input="$v.box.height_m.$touch()"
                                                 @blur="$v.box.height_m.$touch()"
                                             />
+                                            <p class="invalid-feedback" v-if="errors.height_m_4">{{errors.height_m_4}}</p>
+                                            <p class="invalid-feedback" v-if="errors.height_m_10">{{errors.height_m_10}}</p>
                                             <v-text-field 
                                                 v-model="box.width_m" 
                                                 class="input" 
@@ -232,6 +234,8 @@
                                                 @input="$v.box.width_m.$touch()"
                                                 @blur="$v.box.width_m.$touch()"
                                             />
+                                            <p class="invalid-feedback" v-if="errors.width_m_4">{{errors.width_m_4}}</p>
+                                            <p class="invalid-feedback" v-if="errors.width_m_10">{{errors.width_m_10}}</p>
                                             <v-text-field 
                                                 v-model="box.length_m" 
                                                 class="input" 
@@ -243,6 +247,8 @@
                                                 @input="$v.box.length_m.$touch()"
                                                 @blur="$v.box.length_m.$touch()"
                                             />
+                                            <p class="invalid-feedback" v-if="errors.length_m_4">{{errors.length_m_4}}</p>
+                                            <p class="invalid-feedback" v-if="errors.length_m_10">{{errors.length_m_10}}</p>
                                             
                                             <v-text-field 
                                                 v-model="box.capacity_m3" 
@@ -255,6 +261,15 @@
                                                 @input="$v.box.capacity_m3.$touch()"
                                                 @blur="$v.box.capacity_m3.$touch()"
                                             />
+                                            <p class="invalid-feedback" v-if="errors.capacity_m3_4">{{errors.capacity_m3_4}}</p>
+                                            <p class="invalid-feedback" v-if="errors.capacity_m3_10">{{errors.capacity_m3_10}}</p>
+                                            
+                                            
+
+                                            
+                                            
+                                            
+                                            
                                             <v-btn color="green"
                                             dark  type="submit" class="form__button mt-3" block>
                                                 Сохранить
@@ -442,8 +457,16 @@ export default {
             cell_number: '',
             cstatus: ''
         },
-        barCodeBtn: true,
-        cellBtn: true
+        errors:{
+            capacity_m3_4: '',
+            height_m_4: '',
+            length_m_4: '',
+            width_m_4: '',
+            capacity_m3_10: '',
+            height_m_10: '',
+            length_m_10: '',
+            width_m_10: ''
+        }
     }),
     methods:{
         getRequestData(){
@@ -520,6 +543,7 @@ export default {
                 }
             }).then(() => {
                 alert('Успешно')
+                
             })
         },
         generateBarCode(){
@@ -532,7 +556,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                this.barCodeBtn = !this.barCodeBtn
+                
                 this.getRequestData()
             })
         },
@@ -574,6 +598,37 @@ export default {
                 }).then(() => {
                     alert('успешно')
                     this.getRequestData()
+                }).catch((error) => {
+                    console.log(error)
+                    Object.keys(error.response.data).forEach((key) => {
+                        console.log(key, error.response.data[key])
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 4 decimal places.'){
+                            this.errors.capacity_m3_4 = 'Недопустимо более 4 чисел после десятичной точки в поле объем'
+                        }
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 4 decimal places.'){
+                            this.errors.length_m_4 = 'Недопустимо более 4 чисел после десятичной точки в поле длина'
+                        }
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 4 decimal places.'){
+                            this.errors.height_m_4 = 'Недопустимо более 4 чисел после десятичной точки в поле высота'
+                        }
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 4 decimal places.'){
+                            this.errors.width_m_4 = 'Недопустимо более 4 чисел после десятичной точки в поле ширина'
+                        }
+                        
+
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 10 digits in total.'){
+                            this.errors.capacity_m3_10 = 'Общее количество чисел в поле объем не должно превышать 10'
+                        }
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 10 digits in total.'){
+                            this.errors.length_m_10 = 'Общее количество чисел в поле длина не должно превышать 10'
+                        }
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 10 digits in total.'){
+                            this.errors.height_m_10 = 'Общее количество чисел в поле высота не должно превышать 10'
+                        }
+                        if(error.response.data[key][0] == 'Ensure that there are no more than 10 digits in total.'){
+                            this.errors.width_m_10 = 'Общее количество чисел в поле ширина не должно превышать 10'
+                        }
+                    });
                 })
             }
         },
@@ -591,6 +646,7 @@ export default {
                     }
                 }).then(() => {
                     alert('успешно')
+                    this.getRequestData()
                 })
             }
         },
@@ -707,4 +763,8 @@ export default {
 .card{
     padding: 20px;
 }
+.invalid-feedback{
+    color: rgb(252, 20, 20);
+}
+
 </style>
