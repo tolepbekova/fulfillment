@@ -41,7 +41,7 @@
                                 ref="menu"
                                 v-model="menu"
                                 :close-on-content-click="false"
-                                :return-value.sync="date"
+                                :return-value.sync="requestForm.date"
                                 transition="scale-transition"
                                 offset-y
                                 min-width="auto"
@@ -49,7 +49,7 @@
                                 >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
-                                        v-model="date"
+                                        v-model="requestForm.date"
                                         label="Дата заявки"
                                         prepend-icon="mdi-calendar"
                                         readonly
@@ -58,7 +58,7 @@
                                         ></v-text-field>
                                     </template>
                                     <v-date-picker
-                                        v-model="date"
+                                        v-model="requestForm.date"
                                         no-title
                                         scrollable
                                     >
@@ -73,52 +73,52 @@
                                         <v-btn
                                         text
                                         color="primary"
-                                        @click="$refs.menu.save(date)"
+                                        @click="$refs.menu.save(requestForm.date)"
                                         >
                                         OK
                                         </v-btn>
                                     </v-date-picker>
                                 </v-menu>
                                 <v-text-field 
-                                    v-model="organization" 
+                                    v-model="requestForm.organization" 
                                     class="input" 
                                     label="Кому:" 
                                     placeholder="ТОО/ИП"
                                     :error-messages="organizationErrors"
                                     required
-                                    @input="$v.organization.$touch()"
-                                    @blur="$v.organization.$touch()"
+                                    @input="$v.requestForm.organization.$touch()"
+                                    @blur="$v.requestForm.organization.$touch()"
                                 />
                                 <v-text-field 
-                                    v-model="address" 
+                                    v-model="requestForm.address" 
                                     class="input" 
                                     label="Адрес доставки:" 
                                     placeholder="Мынбаева, 92"
                                     :error-messages="addressErrors"
                                     required
-                                    @input="$v.address.$touch()"
-                                    @blur="$v.address.$touch()"
+                                    @input="$v.requestForm.address.$touch()"
+                                    @blur="$v.requestForm.address.$touch()"
                                 />
                                 <v-text-field 
-                                    v-model="contacts" 
+                                    v-model="requestForm.contacts" 
                                     class="input" 
                                     label="Контактные данные:" 
                                     placeholder="Контакты"
                                     :error-messages="contactsErrors"
                                     required
-                                    @input="$v.contacts.$touch()"
-                                    @blur="$v.contacts.$touch()"
+                                    @input="$v.requestForm.contacts.$touch()"
+                                    @blur="$v.requestForm.contacts.$touch()"
                                 />
                                 
                                 <v-select
-                                v-model="distributeType"
+                                v-model="requestForm.distributeType"
                                 :items="shippingTypes"
                                 item-text="type"
                                 item-value="id"
                                 label="Тип отправки"
                                 :error-messages="distributeTypeErrors"
-                                @change="$v.distributeType.$touch()"
-                                @blur="$v.distributeType.$touch()"
+                                @change="$v.requestForm.distributeType.$touch()"
+                                @blur="$v.requestForm.distributeType.$touch()"
                                 ></v-select>
                                 <v-btn color="green"
                                 dark  type="submit" class="form__button mt-3" block>
@@ -145,9 +145,15 @@
             shaped
             class="mt-5"
             >
-                <v-card-title>
-                    Заявка №: {{request.id}}
-                </v-card-title>
+                <div style="display: flex">
+                    <v-card-title>
+                        Заявка №: {{request.id}}
+                    </v-card-title>
+                    <v-spacer></v-spacer>
+                    <v-card-title v-if="role == 'Admin_ff'">
+                        Организация: {{request.organization}}
+                    </v-card-title>
+                </div>
                 <div class="block">
                     <v-card-subtitle>
                         Дата заявки: {{request.date}}
@@ -164,12 +170,194 @@
                     <v-card-subtitle>
                         Тип доставки: {{request.shipping_type}}
                     </v-card-subtitle>
-                    <v-card-subtitle>
+                    <v-card-subtitle v-if="role == 'Client'">
                         Статус: {{request.status}}
                     </v-card-subtitle>
                     <!-- <v-card-subtitle>
                         Ячейка на складе: {{request.status}}
                     </v-card-subtitle> -->
+                </div>
+            </v-card>
+            <div style="justify-content: space-between; display: flex;" v-if="role == 'Admin_ff'"  class="mt-5">
+                
+                <div class="">
+                    <v-btn
+                    v-if="request.bar_code == null"
+                    class="mt-3"
+                    color=""
+                    @click="generateBarCode()">
+                    
+                        Сгенерировать штрих-код
+                    </v-btn>
+                    <span v-if="cellBtn == true">
+                        <v-dialog
+                        transition="dialog-top-transition"
+                        max-width="600"
+                        >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                            v-if="request.package == null"
+                            class="mt-3 ml-3"
+                            color="primary"
+                            v-bind="attrs"
+                            v-on="on"
+                            >Создать посылку</v-btn>
+                        </template>
+                        <template v-slot:default="dialog">
+                            <v-card>
+                            <v-toolbar
+                                color="primary"
+                                dark
+                            >Создание посылки</v-toolbar>
+                            <v-form class="card" @submit.prevent="sendBox()">
+                                            <v-text-field 
+                                                v-model="box.height_m" 
+                                                class="input" 
+                                                label="Высота:" 
+                                                placeholder="м"
+                                                :error-messages="boxHeightErrors"
+                                                required
+                                                @keypress="isDecimal"
+                                                @input="$v.box.height_m.$touch()"
+                                                @blur="$v.box.height_m.$touch()"
+                                            />
+                                            <v-text-field 
+                                                v-model="box.width_m" 
+                                                class="input" 
+                                                label="Ширина:" 
+                                                placeholder="м"
+                                                :error-messages="boxWidthErrors"
+                                                required
+                                                @keypress="isDecimal"
+                                                @input="$v.box.width_m.$touch()"
+                                                @blur="$v.box.width_m.$touch()"
+                                            />
+                                            <v-text-field 
+                                                v-model="box.length_m" 
+                                                class="input" 
+                                                label="Длина:" 
+                                                placeholder="м"
+                                                :error-messages="boxLengthErrors"
+                                                required
+                                                @keypress="isDecimal"
+                                                @input="$v.box.length_m.$touch()"
+                                                @blur="$v.box.length_m.$touch()"
+                                            />
+                                            
+                                            <v-text-field 
+                                                v-model="box.capacity_m3" 
+                                                class="input" 
+                                                label="Объем:" 
+                                                placeholder="м3"
+                                                :error-messages="boxCapacityErrors"
+                                                required
+                                                @keypress="isDecimal"
+                                                @input="$v.box.capacity_m3.$touch()"
+                                                @blur="$v.box.capacity_m3.$touch()"
+                                            />
+                                            <v-btn color="green"
+                                            dark  type="submit" class="form__button mt-3" block>
+                                                Сохранить
+                                            </v-btn>
+                                    </v-form>
+                            <v-card-actions class="justify-end">
+                                <v-btn
+                                text
+                                @click="dialog.value = false"
+                                >Назад</v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </template>
+                        </v-dialog>
+                    </span>
+                    <v-btn
+                    class="mt-3 ml-5"
+                    @click="exportToPDF">
+                        Сохранить в PDF
+                    </v-btn>
+                </div>
+                <div class="">
+                    
+                    <v-dialog
+                    transition="dialog-top-transition"
+                    max-width="600"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        
+                        class="mt-3 ml-5"
+                        color="primary"
+                        v-bind="attrs"
+                        v-on="on"
+                        >Редактировать</v-btn>
+                    </template>
+                    <template v-slot:default="dialog">
+                        <v-card>
+                        <v-toolbar
+                            color="primary"
+                            dark
+                        >Редактировать</v-toolbar>
+                        <v-form class="card" @submit.prevent="sendStatus()">
+                                        <v-text-field 
+                                            v-model="cellstatus.cell_number" 
+                                            class="input" 
+                                            label="Номер ячейки:" 
+                                            placeholder="454"
+                                            :error-messages="statusCellnumberErrors"
+                                            required
+                                            
+                                            @input="$v.cellstatus.cell_number.$touch()"
+                                            @blur="$v.cellstatus.cell_number.$touch()"
+                                        />
+                                        <v-select
+                                        v-model="cellstatus.cstatus"
+                                        :items="orderStatuses"
+                                        item-text="status"
+                                        item-value="id"
+                                        label="Статус отправки"
+                                        :error-messages="statusCellStatusErrors"
+                                        @change="$v.cellstatus.cstatus.$touch()"
+                                        @blur="$v.cellstatus.cstatus.$touch()"
+                                        ></v-select>
+                                        <v-btn color="green"
+                                        dark  type="submit" class="form__button mt-3" block>
+                                            Сохранить
+                                        </v-btn>
+                                </v-form>
+                        <v-card-actions class="justify-end">
+                            <v-btn
+                            text
+                            @click="dialog.value = false"
+                            >Назад</v-btn>
+                        </v-card-actions>
+                        </v-card>
+                    </template>
+                    </v-dialog>
+                </div>
+            </div>
+            <v-card
+            v-if="role == 'Admin_ff'"
+            elevation="7"
+            shaped
+            class="mt-5"
+            >
+                <div class="block">
+                    <v-card-subtitle>
+                        Штрих-код: 
+                        <div  id="element-to-convert" class="mt-5" v-html="barcode">
+                
+                        </div>
+                    </v-card-subtitle>
+                    <v-card-subtitle>
+                        Объем посылки: {{request.package}}
+                    </v-card-subtitle>
+                    <v-spacer></v-spacer>
+                    <v-card-subtitle>
+                        Ячейка: {{request.cell_number}}
+                    </v-card-subtitle>
+                    <v-card-subtitle>
+                        Статус заявки: {{request.status}}
+                    </v-card-subtitle>
                 </div>
             </v-card>
             <v-btn v-if="request.is_draft == true" @click.prevent="showButton = !showButton" class="mt-5">
@@ -219,28 +407,6 @@
                 </tbody>
                 </template>
             </v-simple-table>
-            
-            
-            
-            <!-- <v-btn
-            v-if="showButton == true"
-            class="mt-5"
-            color=""
-            @click="generateBarCode()">
-            
-                Сгенерировать штрих-код
-            </v-btn> -->
-            <!-- <div class="">
-                <h3  class="mt-5">Штрих-код:</h3>
-                <div style="width: 500px; height: 500px;" id="element-to-convert" class="mt-5" v-html="barcode">
-                
-                </div>
-            </div>
-            <v-btn
-            class="mt-5"
-            @click="exportToPDF">
-                Сохранить в PDF
-            </v-btn> -->
         </v-container>
         
     </div>
@@ -254,15 +420,30 @@ export default {
     data: () => ({
         request: {},
         barcode: '',
-        showButton: true,
-        date: '',
-        organization: '',
-        address: '',
-        contacts: '',
-        distributeType: '',
+        requestForm:{
+            date: '',
+            organization: '',
+            address: '',
+            contacts: '',
+            distributeType: '',
+        },
         menu: false,
         shippingTypes: [],
-        showButton: false
+        orderStatuses: [],
+        showButton: false,
+        role: '',
+        box: {
+            height_m: '',
+            width_m: '',
+            length_m: '',
+            capacity_m3: ''
+        },
+        cellstatus:{
+            cell_number: '',
+            cstatus: ''
+        },
+        barCodeBtn: true,
+        cellBtn: true
     }),
     methods:{
         getRequestData(){
@@ -272,11 +453,12 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
+                console.log(response.data)
                 this.request = response.data
-                this.organization = response.data.recipient,
-                this.address = response.data.shipping_address,
-                this.contacts = response.data.contacts,
-                this.date = response.data.date
+                this.requestForm.organization = response.data.recipient,
+                this.requestForm.address = response.data.shipping_address,
+                this.requestForm.contacts = response.data.contacts,
+                this.requestForm.date = response.data.date
                 console.log(response.data)
                 if(response.data.barcode_file){
                     this.showButton = false
@@ -296,15 +478,16 @@ export default {
             })
         },
         patchRequest(){
-            this.$v.$touch()
-            if(!this.$v.$invalid){
+            this.$v.requestForm.$touch()
+            if(!this.$v.requestForm.$invalid){
                 axios.put('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('requestId') +'/', 
                 {
-                    date: this.date,
-                    recipient: this.organization,
-                    shipping_address: this.address,
-                    contacts: this.contacts,
-                    shipping_type: this.distributeType
+                    organization: this.request.organization,
+                    date: this.requestForm.date,
+                    recipient: this.requestForm.organization,
+                    shipping_address: this.requestForm.address,
+                    contacts: this.requestForm.contacts,
+                    shipping_type: this.requestForm.distributeType
                 },
                 {
                     headers:{
@@ -349,7 +532,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                
+                this.barCodeBtn = !this.barCodeBtn
                 this.getRequestData()
             })
         },
@@ -359,42 +542,159 @@ export default {
   			    filename: "Заявка",
 			});
 		},
+        getUserRole(){
+            this.role = localStorage.getItem('user_role')
+        },
+        getOrderStatuses(){
+            axios.get('http://87.255.194.27:8001/api/order_statuses/',
+            {
+                headers:{
+                    Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            }).then((response) => {
+                console.log(response)
+                this.orderStatuses = response.data
+            })
+        },
+        sendBox(){
+            this.$v.box.$touch()
+            if(!this.$v.box.$invalid){
+                axios.post('http://87.255.194.27:8001/api/packages/',
+                {
+                    order: this.request.id,
+                    height_m: this.box.height_m,
+                    width_m: this.box.width_m,
+                    length_m: this.box.length_m,
+                    capacity_m3: this.box.capacity_m3,
+                },
+                {
+                    headers:{
+                        Authorization: 'Token ' + localStorage.getItem('usertoken')
+                    }
+                }).then(() => {
+                    alert('успешно')
+                    this.getRequestData()
+                })
+            }
+        },
+        sendStatus(){
+            this.$v.cellstatus.$touch()
+            if(!this.$v.cellstatus.$invalid){
+                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('requestId') + '/fulfillment/update/',
+                {
+                    cell_number: this.cellstatus.cell_number,
+                    status: this.cellstatus.cstatus
+                },
+                {
+                    headers:{
+                        Authorization: 'Token ' + localStorage.getItem('usertoken')
+                    }
+                }).then(() => {
+                    alert('успешно')
+                })
+            }
+        },
+        isNumber (e) {
+        const regex = /[0-9]/
+        if (!regex.test(e.key)) {
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+            }
+        },
+        isDecimal (e) {
+        const regex = /^\d*\.?\d*$/
+        if (!regex.test(e.key)) {
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+            }
+        },
     },
     computed:{
         organizationErrors () {
             const errors = []
-            if (!this.$v.organization.$dirty) return errors
-            !this.$v.organization.required && errors.push('Данное поле обязательно для заполнения')
+            if (!this.$v.requestForm.organization.$dirty) return errors
+            !this.$v.requestForm.organization.required && errors.push('Данное поле обязательно для заполнения')
             return errors
         },
         addressErrors(){
             const errors = []
-            if (!this.$v.address.$dirty) return errors
-            !this.$v.address.required && errors.push('Данное поле обязательно для заполнения')
+            if (!this.$v.requestForm.address.$dirty) return errors
+            !this.$v.requestForm.address.required && errors.push('Данное поле обязательно для заполнения')
             return errors
         },
         contactsErrors(){
             const errors = []
-            if (!this.$v.contacts.$dirty) return errors
-            !this.$v.contacts.required && errors.push('Данное поле обязательно для заполнения')
+            if (!this.$v.requestForm.contacts.$dirty) return errors
+            !this.$v.requestForm.contacts.required && errors.push('Данное поле обязательно для заполнения')
             return errors
         },
         distributeTypeErrors(){
             const errors = []
-            if (!this.$v.distributeType.$dirty) return errors
-            !this.$v.distributeType.required && errors.push('Данное поле обязательно для заполнения')
+            if (!this.$v.requestForm.distributeType.$dirty) return errors
+            !this.$v.requestForm.distributeType.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        boxHeightErrors(){
+            const errors = []
+            if (!this.$v.box.height_m.$dirty) return errors
+            !this.$v.box.height_m.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        boxWidthErrors(){
+            const errors = []
+            if (!this.$v.box.width_m.$dirty) return errors
+            !this.$v.box.width_m.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        boxLengthErrors(){
+            const errors = []
+            if (!this.$v.box.length_m.$dirty) return errors
+            !this.$v.box.length_m.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },  
+        boxCapacityErrors(){
+            const errors = []
+            if (!this.$v.box.capacity_m3.$dirty) return errors
+            !this.$v.box.capacity_m3.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        statusCellnumberErrors(){
+            const errors = []
+            if (!this.$v.cellstatus.cell_number.$dirty) return errors
+            !this.$v.cellstatus.cell_number.required && errors.push('Данное поле обязательно для заполнения')
+            return errors
+        },
+        statusCellStatusErrors(){
+            const errors = []
+            if (!this.$v.cellstatus.cstatus.$dirty) return errors
+            !this.$v.cellstatus.cstatus.required && errors.push('Данное поле обязательно для заполнения')
             return errors
         }
     },
     mounted(){
+        this.getUserRole(),
         this.getRequestData(),
-        this.getShippingTypes()
+        this.getShippingTypes(),
+        this.getOrderStatuses()
+        
     },
     validations:{
-        organization: {required},
-        address: {required},
-        contacts: {required},
-        distributeType: {required},
+        requestForm:{
+            organization: {required},
+            address: {required},
+            contacts: {required},
+            distributeType: {required},
+        },
+        box:{
+            height_m: {required},
+            width_m: {required},
+            length_m: {required},
+            capacity_m3: {required}
+        },
+        cellstatus:{
+            cell_number: {required},
+            cstatus: {required}
+        }
     }
 }
 </script>

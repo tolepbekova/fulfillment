@@ -17,18 +17,23 @@
                         </v-btn>
                     </router-link>
                 <v-row>
-                    <v-col cols="4">
+                    <v-col cols="6">
                         <v-card
                         elevation="7"
                         shaped
                         >
-                            <v-col class="mt-3 ml-3">
-                                <h3>Накладная № {{invoiceNumber}}</h3>
-                                <p>Дата накладной: {{invoiceDate}}</p>
+                            <v-col class="mt-3 ml-3" style="display:flex; justify-content: space-between;">
+                                <div class="">
+                                    <h3>Накладная № {{invoiceNumber}}</h3>
+                                    <p>Дата накладной: {{invoiceDate}}</p>
+                                </div>
+                                <div class="mr-3">
+                                    <h3 v-if="role == 'Admin_ff'">Организация: {{organization}}</h3>
+                                </div>
                             </v-col>
                         </v-card>
                     </v-col>
-                    <v-col>
+                    <v-col v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
                             <v-row class="mt-5">
                                 <v-col>
@@ -66,9 +71,9 @@
                 <template v-slot:default>
                 <thead>
                     <tr>
-                        <th class="text-left">
-                            ID Накладной
-                        </th>
+                        <!-- <th class="text-left">
+                            Накладная
+                        </th> -->
                         <th class="text-left">
                             ID
                         </th>
@@ -85,7 +90,7 @@
                             Коробок
                         </th>
                         <th class="text-left">
-                            Вложимость штук в коробку
+                            Кол-во в коробке
                         </th>
                         <th class="text-left">
                             Общий вес коробки
@@ -118,7 +123,7 @@
                     v-for="good in goodList"
                     :key="good.id"
                     >
-                        <td>{{ good.invoice }}</td>
+                        <!-- <td>{{ good.invoice_detail[0] }}</td> -->
                         <td>{{ good.id }}</td>
                         <td>{{ good.title }}</td>
                         <td>{{ good.vendor_code }}</td>
@@ -148,13 +153,13 @@ export default {
         file: '',
         invoiceNumber: '',
         invoiceDate: '',
-        goodList: []
+        goodList: [],
+        role: '',
+        organization: ''
     }),
     methods:{
+        
         sendFile(){
-            // let docForm = document.getElementById('docForm')
-            // let formData = new FormData(docForm);
-            // console.log(formData)
             let formData = new FormData();
             formData.append('file', this.file);
             formData.append('invoice', localStorage.getItem('invoiceId'))
@@ -184,13 +189,19 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
+                console.log(response.data)
                 this.invoiceDate = response.data.date,
                 this.invoiceNumber = response.data.number,
-                this.goodList = response.data.goods
+                this.goodList = response.data.goods,
+                this.organization = response.data.organization.name
             })
+        },
+        getUserRole(){
+            this.role = localStorage.getItem('user_role')
         }
     },
     mounted(){
+        this.getUserRole(),
         this.getInvoiceGoods()
     }
 }

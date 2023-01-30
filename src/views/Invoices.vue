@@ -4,6 +4,7 @@
             <h2 class="mt-5 ml-5">Накладные</h2>
             <router-link to="/invoices/add">
                 <v-btn
+                    v-if="role == 'Client'"
                     color="green"
                     dark
                     small
@@ -12,7 +13,8 @@
                 Добавить накладную
                 </v-btn>
             </router-link>
-            <v-simple-table>
+            
+            <v-simple-table >
                 <template v-slot:default>
                     <thead>
                         <tr>
@@ -48,66 +50,15 @@
                                 </router-link>
                             </td>
                             <td>{{ item.date }}</td>
-                            <td>{{organization.name}}</td>
-                            <td>{{organization.fulfillment}}</td>
-                            <!-- <td>
-                                <v-dialog
-                                v-model="dialog"
-                                persistent
-                                max-width="600px"
-                                >
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                    color="primary"
-                                    dark
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    small
-                                    @click.prevent="pickInvoice(item)"
-                                    >
-                                    Добавить Excel
-                                    </v-btn>
-                                </template>
-                                <v-card>
-                                    <v-card-title>
-                                    <span class="text-h5">Добавить Excel</span>
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <v-container>
-                                            <v-row>
-                                                Номер накладной: {{selectedInvoice.number}}
-                                            </v-row>
-                                            <v-row>
-                                                Дата накладной: {{selectedInvoice.date}}
-                                            </v-row>
-                                            <v-spacer></v-spacer>
-                                            <v-row>
-
-                                            </v-row>
-                                        </v-container>
-                                    <small>*indicates required field</small>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            color="blue darken-1"
-                                            text
-                                            @click="dialog = false"
-                                        >
-                                            Закрыть
-                                        </v-btn>
-                                        <v-btn
-                                            color="blue darken-1"
-                                            text
-                                            @click="dialog = false"
-                                        >
-                                            Сохранить
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                                </v-dialog>
-                                
-                            </td> -->
+                            <td>
+                                <p v-if="role == 'Client'">{{organization.name}}</p>
+                                <p v-if="role == 'Admin_ff'">{{item.organization}}</p>
+                            </td>
+                            <td>
+                                <!-- <p v-if="role == 'Client'">{{organization.fulfillment}}</p>
+                                <p v-if="role == 'Admin_ff'">eTrade Partner</p> -->
+                                eTrade Partner
+                            </td>
                         </tr>
                     </tbody>
                 </template>
@@ -123,9 +74,19 @@ import axios from 'axios'
         invoiceList: [],
         organization: {},
         selectedInvoice: {},
-        dialog: false
+        dialog: false,
+        role: ''
     }),
     methods:{
+        // requests(){
+        //     if(this.role == 'Client'){
+        //         this.getClientOrganizationInvoices(),
+        //         this.getOrganization()
+        //     }
+        //     if(this.role == 'Admin_ff'){
+        //         this.getAdminOrganizationInvoices()
+        //     }
+        // },
         getOrganizationInvoices(){
             axios.get('http://87.255.194.27:8001/api/organization/invoices/',
             {
@@ -134,9 +95,22 @@ import axios from 'axios'
                 }
             })
             .then((response) => {
+                console.log(response.data)
                 this.invoiceList = response.data
             })
         },
+        // getAdminOrganizationInvoices(){
+        //     axios.get('http://87.255.194.27:8001/api/invoices/',
+        //     {
+        //         headers:{
+        //             Authorization: 'Token ' + localStorage.getItem('usertoken')
+        //         }
+        //     })
+        //     .then((response) => {
+                
+        //         this.invoiceList = response.data
+        //     })
+        // },
         getOrganization(){
             axios.get('http://87.255.194.27:8001/api/organizations/1',
             {
@@ -153,11 +127,17 @@ import axios from 'axios'
         },
         setIdToStorage(value){
             localStorage.setItem('invoiceId', value)
+        },
+        getUserRole(){
+            this.role = localStorage.getItem('user_role')
         }
     },
     mounted(){
-        this.getOrganizationInvoices(),
+        this.getUserRole()
+        this.getOrganizationInvoices()
         this.getOrganization()
+        // this.requests()
+        
     }
   }
 </script>

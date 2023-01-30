@@ -13,7 +13,7 @@
                 <!-- dark -->
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                <v-toolbar-title class="title">Fullfilment eTrader</v-toolbar-title>
+                <v-toolbar-title class="title">Fullfilment eTrader {{role}}</v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
@@ -44,7 +44,7 @@
                     nav
                     dense
                 >
-                    <v-list-item-group
+                    <v-list-item-group 
                     v-model="group"
                     active-class="deep-purple--text text--accent-4"
                     >
@@ -73,6 +73,7 @@
                     </router-link>
 
                     </v-list-item-group>
+                    
                 </v-list>
             </v-navigation-drawer>
             <router-view/>
@@ -85,6 +86,7 @@ import axios from 'axios'
 export default {
     data: () => ({
         username: '',
+        role: '',
         drawer: false,
         group: null,
     }),
@@ -112,6 +114,7 @@ export default {
             }).then((response) => {
                 this.username = response.data.username,
                 localStorage.setItem('user_id', response.data[0].id)
+                this.getUserRole()
             })
         },
         getUserRole(){
@@ -121,14 +124,14 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response.data)
+                
+                this.role = response.data.role
                 localStorage.setItem('user_role', response.data.role)
             })
         }
     },
     mounted(){
-        this.getUserName(),
-        this.getUserRole()
+        this.getUserName()
     },
     watch: {
       group () {
