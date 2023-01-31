@@ -221,12 +221,12 @@ export default {
         },
         validateQuantity(value, maxLimit){
             console.log("validateQuantity",value,maxLimit);
-            if (value > maxLimit){
+            if (value > maxLimit || value == 0){
                 this.saveDisabled=true;
             }
-            if(value == 0){
-                this.saveDisabled=true;
-            }
+            // if(value == 0){
+            //     this.saveDisabled=true;
+            // }
             else {
                 this.saveDisabled=false;
             }
