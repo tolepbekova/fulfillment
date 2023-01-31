@@ -119,7 +119,7 @@ export default {
             })
         },
         setIdToStorage(value){
-            localStorage.setItem('requestId', value)
+            localStorage.setItem('orderId', value)
         },
         getUserRole(){
             this.role = localStorage.getItem('user_role')

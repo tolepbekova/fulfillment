@@ -46,7 +46,10 @@
                                         label="Загрузить Excel"
                                     ></v-file-input>
                                 </v-col>
+
+                                
                                 <v-col>
+                                    
                                     <v-btn
                                     dark
                                     type="submit"
@@ -61,6 +64,7 @@
                                         Загрузить
                                     </v-btn>
                                 </v-col>
+                                <p class="invalid-feedback" v-if="error">{{error}}</p>
                                 <v-col></v-col>
                             </v-row>
                         </form>
@@ -155,7 +159,8 @@ export default {
         invoiceDate: '',
         goodList: [],
         role: '',
-        organization: ''
+        organization: '',
+        error: ''
     }),
     methods:{
         
@@ -175,8 +180,14 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(() => {
-                this.getInvoiceGoods(),
-                this.file = ''
+                alert('Успешно')
+                this.getInvoiceGoods()
+                this.$refs.file.reset()
+            }).catch((error) => {
+                console.log(error.message)
+                if(error.message == 'Request failed with status code 400'){
+                    this.error = "Файл не прикреплен либо содержание не соответствует требуемого формата"
+                }
             })
         },
         handleFileUpload: function(file){
@@ -206,3 +217,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.invalid-feedback{
+    color: rgb(252, 20, 20);
+}
+</style>

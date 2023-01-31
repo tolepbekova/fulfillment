@@ -12,11 +12,12 @@
                 left
                 >
                 mdi-arrow-left
-                </v-icon>Назад
+                </v-icon>Назад к списку заявок
                 </v-btn>
             </router-link>
             <span v-if="request.is_draft == true" class="">
             <v-dialog
+            v-model="dialog"
             transition="dialog-top-transition"
             max-width="600"
             >
@@ -135,10 +136,11 @@
             </template>
             </v-dialog>
             </span>
-            <v-btn v-if="request.is_draft == true" @click.prevent="sendOrder()" class="mt-3 ml-5">
-                Отправить Заявку
-            </v-btn>
-            
+            <span v-if="request.goods_to_send != 0">
+                <v-btn v-if="request.is_draft == true" @click.prevent="sendOrder()" class="mt-3 ml-5">
+                    Отправить Заявку
+                </v-btn>
+            </span>
             <v-card
             
             elevation="7"
@@ -193,6 +195,7 @@
                         <v-dialog
                         transition="dialog-top-transition"
                         max-width="600"
+                        v-model="dialog"
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
@@ -296,6 +299,7 @@
                     <v-dialog
                     transition="dialog-top-transition"
                     max-width="600"
+                    v-model="dialog"
                     >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -433,6 +437,7 @@ import html2pdf from "html2pdf.js";
 import { required, minLength } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
+        dialog: false,
         request: {},
         barcode: '',
         requestForm:{
@@ -470,7 +475,7 @@ export default {
     }),
     methods:{
         getRequestData(){
-            axios.get('http://87.255.194.27:8001/api/orders/' +  localStorage.getItem('requestId') + '/detail/',
+            axios.get('http://87.255.194.27:8001/api/orders/' +  localStorage.getItem('orderId') + '/detail/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -503,7 +508,7 @@ export default {
         patchRequest(){
             this.$v.requestForm.$touch()
             if(!this.$v.requestForm.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('requestId') +'/', 
+                axios.put('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('orderId') +'/', 
                 {
                     organization: this.request.organization,
                     date: this.requestForm.date,
@@ -517,13 +522,20 @@ export default {
                         Authorization: 'Token ' + localStorage.getItem('usertoken')
                     }
                 }).then((response) => {
+                    alert('Успешно')
                     this.getRequestData()
+                    this.dialog = false
                 })
             }
             
         },
         deleteGood(value){
-            axios.delete('http://87.255.194.27:8001/api/goods_to_send/' + value)
+            axios.delete('http://87.255.194.27:8001/api/goods_to_send/' + value, 
+            {
+                headers:{
+                   Authorization: 'Token ' + localStorage.getItem('usertoken')
+                }
+            })
             .then(() => {
                 alert('Успешно')
                 this.getRequestData()
@@ -533,7 +545,7 @@ export default {
             localStorage.setItem('orderId', value)
         },
         sendOrder(){
-            axios.patch('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('requestId') +'/immutable/',
+            axios.patch('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('orderId') +'/immutable/',
             {
 
             },
@@ -543,11 +555,11 @@ export default {
                 }
             }).then(() => {
                 alert('Успешно')
-                
+                this.getRequestData()
             })
         },
         generateBarCode(){
-            axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('requestId') + '/barcode/generate/',
+            axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') + '/barcode/generate/',
             {
                 
             },
@@ -598,6 +610,7 @@ export default {
                 }).then(() => {
                     alert('успешно')
                     this.getRequestData()
+                    this.dialog=false
                 }).catch((error) => {
                     console.log(error)
                     Object.keys(error.response.data).forEach((key) => {
@@ -635,7 +648,7 @@ export default {
         sendStatus(){
             this.$v.cellstatus.$touch()
             if(!this.$v.cellstatus.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('requestId') + '/fulfillment/update/',
+                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') + '/fulfillment/update/',
                 {
                     cell_number: this.cellstatus.cell_number,
                     status: this.cellstatus.cstatus
@@ -647,6 +660,7 @@ export default {
                 }).then(() => {
                     alert('успешно')
                     this.getRequestData()
+                    this.dialog=false
                 })
             }
         },

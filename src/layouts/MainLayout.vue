@@ -13,7 +13,7 @@
                 <!-- dark -->
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                <v-toolbar-title class="title">Fullfilment eTrader {{role}}</v-toolbar-title>
+                <v-toolbar-title class="title">Fullfilment eTrader</v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
@@ -26,7 +26,10 @@
                 <!-- <v-btn icon>
                     <v-icon>mdi-filter</v-icon>
                 </v-btn> -->
-                <v-toolbar-title>{{username}}</v-toolbar-title>
+                <div class="mr-5">
+                    <v-toolbar-title class="mt-4" style="font-size: 15px">{{username}}</v-toolbar-title>
+                    
+                </div>
                 <v-btn @click="logout()" color="#00afef" small class="mt-3">
                     Выйти
                 </v-btn>
@@ -112,7 +115,8 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                this.username = response.data.username,
+                console.log(response.data)
+                this.username = response.data[0].username,
                 localStorage.setItem('user_id', response.data[0].id)
                 this.getUserRole()
             })

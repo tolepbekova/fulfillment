@@ -10,7 +10,12 @@
                 type="submit">
                     Сохранить в черновик
                 </v-btn>
+                
             </div>
+            <div style="display: flex; justify-content: end;" class="">
+                <p class="invalid-feedback" v-if="errors.arrayLength">{{errors.arrayLength}}</p>
+            </div>
+            
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -93,7 +98,8 @@
                             :disabled="!form.selectedGood[index]"></v-text-field>
                             <!-- {{index}} -->
                             <!-- v-if="form.selectedGood[index] != null" -->
-                            <p class="" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p>
+                            <p class="invalid-feedback" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p>
+                            <p class="invalid-feedback" v-if="form.quantity_to_send[index] == 0">Количество товара должно привышать 0</p>
                             <!-- <div v-if="!$v.form.quantity_to_send[index].required">Description is required.</div> -->
                         </td>
                         <td>
@@ -134,7 +140,10 @@ export default {
             required: value => !!value || 'Данное поле обязательно',
         },
         modal: false,
-        saveDisabled: false
+        saveDisabled: false,
+        errors:{
+            arrayLength: ''
+        }
     }),
     methods:{
         getOrdersGoodList(){
@@ -180,26 +189,42 @@ export default {
                         good: goods[i],
                         quantity: quantity[i]
                     })
+                    
                 }
             }
             console.log(array)
-            axios.post('http://87.255.194.27:8001/api/goods_to_send/',
-            array,
-            {
-                headers:{
-                    Authorization: 'Token ' + localStorage.getItem('usertoken')
-                }
-            }).then((response) => {
-                // console.log(response)
-                this.getOrdersGoodList()
-            }).catch((error) => {
-                console.log(error)
-            })
+            if(array.length == 0){
+                this.errors.arrayLength = 'Пожалуйста, выберите товары перед сохранением'
+            }
+            else{
+                axios.post('http://87.255.194.27:8001/api/goods_to_send/',
+                array,
+                {
+                    headers:{
+                        Authorization: 'Token ' + localStorage.getItem('usertoken')
+                    }
+                }).then((response) => {
+                    // console.log(response)
+                    alert('Успешно')
+                    this.$router.push({
+                        name: 'requests-view',
+                        params: {
+                            id: localStorage.getItem('orderId')
+                        }
+                    })
+                    // this.getOrdersGoodList()
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
             
         },
         validateQuantity(value, maxLimit){
             console.log("validateQuantity",value,maxLimit);
             if (value > maxLimit){
+                this.saveDisabled=true;
+            }
+            if(value == 0){
                 this.saveDisabled=true;
             }
             else {
@@ -218,6 +243,10 @@ export default {
 .button{
     width: 20px;
     height: 20px;
+}
+
+.invalid-feedback{
+    color: rgb(252, 20, 20);
 }
 </style>
 

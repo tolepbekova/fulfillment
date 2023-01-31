@@ -141,13 +141,22 @@ export default {
                     recipient: this.organization,
                     shipping_address: this.address,
                     contacts: this.contacts,
-                    shipping_type: this.distributeType
+                    shipping_type: this.distributeType,
+                    // organization: parseInt(localStorage.getItem('user_id'))
+                },
+                {
+                    headers:{
+                        Authorization: 'Token ' + localStorage.getItem('usertoken')
+                    }
                 }).then((response) => {
+                    console.log(response.data)
                     localStorage.setItem('orderId', response.data.id)
                     this.$router.push('/request/2')
                 }).catch((error) => {
                     console.log(error)
                 })
+                
+                
             }
         },
         getShippingTypes(){
