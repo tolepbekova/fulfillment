@@ -179,16 +179,12 @@ export default {
                     // 'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'multipart/form-data'
                 }
-            }).then((response) => {
-                console.log(response.data)
+            }).then(() => {
                 alert('Успешно')
                 this.getInvoiceGoods()
                 this.$refs.file.reset()
             }).catch((error) => {
                 console.log(error.message)
-                if(error.message == 'Request failed with status code 500'){
-                    this.error = "Файл не прикреплен либо содержание не соответствует требуемого формата"
-                }
                 if(error.message == 'Request failed with status code 400'){
                     this.error = "Файл не прикреплен либо содержание не соответствует требуемого формата"
                 }

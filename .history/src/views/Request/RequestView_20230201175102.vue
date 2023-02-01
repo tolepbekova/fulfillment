@@ -509,7 +509,7 @@ export default {
         patchRequest(){
             this.$v.requestForm.$touch()
             if(!this.$v.requestForm.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') +'/', 
+                axios.put('http://87.255.194.27:8001/api/order/' + localStorage.getItem('orderId') +'/', 
                 {
                     organization: this.request.organization,
                     date: this.requestForm.date,

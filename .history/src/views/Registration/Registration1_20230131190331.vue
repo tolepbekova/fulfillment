@@ -223,8 +223,6 @@ export default {
 
         &__card{
             padding: 20px;
-            
-            border-radius: 5%;
         }
 
         &__row{
@@ -266,7 +264,7 @@ export default {
     height: 150px;
     img{
         max-width: 100%;
-        border-radius: 40%;
+        border-radius: 50%;
     }
 }
 

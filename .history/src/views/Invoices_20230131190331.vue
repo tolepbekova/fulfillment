@@ -133,17 +133,11 @@ import axios from 'axios'
         }
     },
     mounted(){
-        
+        this.getUserRole()
         this.getOrganizationInvoices()
         this.getOrganization()
         // this.requests()
         
-    },
-    // created(){
-    //     this.getUserRole()
-    // }
-    created : function() {
-        this.getUserRole()
-    },
+    }
   }
 </script>

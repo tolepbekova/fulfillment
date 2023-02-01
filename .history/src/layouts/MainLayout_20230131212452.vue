@@ -186,10 +186,6 @@ export default {
 .mt-4{
     color: aliceblue;
 }
-.v-toolbar__content{
-    .v-btn{
-        color:#d4d4d4;
-    }
-}
+
 
 </style>

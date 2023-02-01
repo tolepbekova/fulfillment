@@ -142,7 +142,7 @@ import axios from 'axios'
     // created(){
     //     this.getUserRole()
     // }
-    created : function() {
+    beforeCreate: function () {
         this.getUserRole()
     },
   }

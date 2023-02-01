@@ -10,9 +10,7 @@
                     <v-col cols="6">
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
-                                <h1 class="lname">Fulfillment eTrade Partner</h1>
-                                <br>
-                                <h2 class="name">Вход</h2>
+                                <h2>Вход</h2>
                                 <v-text-field 
                                     v-model="username" 
                                     class="input" 
@@ -37,12 +35,12 @@
                                     @click:append="showPassword = !showPassword"
                                 />
                                 <p class="invalid-feedback" v-if="error">{{error}}</p>
-                                <v-btn color="#C0C0C0" type="submit" class="form__button" :loading="loading" block>
+                                <v-btn color="#66FF99" type="submit" class="form__button" block>
                                     Войти
                                 </v-btn>
                                 <p class="form__text">Или</p>
                                 <router-link to="/registration/1">
-                                    <v-btn color="#1E90FF" class="form__button mb-5" block>
+                                    <v-btn color="#0099FF" class="form__button mb-5" block>
                                         Зарегистрироваться
                                     </v-btn>
                                 </router-link>
@@ -54,8 +52,6 @@
                         </v-card>
                     </v-col>
                 </v-row>
-                <a href="https://dzhandosoft.kz/" class="soft">  © Разработано компанией<ins> DzhandoSoft </ins></a> 
-            
             </v-container>
     </div>
 </template>
@@ -65,7 +61,6 @@ import axios from 'axios'
 import { required } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
-        loading: false,
         username: '',
         password: '',
         showPassword: false,
@@ -74,7 +69,6 @@ export default {
     methods:{
         submitHandler(){
             this.$v.$touch()
-            this.loading = true;
             if(!this.$v.$invalid){
                 axios.post('http://87.255.194.27:8001/auth/token/login/', 
                 {
@@ -136,8 +130,6 @@ export default {
 
         &__card{
             padding: 20px;
-            
-            border-radius: 5%;
         }
 
         &__row{
@@ -179,7 +171,7 @@ export default {
     height: 150px;
     img{
         max-width: 100%;
-        border-radius: 40%;
+        border-radius: 50%;
     }
 }
 
@@ -190,29 +182,5 @@ export default {
 .row{
     height: 100%;
 }
-.soft{
-    margin: 0;
-    position: absolute;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%) ;
-   
-    font-size: 18px;
-    font-family:Garamond;
-    color: #0000FF;
-}
-.lname{
-    text-align: center;
-    font-size: 30px;
-    font-family: Georgia;
-    color:#414c4c;
-   
-}
-.name{
-    text-align: center;
-    font-size: 25px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    color:#111212;
-   
-}
+
 </style>

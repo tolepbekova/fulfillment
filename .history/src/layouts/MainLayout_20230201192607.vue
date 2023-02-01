@@ -134,8 +134,11 @@ export default {
             })
         }
     },
-    mounted(){
+    created(){
         this.getUserName()
+    },
+    mounted(){
+        // this.getUserName()
     },
     watch: {
       group () {

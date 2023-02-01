@@ -4,16 +4,16 @@
             <v-card
             class="mx-auto overflow-hidden card"
             >
-                <v-app-bar 
-                color="rgb(38, 50, 56)"
+                <v-app-bar
+                color="rgb(203, 201, 201)"
                 
                 prominent
-                :height="58"
+                :height="55"
                 >
                 <!-- dark -->
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                <v-toolbar-title class="title">Fulfillment eTrade Partner</v-toolbar-title>
+                <v-toolbar-title class="title">Fullfilment eTrader</v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
@@ -178,18 +178,8 @@ export default {
 }
 
 .title{
-    font-family: "Lucida Console";
-    font-size: 1.53rem !important;
-    color:rgb(213, 211, 211);
-    
+    font-size: 1.23rem !important;
 }
-.mt-4{
-    color: aliceblue;
-}
-.v-toolbar__content{
-    .v-btn{
-        color:#d4d4d4;
-    }
-}
+
 
 </style>

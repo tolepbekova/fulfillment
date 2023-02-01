@@ -56,7 +56,6 @@
                     <tr
                     v-for="(good, index) in goodsList"
                     :key="good.id"
-                    v-if="good.result != 0"
                     >
                         <td>{{ good.invoice_id }}</td>
                         <td>{{ index + 1 }}</td>
@@ -65,7 +64,6 @@
                         <td>{{ good.bar_code }}</td>
                         <td>
                             <p v-if="good.result == null">{{ good.good_quantity }}</p>
-                            
                             <p v-else>{{good.result}}</p>
                         </td>
                         <td>
@@ -101,7 +99,7 @@
                             <!-- {{index}} -->
                             <!-- v-if="form.selectedGood[index] != null" -->
                             <p class="invalid-feedback" v-if="form.quantity_to_send[index] > (good.result === null ?  good.good_quantity : good.result)">Количество не должно превышать остаток</p>
-                            <p class="invalid-feedback" v-if="form.quantity_to_send[index] == 0">Количество товара должно превышать 0</p>
+                            <p class="invalid-feedback" v-if="form.quantity_to_send[index] == 0">Количество товара должно привышать 0</p>
                             <!-- <div v-if="!$v.form.quantity_to_send[index].required">Description is required.</div> -->
                         </td>
                         <td>
@@ -200,7 +198,7 @@ export default {
                 this.errors.arrayLength = 'Пожалуйста, выберите товары перед сохранением'
             }
             else{
-                axios.post('http://87.255.194.27:8001/api/good_to_send/',
+                axios.post('http://87.255.194.27:8001/api/goods_to_send/',
                 array,
                 {
                     headers:{
@@ -223,8 +221,7 @@ export default {
             
         },
         validateQuantity(value, maxLimit, result){
-            console.log("validateQuantity",value,maxLimit, result);
-            
+            console.log("validateQuantity",value,maxLimit);
             if (value > maxLimit || value == 0){
                 this.saveDisabled=true;
             }

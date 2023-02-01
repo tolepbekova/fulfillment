@@ -56,7 +56,6 @@
                     <tr
                     v-for="(good, index) in goodsList"
                     :key="good.id"
-                    v-if="good.result != 0"
                     >
                         <td>{{ good.invoice_id }}</td>
                         <td>{{ index + 1 }}</td>
@@ -65,7 +64,6 @@
                         <td>{{ good.bar_code }}</td>
                         <td>
                             <p v-if="good.result == null">{{ good.good_quantity }}</p>
-                            
                             <p v-else>{{good.result}}</p>
                         </td>
                         <td>

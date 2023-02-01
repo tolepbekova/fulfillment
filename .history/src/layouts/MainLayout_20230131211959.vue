@@ -178,18 +178,8 @@ export default {
 }
 
 .title{
-    font-family: "Lucida Console";
-    font-size: 1.53rem !important;
-    color:rgb(213, 211, 211);
-    
+    font-size: 1.23rem !important;
 }
-.mt-4{
-    color: aliceblue;
-}
-.v-toolbar__content{
-    .v-btn{
-        color:#d4d4d4;
-    }
-}
+
 
 </style>

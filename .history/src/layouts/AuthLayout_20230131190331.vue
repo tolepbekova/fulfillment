@@ -10,7 +10,6 @@
 <style lang="scss" scoped>
 .auth-layout {
     height: 100%;
-    background-color: #DCDCDC;
 		&__inner {
             // position: absolute;
             // top: 20%;

@@ -27,7 +27,7 @@
                     <v-icon>mdi-filter</v-icon>
                 </v-btn> -->
                 <div class="mr-5">
-                    <v-toolbar-title class="mt-4" style="font-size: 15px">{{username}}</v-toolbar-title>
+                    <v-toolbar-title class="title" style="font-size: 15px">{{username}}</v-toolbar-title>
                     
                 </div>
                 <v-btn @click="logout()" color="#00afef" small class="mt-3">
@@ -183,13 +183,6 @@ export default {
     color:rgb(213, 211, 211);
     
 }
-.mt-4{
-    color: aliceblue;
-}
-.v-toolbar__content{
-    .v-btn{
-        color:#d4d4d4;
-    }
-}
+
 
 </style>

@@ -139,11 +139,8 @@ import axios from 'axios'
         // this.requests()
         
     },
-    // created(){
-    //     this.getUserRole()
-    // }
-    created : function() {
+    created(){
         this.getUserRole()
-    },
+    }
   }
 </script>

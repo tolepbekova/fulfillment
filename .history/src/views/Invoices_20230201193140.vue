@@ -143,7 +143,7 @@ import axios from 'axios'
     //     this.getUserRole()
     // }
     created : function() {
-        this.getUserRole()
-    },
+        this.fetchUsers();
+  },
   }
 </script>

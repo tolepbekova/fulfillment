@@ -509,7 +509,7 @@ export default {
         patchRequest(){
             this.$v.requestForm.$touch()
             if(!this.$v.requestForm.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') +'/', 
+                axios.put('http://87.255.194.27:8001/api/order/' + localStorage.getItem('orderId') +'/', 
                 {
                     organization: this.request.organization,
                     date: this.requestForm.date,
@@ -531,7 +531,7 @@ export default {
             
         },
         deleteGood(value){
-            axios.delete('http://87.255.194.27:8001/api/order/' + this.request.id + '/good/' + value + '/good_to_send/delete', 
+            axios.delete('http://87.255.194.27:8001/api/order/' + request.id + '/good/' + value + '/good_to_send/delete', 
             {
                 headers:{
                    Authorization: 'Token ' + localStorage.getItem('usertoken')

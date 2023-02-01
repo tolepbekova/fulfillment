@@ -56,7 +56,6 @@
                     <tr
                     v-for="(good, index) in goodsList"
                     :key="good.id"
-                    v-if="good.result != 0"
                     >
                         <td>{{ good.invoice_id }}</td>
                         <td>{{ index + 1 }}</td>
@@ -65,7 +64,6 @@
                         <td>{{ good.bar_code }}</td>
                         <td>
                             <p v-if="good.result == null">{{ good.good_quantity }}</p>
-                            
                             <p v-else>{{good.result}}</p>
                         </td>
                         <td>
@@ -200,7 +198,7 @@ export default {
                 this.errors.arrayLength = 'Пожалуйста, выберите товары перед сохранением'
             }
             else{
-                axios.post('http://87.255.194.27:8001/api/good_to_send/',
+                axios.post('http://87.255.194.27:8001/api/goods_to_send/',
                 array,
                 {
                     headers:{

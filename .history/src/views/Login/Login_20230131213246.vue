@@ -12,7 +12,7 @@
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h1 class="lname">Fulfillment eTrade Partner</h1>
                                 <br>
-                                <h2 class="name">Вход</h2>
+                                <h2>Вход</h2>
                                 <v-text-field 
                                     v-model="username" 
                                     class="input" 
@@ -37,7 +37,7 @@
                                     @click:append="showPassword = !showPassword"
                                 />
                                 <p class="invalid-feedback" v-if="error">{{error}}</p>
-                                <v-btn color="#C0C0C0" type="submit" class="form__button" :loading="loading" block>
+                                <v-btn color="#C0C0C0" type="submit" class="form__button" block>
                                     Войти
                                 </v-btn>
                                 <p class="form__text">Или</p>
@@ -65,7 +65,6 @@ import axios from 'axios'
 import { required } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
-        loading: false,
         username: '',
         password: '',
         showPassword: false,
@@ -74,7 +73,6 @@ export default {
     methods:{
         submitHandler(){
             this.$v.$touch()
-            this.loading = true;
             if(!this.$v.$invalid){
                 axios.post('http://87.255.194.27:8001/auth/token/login/', 
                 {

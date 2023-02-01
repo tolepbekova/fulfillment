@@ -6,8 +6,7 @@
                     <v-col cols="6">
                         <v-card class="card">
                             <v-form @submit.prevent="submitHandler()">
-                                <h2 class="ln">Создание заявки на отправку</h2>
-                                <br>
+                                <h2>Создание заявки на отправку</h2>
                                 <v-menu
                                 ref="menu"
                                 v-model="menu"
@@ -99,7 +98,7 @@
                                     <v-btn
                                         class="mt-3"
                                         
-                                        color="grey"
+                                        color="orange darken-2"
                                         dark
                                     >
                                         <v-icon
@@ -212,8 +211,5 @@ export default {
 <style lang="scss" scoped>
 .card{
     padding: 20px;
-}
-.ln{
-font-size: 25px;
 }
 </style>

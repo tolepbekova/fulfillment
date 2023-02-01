@@ -1,6 +1,6 @@
 <template>
     <div class="requests">
-            <h2 class="mt-5 ml-5">Список заявок</h2> <br>
+            <h2 class="mt-5 ml-5">Список заявок</h2>
             <router-link to="/request/1">
                 <v-btn
                     v-if="role == 'Client'"

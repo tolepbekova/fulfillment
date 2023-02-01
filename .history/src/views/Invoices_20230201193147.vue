@@ -144,6 +144,6 @@ import axios from 'axios'
     // }
     created : function() {
         this.getUserRole()
-    },
+  },
   }
 </script>

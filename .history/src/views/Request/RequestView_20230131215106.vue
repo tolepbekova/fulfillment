@@ -33,7 +33,7 @@
             <template v-slot:default="dialog">
                 <v-card>
                 <v-toolbar
-                    color="grey"
+                    color="primary"
                     dark
                 >Редактирование заявки</v-toolbar>
                 <v-form class="card" @submit.prevent="patchRequest()">
@@ -408,18 +408,17 @@
                         </th>
                     </tr>
                 </thead>
-                
                 <tbody>
                     <tr
-                    v-for="(good, index) in request.good_to_send"
+                    v-for="(good, index) in request.goods_to_send"
                     :key="good.id"
                     >
                         <td>{{index + 1}}</td>
-                        <td>{{good.good__title}}</td>
-                        <td>{{good.good__vendor_code}}</td>
-                        <td>{{good.total}}</td>
+                        <td>{{good.good_name}}</td>
+                        <td>{{good.good_vendor_code}}</td>
+                        <td>{{good.quantity}}</td>
                         <td>
-                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
+                            <v-btn v-if="showButton == true" @click="deleteGood(good.id)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -509,7 +508,7 @@ export default {
         patchRequest(){
             this.$v.requestForm.$touch()
             if(!this.$v.requestForm.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') +'/', 
+                axios.put('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('orderId') +'/', 
                 {
                     organization: this.request.organization,
                     date: this.requestForm.date,
@@ -531,7 +530,7 @@ export default {
             
         },
         deleteGood(value){
-            axios.delete('http://87.255.194.27:8001/api/order/' + this.request.id + '/good/' + value + '/good_to_send/delete', 
+            axios.delete('http://87.255.194.27:8001/api/goods_to_send/' + value, 
             {
                 headers:{
                    Authorization: 'Token ' + localStorage.getItem('usertoken')

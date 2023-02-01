@@ -183,13 +183,6 @@ export default {
     color:rgb(213, 211, 211);
     
 }
-.mt-4{
-    color: aliceblue;
-}
-.v-toolbar__content{
-    .v-btn{
-        color:#d4d4d4;
-    }
-}
+
 
 </style>

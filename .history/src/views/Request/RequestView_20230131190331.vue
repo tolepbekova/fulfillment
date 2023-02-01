@@ -4,7 +4,7 @@
             <router-link to="/requests">
                 <v-btn
                     class="mt-3"               
-                    color="grey"
+                    color="orange darken-2"
                     dark
                 >
                 <v-icon
@@ -25,7 +25,7 @@
                 <v-btn
                 
                 class="ml-5 mt-3"
-                color="#0000CD"
+                color="primary"
                 v-bind="attrs"
                 v-on="on"
                 >Редактировать заявку</v-btn>
@@ -33,7 +33,7 @@
             <template v-slot:default="dialog">
                 <v-card>
                 <v-toolbar
-                    color="grey"
+                    color="primary"
                     dark
                 >Редактирование заявки</v-toolbar>
                 <v-form class="card" @submit.prevent="patchRequest()">
@@ -137,7 +137,7 @@
             </v-dialog>
             </span>
             <span v-if="request.goods_to_send != 0">
-                <v-btn v-if="request.is_draft == true" @click.prevent="sendOrder()" class="mt-3 ml-5" color="green">
+                <v-btn v-if="request.is_draft == true" @click.prevent="sendOrder()" class="mt-3 ml-5">
                     Отправить Заявку
                 </v-btn>
             </span>
@@ -186,7 +186,7 @@
                     <v-btn
                     v-if="request.bar_code == null"
                     class="mt-3"
-                    color="#98FB98"
+                    color=""
                     @click="generateBarCode()">
                     
                         Сгенерировать штрих-код
@@ -209,7 +209,7 @@
                         <template v-slot:default="dialog">
                             <v-card>
                             <v-toolbar
-                                color="#708090"
+                                color="primary"
                                 dark
                             >Создание посылки</v-toolbar>
                             <v-form class="card" @submit.prevent="sendBox()">
@@ -281,7 +281,7 @@
                             <v-card-actions class="justify-end">
                                 <v-btn
                                 text
-                                @click="dialog.value = false"  color="#708090"
+                                @click="dialog.value = false"
                                 >Назад</v-btn>
                             </v-card-actions>
                             </v-card>
@@ -290,7 +290,6 @@
                     </span>
                     <v-btn
                     class="mt-3 ml-5"
-                    color="#5CE562"
                     @click="exportToPDF">
                         Сохранить в PDF
                     </v-btn>
@@ -305,7 +304,8 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                         
-                        class="mt-3 ml-5" color="#87CEFA"
+                        class="mt-3 ml-5"
+                        color="primary"
                         v-bind="attrs"
                         v-on="on"
                         >Редактировать</v-btn>
@@ -313,7 +313,7 @@
                     <template v-slot:default="dialog">
                         <v-card>
                         <v-toolbar
-                            color="#708090"
+                            color="primary"
                             dark
                         >Редактировать</v-toolbar>
                         <v-form class="card" @submit.prevent="sendStatus()">
@@ -379,11 +379,11 @@
                     </v-card-subtitle>
                 </div>
             </v-card>
-            <v-btn v-if="request.is_draft == true" @click.prevent="showButton = !showButton" class="mt-5" color="rgb(206, 234, 251)">
-                Редактировать список товаров
+            <v-btn v-if="request.is_draft == true" @click.prevent="showButton = !showButton" class="mt-5">
+                Редактировать товары
             </v-btn>
             <router-link to="/request/2">
-                <v-btn v-if="showButton == true" @click="setToStorage(request.id)" class="mt-5 ml-5" color="rgb(204, 249, 195)">
+                <v-btn v-if="showButton == true" @click="setToStorage(request.id)" class="mt-5 ml-5">
                     Добавить товары
                 </v-btn>
             </router-link>
@@ -408,18 +408,17 @@
                         </th>
                     </tr>
                 </thead>
-                
                 <tbody>
                     <tr
-                    v-for="(good, index) in request.good_to_send"
+                    v-for="(good, index) in request.goods_to_send"
                     :key="good.id"
                     >
                         <td>{{index + 1}}</td>
-                        <td>{{good.good__title}}</td>
-                        <td>{{good.good__vendor_code}}</td>
-                        <td>{{good.total}}</td>
+                        <td>{{good.good_name}}</td>
+                        <td>{{good.good_vendor_code}}</td>
+                        <td>{{good.quantity}}</td>
                         <td>
-                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
+                            <v-btn v-if="showButton == true" @click="deleteGood(good.id)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -509,7 +508,7 @@ export default {
         patchRequest(){
             this.$v.requestForm.$touch()
             if(!this.$v.requestForm.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') +'/', 
+                axios.put('http://87.255.194.27:8001/api/orders/'+ localStorage.getItem('orderId') +'/', 
                 {
                     organization: this.request.organization,
                     date: this.requestForm.date,
@@ -531,7 +530,7 @@ export default {
             
         },
         deleteGood(value){
-            axios.delete('http://87.255.194.27:8001/api/order/' + this.request.id + '/good/' + value + '/good_to_send/delete', 
+            axios.delete('http://87.255.194.27:8001/api/goods_to_send/' + value, 
             {
                 headers:{
                    Authorization: 'Token ' + localStorage.getItem('usertoken')
