@@ -195,7 +195,7 @@
                         <v-dialog
                         transition="dialog-top-transition"
                         max-width="600"
-                        v-model="dialogPackage"
+                        v-model="dialog"
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
@@ -322,10 +322,11 @@
                                             class="input" 
                                             label="Номер ячейки:" 
                                             placeholder="454"
-                                            
+                                            :error-messages="statusCellnumberErrors"
                                             required
                                             
-                                            
+                                            @input="$v.cellstatus.cell_number.$touch()"
+                                            @blur="$v.cellstatus.cell_number.$touch()"
                                         />
                                         <v-select
                                         v-model="cellstatus.cstatus"
@@ -386,47 +387,7 @@
                     Добавить товары
                 </v-btn>
             </router-link>
-            <v-simple-table v-if="role=='Admin_ff'" class="mt-5">
-                <template v-slot:default>
-                <thead>
-                    <tr>
-                        <th class="text-left">
-                            №
-                        </th>
-                        <th class="text-left">
-                            Наименование товара
-                        </th>
-                        <th class="text-left">
-                            Артикул
-                        </th>
-                        <th class="text-left">
-                            Количество на отправку
-                        </th>
-                        <th class="text-left">
-                            
-                        </th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr
-                    v-for="(good, index) in request.good_to_send"
-                    :key="good.id"
-                    >
-                        <td>{{index + 1}}</td>
-                        <td>{{good.good_name}}</td>
-                        <td>{{good.good_vendor_code}}</td>
-                        <td>{{good.quantity}}</td>
-                        <td>
-                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
-                                &#10006;
-                            </v-btn>
-                        </td>
-                    </tr>
-                </tbody>
-                </template>
-            </v-simple-table>
-            <v-simple-table v-if="role=='Client'" class="mt-5">
+            <v-simple-table class="mt-5">
                 <template v-slot:default>
                 <thead>
                     <tr>
@@ -458,7 +419,7 @@
                         <td>{{good.good__vendor_code}}</td>
                         <td>{{good.total}}</td>
                         <td>
-                            <v-btn color="red" v-if="showButton == true"  @click="deleteGood(good.good)">
+                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -478,7 +439,6 @@ import { required, minLength } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
         dialog: false,
-        dialogPackage: false,
         request: {},
         barcode: '',
         requestForm:{
@@ -651,7 +611,7 @@ export default {
                 }).then(() => {
                     alert('успешно')
                     this.getRequestData()
-                    this.dialogPackage=false
+                    this.dialog=false
                 }).catch((error) => {
                     console.log(error)
                     Object.keys(error.response.data).forEach((key) => {
@@ -803,7 +763,7 @@ export default {
             capacity_m3: {required}
         },
         cellstatus:{
-            // cell_number: {required},
+            cell_number: {required},
             cstatus: {required}
         }
     }
@@ -816,9 +776,6 @@ export default {
 }
 
 .card{
-    padding: 20px;
-}
-.cardd{
     padding: 20px;
 }
 .invalid-feedback{

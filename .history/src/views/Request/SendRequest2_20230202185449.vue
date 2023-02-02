@@ -13,7 +13,7 @@
                 
             </div>
             <div style="display: flex; justify-content: end;" class="">
-                <p class="invalid-feedback mr-5 mt-5" v-if="errors.arrayLength">{{errors.arrayLength}}</p>
+                <p class="invalid-feedback" v-if="errors.arrayLength">{{errors.arrayLength}}</p>
             </div>
             
             <v-simple-table>
@@ -64,9 +64,10 @@
                         <td>{{ good.vendor_code }}</td>
                         <td>{{ good.bar_code }}</td>
                         <td>
-                            <p v-if="good.result == null">{{ good.good_quantity }}</p>
+                            <!-- <p v-if="good.result == null">{{ good.good_quantity }}</p>
                             
-                            <p v-else>{{good.result}}</p>
+                            <p v-else>{{good.result}}</p> -->
+                            <p>{{ good.result }}</p>
                         </td>
                         <td>
                             <v-checkbox

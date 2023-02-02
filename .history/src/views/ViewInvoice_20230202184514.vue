@@ -36,7 +36,7 @@
                     <v-col v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
                             <v-row class="mt-5">
-                                <v-col cols="4">
+                                <v-col>
                                     <v-file-input
                                         
                                         id="file"
@@ -48,7 +48,7 @@
                                 </v-col>
 
                                 
-                                <v-col cols="6">
+                                <v-col>
                                     
                                     <v-btn
                                     dark
@@ -63,9 +63,8 @@
                                     </v-icon>
                                         Загрузить
                                     </v-btn>
-                                    <p class="invalid-feedback" v-if="error">{{error}}</p>
                                 </v-col>
-                                
+                                <p class="invalid-feedback" v-if="error">{{error}}</p>
                                 
                                 <v-col></v-col>
                             </v-row>
@@ -81,7 +80,7 @@
                             Накладная
                         </th> -->
                         <th class="text-left">
-                            №
+                            ID
                         </th>
                         <th class="text-left">
                             Наименование
@@ -126,11 +125,11 @@
                 </thead>
                 <tbody>
                     <tr
-                    v-for="(good, index) in goodList"
+                    v-for="good in goodList"
                     :key="good.id"
                     >
                         <!-- <td>{{ good.invoice_detail[0] }}</td> -->
-                        <td>{{ index + 1 }}</td>
+                        <td>{{ good.id }}</td>
                         <td>{{ good.title }}</td>
                         <td>{{ good.vendor_code }}</td>
                         <td>{{ good.good_quantity }}</td>

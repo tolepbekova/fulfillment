@@ -81,7 +81,7 @@
                             Накладная
                         </th> -->
                         <th class="text-left">
-                            №
+                            ID
                         </th>
                         <th class="text-left">
                             Наименование

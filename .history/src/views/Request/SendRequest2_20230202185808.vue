@@ -10,10 +10,10 @@
                 type="submit">
                     Сохранить в черновик
                 </v-btn>
-                
+                <br>
             </div>
             <div style="display: flex; justify-content: end;" class="">
-                <p class="invalid-feedback mr-5 mt-5" v-if="errors.arrayLength">{{errors.arrayLength}}</p>
+                <p class="invalid-feedback" v-if="errors.arrayLength">{{errors.arrayLength}}</p>
             </div>
             
             <v-simple-table>

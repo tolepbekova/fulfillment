@@ -36,7 +36,7 @@
                     <v-col v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
                             <v-row class="mt-5">
-                                <v-col cols="4">
+                                <v-col>
                                     <v-file-input
                                         
                                         id="file"
@@ -48,7 +48,7 @@
                                 </v-col>
 
                                 
-                                <v-col cols="6">
+                                <v-col>
                                     
                                     <v-btn
                                     dark
@@ -63,10 +63,8 @@
                                     </v-icon>
                                         Загрузить
                                     </v-btn>
-                                    <p class="invalid-feedback" v-if="error">{{error}}</p>
                                 </v-col>
-                                
-                                
+                                <p class="invalid-feedback" v-if="error">{{error}}</p>
                                 <v-col></v-col>
                             </v-row>
                         </form>
@@ -81,7 +79,7 @@
                             Накладная
                         </th> -->
                         <th class="text-left">
-                            №
+                            ID
                         </th>
                         <th class="text-left">
                             Наименование
@@ -126,11 +124,11 @@
                 </thead>
                 <tbody>
                     <tr
-                    v-for="(good, index) in goodList"
+                    v-for="good in goodList"
                     :key="good.id"
                     >
                         <!-- <td>{{ good.invoice_detail[0] }}</td> -->
-                        <td>{{ index + 1 }}</td>
+                        <td>{{ good.id }}</td>
                         <td>{{ good.title }}</td>
                         <td>{{ good.vendor_code }}</td>
                         <td>{{ good.good_quantity }}</td>
@@ -181,35 +179,34 @@ export default {
                     // 'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'multipart/form-data'
                 }
-            }) .then((response) => {
+            }).then((response) => {
                 console.log(response)
                 alert('Успешно')
                 this.getInvoiceGoods()
                 this.$refs.file.reset()
-
-                // responresponse.data.status == "201"
-                // this.response = "Успешно"
-
-            }) .catch((error) => {
+            }).catch((error) => {
                 console.log(error)
-
                 
-                if(error.response.data.error == 'No file uploaded or file data does not correspond required format to upload goods'){
-                    this.error = 'Файл не прикреплен или формат не соответствует требованиям'
+               
+
+                if(error.message == 'Request failed with status code 400',
+                    error.response.data.error == "Data is not valid"){
+                    this.error = "Cодержание не соответствует требуемого формата"
                 }
 
-                if(error.response.data.error == 'Data is not valid'){
-                    this.error = 'Данные файла не валидны'
+                if(error.message == 'Request failed with status code 500'){
+                    this.error = "Файл не прикреплен либо содержание не соответствует требуемого формата"
                 }
-            
-            
+                
+
+                // if(error.message == 'Request failed with status code 400'){
+                //     this.error = "Файл не прикреплен либо содержание не соответствует требуемого формата"
+                // }
               
             })
-            
         },
         handleFileUpload: function(file){
             this.file = file;
-            this.error = ''
         },
         getInvoiceGoods(){
             axios.get('http://87.255.194.27:8001/api/organization/invoice/' + localStorage.getItem('invoiceId'),

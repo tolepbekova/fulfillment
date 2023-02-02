@@ -458,7 +458,7 @@
                         <td>{{good.good__vendor_code}}</td>
                         <td>{{good.total}}</td>
                         <td>
-                            <v-btn color="red" v-if="showButton == true"  @click="deleteGood(good.good)">
+                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -467,7 +467,7 @@
                 </template>
             </v-simple-table>
         </v-container>
-        
+        {{ role }}
     </div>
 </template>
 

@@ -7,10 +7,10 @@
                 <thead>
                     <tr>
                         <th class="text-left">
-                            №
+                            Накладная
                         </th>
                         <th class="text-left">
-                            Накладная
+                            ID
                         </th>
                         <th class="text-left">
                             Наименование
@@ -55,12 +55,11 @@
                 </thead>
                 <tbody>
                     <tr
-                    v-for="(good, index) in goodsList"
+                    v-for="good in goodsList"
                     :key="good.id"
                     >
-                        <td>{{ index + 1 }}</td>
                         <td>{{ good.invoice_detail[0] }}</td>
-                        
+                        <td>{{ good.id }}</td>
                         <td>{{ good.title }}</td>
                         <td>{{ good.vendor_code }}</td>
                         <td>{{ good.good_quantity }}</td>

@@ -386,7 +386,7 @@
                     Добавить товары
                 </v-btn>
             </router-link>
-            <v-simple-table v-if="role=='Admin_ff'" class="mt-5">
+            <v-simple-table v-if="role='Admin_ff'" class="mt-5">
                 <template v-slot:default>
                 <thead>
                     <tr>
@@ -426,7 +426,7 @@
                 </tbody>
                 </template>
             </v-simple-table>
-            <v-simple-table v-if="role=='Client'" class="mt-5">
+            <v-simple-table v-if="role='Client'" class="mt-5">
                 <template v-slot:default>
                 <thead>
                     <tr>
@@ -458,7 +458,7 @@
                         <td>{{good.good__vendor_code}}</td>
                         <td>{{good.total}}</td>
                         <td>
-                            <v-btn color="red" v-if="showButton == true"  @click="deleteGood(good.good)">
+                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -467,7 +467,7 @@
                 </template>
             </v-simple-table>
         </v-container>
-        
+        {{ role }}
     </div>
 </template>
 
