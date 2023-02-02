@@ -81,7 +81,7 @@
                             Накладная
                         </th> -->
                         <th class="text-left">
-                            №
+                            ID
                         </th>
                         <th class="text-left">
                             Наименование
@@ -126,11 +126,11 @@
                 </thead>
                 <tbody>
                     <tr
-                    v-for="(good, index) in goodList"
+                    v-for="good in goodList"
                     :key="good.id"
                     >
                         <!-- <td>{{ good.invoice_detail[0] }}</td> -->
-                        <td>{{ index + 1 }}</td>
+                        <td>{{ good.id }}</td>
                         <td>{{ good.title }}</td>
                         <td>{{ good.vendor_code }}</td>
                         <td>{{ good.good_quantity }}</td>

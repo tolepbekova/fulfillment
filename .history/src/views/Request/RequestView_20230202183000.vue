@@ -386,7 +386,7 @@
                     Добавить товары
                 </v-btn>
             </router-link>
-            <v-simple-table v-if="role=='Admin_ff'" class="mt-5">
+            <v-simple-table v-if="role='Admin_ff'" class="mt-5">
                 <template v-slot:default>
                 <thead>
                     <tr>
@@ -419,46 +419,6 @@
                         <td>{{good.quantity}}</td>
                         <td>
                             <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
-                                &#10006;
-                            </v-btn>
-                        </td>
-                    </tr>
-                </tbody>
-                </template>
-            </v-simple-table>
-            <v-simple-table v-if="role=='Client'" class="mt-5">
-                <template v-slot:default>
-                <thead>
-                    <tr>
-                        <th class="text-left">
-                            №
-                        </th>
-                        <th class="text-left">
-                            Наименование товара
-                        </th>
-                        <th class="text-left">
-                            Артикул
-                        </th>
-                        <th class="text-left">
-                            Количество на отправку
-                        </th>
-                        <th class="text-left">
-                            
-                        </th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr
-                    v-for="(good, index) in request.good_to_send"
-                    :key="good.id"
-                    >
-                        <td>{{index + 1}}</td>
-                        <td>{{good.good__title}}</td>
-                        <td>{{good.good__vendor_code}}</td>
-                        <td>{{good.total}}</td>
-                        <td>
-                            <v-btn color="red" v-if="showButton == true"  @click="deleteGood(good.good)">
                                 &#10006;
                             </v-btn>
                         </td>

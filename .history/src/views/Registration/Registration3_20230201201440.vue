@@ -110,7 +110,7 @@
                                 @blur="$v.director_phone.$touch()"
                                 />
 
-                                <!-- <v-text-field
+                                <v-text-field
                                 class="input" 
                                 v-model="fulfillment" 
                                 label="Fulfillment" 
@@ -118,7 +118,7 @@
                                 :error-messages="fulfillmentErrors"
                                 @change="$v.fulfillment.$touch()"
                                 @blur="$v.fulfillment.$touch()"
-                                /> -->
+                                />
                                 <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
                                     Зарегистрироваться

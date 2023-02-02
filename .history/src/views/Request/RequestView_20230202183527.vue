@@ -458,7 +458,7 @@
                         <td>{{good.good__vendor_code}}</td>
                         <td>{{good.total}}</td>
                         <td>
-                            <v-btn color="red" v-if="showButton == true"  @click="deleteGood(good.good)">
+                            <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -689,7 +689,7 @@ export default {
         sendStatus(){
             this.$v.cellstatus.$touch()
             if(!this.$v.cellstatus.$invalid){
-                axios.put('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') + '/fulfillment/update/',
+                axios.patch('http://87.255.194.27:8001/api/orders/' + localStorage.getItem('orderId') + '/fulfillment/update/',
                 {
                     cell_number: this.cellstatus.cell_number,
                     status: this.cellstatus.cstatus

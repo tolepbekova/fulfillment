@@ -65,6 +65,7 @@ import axios from 'axios'
 import { required } from 'vuelidate/lib/validators'
 export default {
     data: () => ({
+        
         username: '',
         password: '',
         showPassword: false,
@@ -73,6 +74,7 @@ export default {
     methods:{
         submitHandler(){
             this.$v.$touch()
+            
             if(!this.$v.$invalid){
                 axios.post('http://87.255.194.27:8001/auth/token/login/', 
                 {
