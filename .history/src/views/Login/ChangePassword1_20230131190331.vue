@@ -49,7 +49,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post('http://87.255.194.66:1337/auth/users/reset_password/',
+                axios.post('http://87.255.194.27:8001/auth/users/reset_password/',
                 {
                     email: this.email
                 },
