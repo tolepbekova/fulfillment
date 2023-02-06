@@ -68,7 +68,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post('http://87.255.194.66:1337/auth/users/reset_password_confirm/', 
+                axios.post('http://0.0.0.0:8000/auth/users/reset_password_confirm/', 
                 {
                     
                 }).then((response) => {
@@ -80,7 +80,7 @@ export default {
             }
         },
         getToken(){
-            axios.get('http://87.255.194.66:1337/users/password/reset/confirm/',
+            axios.get('http://87.255.194.27:8001/users/password/reset/confirm/',
             {
                 // headers:{
                 //     Authorization: 'Token ' + localStorage.getItem('usertoken')

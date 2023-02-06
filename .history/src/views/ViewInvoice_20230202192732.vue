@@ -35,7 +35,7 @@
                     </v-col>
                     <v-col v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
-                            <v-row class="mt-5">
+                            <v-row class="">
                                 <v-col cols="4">
                                     <v-file-input
                                         
@@ -149,10 +149,7 @@
                 </template>
             </v-simple-table>
         </div>
-
-	</div>
-
-
+    </div>
 </template>
 
 <script>
@@ -174,7 +171,7 @@ export default {
             formData.append('file', this.file);
             formData.append('invoice', localStorage.getItem('invoiceId'))
             console.log(csrfToken)
-            axios.post('http://87.255.194.66:1337/api/goods/download/',
+            axios.post('http://87.255.194.27:8001/api/goods/download/',
             
                 formData,
             
@@ -215,7 +212,7 @@ export default {
             this.error = ''
         },
         getInvoiceGoods(){
-            axios.get('http://87.255.194.66:1337/api/organization/invoice/' + localStorage.getItem('invoiceId'),
+            axios.get('http://87.255.194.27:8001/api/organization/invoice/' + localStorage.getItem('invoiceId'),
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -237,7 +234,6 @@ export default {
         this.getInvoiceGoods()
     }
 }
-
 </script>
 
 <style lang="scss" scoped>
