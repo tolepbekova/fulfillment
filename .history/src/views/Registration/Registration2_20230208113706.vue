@@ -48,15 +48,10 @@
                                 v-model="phone" 
                                 class="input" 
                                 label="Телефон"
-                                maxlength="18" 
-
-                                v-mask="'+7 (###) ###-##-##'"
+                                maxlength="12" 
                                 placeholder="+777******"
-                            
-                                @keypress="isNumber"
-                                @accept="onAccept"
-                               
-                                />
+                                
+                                @keypress="isNumber"/>
                                 
                                 <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
                                 <v-btn type="submit" class="form__button button-register" color="primary" block>
@@ -141,23 +136,16 @@
 <script>
 import axios from 'axios'
 import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
-
-
-
 export default {
     data: () => ({
         first_name: '',
         last_name: '',
-        phone: '',
+        phone: '+',
         email: '',
         errors:{
             exists: ''
-        },
-      
-       
+        }
     }),
-   
-    
     methods: {
         submitHandler(){
             this.$v.$touch()
@@ -196,21 +184,13 @@ export default {
             if (e.preventDefault) e.preventDefault();
             }
         },
-        onAccept(e){
-            const maskRef = e.detail
-            this.phone = maskRef.value
-        },
-
-
-//add directives 
-
         isLetter (e) {
         const regex = /^([а-яё\s]+|[a-z\s]+)$/iu
         if (!regex.test(e.key)) {
             e.returnValue = false;
             if (e.preventDefault) e.preventDefault();
             }
-        } 
+        }
     },
     computed:{
         firstnameErrors () {
@@ -247,8 +227,6 @@ export default {
         email: {required, email}
     }
 }
-
-
 </script>
 
 <style lang="scss" scoped>

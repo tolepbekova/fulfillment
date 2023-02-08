@@ -48,7 +48,7 @@
                                 v-model="phone" 
                                 class="input" 
                                 label="Телефон"
-                                maxlength="18" 
+                                maxlength="16" 
 
                                 v-mask="'+7 (###) ###-##-##'"
                                 placeholder="+777******"

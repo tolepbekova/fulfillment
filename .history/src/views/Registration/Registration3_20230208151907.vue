@@ -91,7 +91,7 @@
                                 v-mask="'+7 (###) ###-##-##'"
                                 placeholder="+777******"
                                 @keypress="isNumber"
-                                
+                                @accept="onAccept"
                                 maxLength="18"
                                 />
 
@@ -109,11 +109,8 @@
                                 class="input" 
                                 v-model="director_phone" 
                                 label="Телефон директора" 
-                                placeholder="+777******"
-                                @keypress="isNumber"
-                                maxlength="18"
-                                
-                                v-mask="'+7 (###) ###-##-##'"
+                                placeholder="+77001616757"
+                                maxLength="12"
                                 :error-messages="directorphoneErrors"
                                 @change="$v.director_phone.$touch()"
                                 @blur="$v.director_phone.$touch()"
@@ -433,7 +430,8 @@ export default {
         IBAN: {required},
         phone: {required, minLength: minLength(11)},
         director_name: {required},
-        director_phone: {required}
+        director_phone: {required},
+        fulfillment: {required}
     },
     mounted(){
         this.getOrgType(),

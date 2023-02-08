@@ -6,8 +6,6 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import '@mdi/font/css/materialdesignicons.css'
-import VueDirectiveMask from '@vuejs-community/vue-directive-mask';
-
 
 
 Vue.use(Vuelidate)

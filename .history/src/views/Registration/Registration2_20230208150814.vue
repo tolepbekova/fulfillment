@@ -48,7 +48,7 @@
                                 v-model="phone" 
                                 class="input" 
                                 label="Телефон"
-                                maxlength="18" 
+                                maxlength="12" 
 
                                 v-mask="'+7 (###) ###-##-##'"
                                 placeholder="+777******"
@@ -141,7 +141,7 @@
 <script>
 import axios from 'axios'
 import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
-
+import VueDirectiveMask from '@vuejs-community/vue-directive-mask';
 
 
 export default {

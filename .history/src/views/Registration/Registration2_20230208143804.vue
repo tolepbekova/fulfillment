@@ -48,9 +48,9 @@
                                 v-model="phone" 
                                 class="input" 
                                 label="Телефон"
-                                maxlength="18" 
-
-                                v-mask="'+7 (###) ###-##-##'"
+                                maxlength="12" 
+                                v-mask=" '+{7}(000)000-00-00'"
+                               
                                 placeholder="+777******"
                             
                                 @keypress="isNumber"
@@ -141,7 +141,7 @@
 <script>
 import axios from 'axios'
 import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
-
+import{ VueDirectiveMask } from '@vuejs-community/vue-directive-mask'
 
 
 export default {
@@ -153,7 +153,10 @@ export default {
         errors:{
             exists: ''
         },
-      
+        phoneNumberMask:  {
+            mask: '+{7}(000)000-00-00' ,
+            lazy: true
+        }
        
     }),
    
@@ -202,6 +205,10 @@ export default {
         },
 
 
+        directives: {
+            mask: VueDirectiveMask
+            
+        },
 //add directives 
 
         isLetter (e) {
