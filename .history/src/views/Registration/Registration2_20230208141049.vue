@@ -48,14 +48,13 @@
                                 v-model="phone" 
                                 class="input" 
                                 label="Телефон"
-                                maxlength="18" 
-
-                                v-mask="'+7 (###) ###-##-##'"
+                                maxlength="12" 
+                                v-mask="phoneNumberMask"
                                 placeholder="+777******"
                             
                                 @keypress="isNumber"
                                 @accept="onAccept"
-                               
+                                @complete="onComplete"
                                 />
                                 
                                 <p class="invalid-feedback" v-if="errors.exists">{{errors.exists}}</p>
@@ -141,22 +140,23 @@
 <script>
 import axios from 'axios'
 import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
-
+import{ VueDirectiveMask } from '@vuejs-community/vue-directive-mask'
 
 
 export default {
     data: () => ({
         first_name: '',
         last_name: '',
-        phone: '',
+        phone: '+',
         email: '',
         errors:{
             exists: ''
         },
-      
-       
+        phoneNumberMask:  {
+            mask: '+{7}(000)000-00-00' ,
+            lazy: true
+        }
     }),
-   
     
     methods: {
         submitHandler(){
@@ -202,6 +202,10 @@ export default {
         },
 
 
+        directives: {
+            mask: VueDirectiveMask
+            
+        },
 //add directives 
 
         isLetter (e) {
@@ -247,7 +251,6 @@ export default {
         email: {required, email}
     }
 }
-
 
 </script>
 

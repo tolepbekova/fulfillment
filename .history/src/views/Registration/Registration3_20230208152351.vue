@@ -433,7 +433,8 @@ export default {
         IBAN: {required},
         phone: {required, minLength: minLength(11)},
         director_name: {required},
-        director_phone: {required}
+        director_phone: {required},
+        fulfillment: {required}
     },
     mounted(){
         this.getOrgType(),

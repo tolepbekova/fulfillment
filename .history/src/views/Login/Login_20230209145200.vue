@@ -196,20 +196,20 @@ export default {
     transform: translate(-50%, -50%) ;
    
     font-size: 18px;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family:Garamond;
     color: #000000;
 }
 .lname{
     text-align: center;
     font-size: 30px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Garamond;
     color:#414c4c;
    
 }
 .name{
     text-align: center;
     font-size: 25px;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family:Garamond;
     color:#111212;
    
 }
