@@ -54,7 +54,7 @@
                         </v-card>
                     </v-col>
                 </v-row>
-                <a href="https://dzhandosoft.kz/" class="soft" target="_blank">  © Разработано компанией<ins> DzhandoSoft </ins></a> 
+                <a href="https://dzhandosoft.kz/" class="soft">  © Разработано компанией<ins> DzhandoSoft </ins></a> 
             
             </v-container>
     </div>
@@ -196,20 +196,20 @@ export default {
     transform: translate(-50%, -50%) ;
    
     font-size: 18px;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family:Garamond;
     color: #000000;
 }
 .lname{
     text-align: center;
     font-size: 30px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia;
     color:#414c4c;
    
 }
 .name{
     text-align: center;
     font-size: 25px;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     color:#111212;
    
 }
