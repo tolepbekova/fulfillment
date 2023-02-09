@@ -75,7 +75,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link to="/organizations">
+                    <router-link to="/">
                         <v-list-item>
                             <v-list-item-title>Организации</v-list-item-title>
                         </v-list-item>
