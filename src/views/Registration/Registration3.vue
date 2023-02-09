@@ -424,8 +424,7 @@ export default {
         IBAN: {required},
         phone: {required, minLength: minLength(11)},
         director_name: {required},
-        director_phone: {required},
-        fulfillment: {required}
+        director_phone: {required}
     },
     mounted(){
         this.getOrgType(),
