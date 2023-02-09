@@ -414,9 +414,9 @@
                     :key="good.id"
                     >
                         <td>{{index + 1}}</td>
-                        <td>{{good.good__title}}</td>
-                        <td>{{good.good__vendor_code}}</td>
-                        <td>{{good.total}}</td>
+                        <td>{{good.good_name}}</td>
+                        <td>{{good.good_vendor_code}}</td>
+                        <td>{{good.quantity}}</td>
                         <td>
                             <v-btn v-if="showButton == true" @click="deleteGood(good.good)">
                                 &#10006;
