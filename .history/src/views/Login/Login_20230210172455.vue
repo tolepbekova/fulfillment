@@ -1,13 +1,13 @@
 <template>
     <div class="form">
             <v-container>
-                <v-row class="d-flex justify-center align-center justify-space-around" >
-                    <v-col class="d-flex align-center  " cols="2">
+                <v-row class="d-flex  align-center">
+                    <v-col class="d-flex align-center" cols="2">
                         <div class="logo">
                             <img src="../../assets/logo/fullfilment-logo.svg" alt="logo">
                         </div>
                     </v-col>
-                    <v-col  cols="6">
+                    <v-col class="d-flex " cols="6">
                         <v-card class="form__card">
                             <v-form @submit.prevent="submitHandler()" class="form">
                                 <h1 class="lname">Fulfillment eTrade Partner</h1>
@@ -173,13 +173,11 @@ export default {
 }
 
 .logo{
-     position: absolute;
-    // width: 150px;
-    // height: 150px;
    
+    width: 150px;
+    height: 150px;
     img{
-        // position:fixed;
-        max-width: 60%;
+        max-width: 100%;
         border-radius: 40%;
     }
 }

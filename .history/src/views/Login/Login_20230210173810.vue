@@ -1,8 +1,8 @@
 <template>
     <div class="form">
             <v-container>
-                <v-row class="d-flex justify-center align-center justify-space-around" >
-                    <v-col class="d-flex align-center  " cols="2">
+                <v-row class="d-flex justify-center align-center">
+                    <v-col class="d-flex align-center" cols="2">
                         <div class="logo">
                             <img src="../../assets/logo/fullfilment-logo.svg" alt="logo">
                         </div>
@@ -173,13 +173,13 @@ export default {
 }
 
 .logo{
-     position: absolute;
-    // width: 150px;
-    // height: 150px;
-   
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    left: 150px;
     img{
         // position:fixed;
-        max-width: 60%;
+        max-width: 250px;
         border-radius: 40%;
     }
 }

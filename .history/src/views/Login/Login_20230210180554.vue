@@ -2,7 +2,7 @@
     <div class="form">
             <v-container>
                 <v-row class="d-flex justify-center align-center justify-space-around" >
-                    <v-col class="d-flex align-center  " cols="2">
+                    <v-col class="d-flex align-center justify-space-around " cols="2">
                         <div class="logo">
                             <img src="../../assets/logo/fullfilment-logo.svg" alt="logo">
                         </div>

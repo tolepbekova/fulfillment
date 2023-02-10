@@ -262,15 +262,13 @@ export default {
 }
 
 .logo{
-     position: absolute;
-    // width: 150px;
-    // height: 150px;
-   
+    width: 150px;
+    height: 150px;
     img{
-        // position:fixed;
-        max-width: 60%;
+        max-width: 100%;
         border-radius: 40%;
-    }}
+    }
+}
 
 .container{
     height: 100%;
