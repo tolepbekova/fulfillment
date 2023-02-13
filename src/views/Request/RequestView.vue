@@ -1,6 +1,7 @@
 <template>
     <div class="request">
         <v-container>
+            
             <router-link to="/requests">
                 <v-btn
                     class="mt-3"               
@@ -25,7 +26,7 @@
                 <v-btn
                 
                 class="ml-5 mt-3"
-                color="#0000CD"
+                color="primary"
                 v-bind="attrs"
                 v-on="on"
                 >Редактировать заявку</v-btn>
@@ -185,8 +186,8 @@
                 <div class="">
                     <v-btn
                     v-if="request.bar_code == null"
-                    class="mt-3"
-                    color="#98FB98"
+                    class="mt-3 white--text"
+                    color="green"
                     @click="generateBarCode()">
                     
                         Сгенерировать штрих-код
@@ -277,7 +278,7 @@
                                             dark  type="submit" class="form__button mt-3" block>
                                                 Сохранить
                                             </v-btn>
-                                    </v-form>
+                                  </v-form>
                             <v-card-actions class="justify-end">
                                 <v-btn
                                 text
@@ -289,8 +290,8 @@
                         </v-dialog>
                     </span>
                     <v-btn
-                    class="mt-3 ml-5"
-                    color="#5CE562"
+                    class="mt-3 ml-5 white--text"
+                    color="green"
                     @click="exportToPDF">
                         Сохранить в PDF
                     </v-btn>
@@ -305,7 +306,7 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                         
-                        class="mt-3 ml-5" color="#87CEFA"
+                        class="mt-3 ml-5 white--text" color="#1976d2"
                         v-bind="attrs"
                         v-on="on"
                         >Редактировать</v-btn>
@@ -378,11 +379,11 @@
                     </v-card-subtitle>
                 </div>
             </v-card>
-            <v-btn v-if="request.is_draft == true" @click.prevent="showButton = !showButton" class="mt-5" color="rgb(206, 234, 251)">
+            <v-btn v-if="request.is_draft == true" @click.prevent="showButton = !showButton" class="mt-5" color="primary">
                 Редактировать список товаров
             </v-btn>
             <router-link to="/request/2">
-                <v-btn v-if="showButton == true" @click="setToStorage(request.id)" class="mt-5 ml-5" color="rgb(204, 249, 195)">
+                <v-btn v-if="showButton == true" @click="setToStorage(request.id)" class="mt-5 ml-5" color="green">
                     Добавить товары
                 </v-btn>
             </router-link>
@@ -458,7 +459,7 @@
                         <td>{{good.good__vendor_code}}</td>
                         <td>{{good.total}}</td>
                         <td>
-                            <v-btn color="red" v-if="showButton == true"  @click="deleteGood(good.good)">
+                            <v-btn  class="b" color="error" v-if="showButton == true"  @click="deleteGood(good.good)">
                                 &#10006;
                             </v-btn>
                         </td>
@@ -522,13 +523,13 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response.data)
+                
                 this.request = response.data
                 this.requestForm.organization = response.data.recipient,
                 this.requestForm.address = response.data.shipping_address,
                 this.requestForm.contacts = response.data.contacts,
                 this.requestForm.date = response.data.date
-                console.log(response.data)
+               
                 if(response.data.barcode_file){
                     this.showButton = false
                     this.barcode = response.data.barcode_file.join('')
@@ -629,7 +630,7 @@ export default {
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
                 }
             }).then((response) => {
-                console.log(response)
+                
                 this.orderStatuses = response.data
             })
         },
@@ -653,9 +654,9 @@ export default {
                     this.getRequestData()
                     this.dialogPackage=false
                 }).catch((error) => {
-                    console.log(error)
+                    
                     Object.keys(error.response.data).forEach((key) => {
-                        console.log(key, error.response.data[key])
+                        
                         if(error.response.data[key][0] == 'Ensure that there are no more than 4 decimal places.'){
                             this.errors.capacity_m3_4 = 'Недопустимо более 4 чисел после десятичной точки в поле объем'
                         }
@@ -823,6 +824,9 @@ export default {
 }
 .invalid-feedback{
     color: rgb(252, 20, 20);
+}
+.b {
+    border-radius: 30%;
 }
 
 </style>
