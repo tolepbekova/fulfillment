@@ -1,7 +1,7 @@
 <template>
     <div class="form">
             <v-container>
-                <v-row class="d-flex justify-center align-center">
+                <v-row class="d-flex justify-center align-center justify-space-around">
                     <v-col class="d-flex align-center" cols="2">
                         <div class="logo">
                             <img src="../../assets/logo/fullfilment-logo.svg" alt="logo">
@@ -294,14 +294,14 @@ export default {
         getOrgType(){
             axios.get('http://87.255.194.66:1337/api/org_types/')
             .then((response) => {
-                console.log(response.data)
+                
                 this.typeList = response.data
             })
         },
         getBankList(){
             axios.get('http://87.255.194.66:1337/api/banks/')
             .then((response) => {
-                console.log(response.data)
+                
                 this.bankList = response.data
             })
         },
@@ -334,7 +334,7 @@ export default {
                     // localStorage.removeItem('id')
                 })
                 .catch((error) => {
-                    console.log(error)
+                    
                     if(error.response.data){
                         error.response.data.phone.forEach((element) => {
                             if(element == 'organization with this phone already exists.'){
@@ -490,13 +490,16 @@ export default {
 }
 
 .logo{
-    width: 150px;
-    height: 150px;
+     position: absolute;
+    // width: 150px;
+    // height: 150px;
+   
     img{
-        max-width: 100%;
+        // position:fixed;
+        max-width: 60%;
         border-radius: 40%;
-    }
-}
+    }}
+
 
 .container{
     height: 100%;
