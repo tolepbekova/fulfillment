@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "baseUrl": "cabinet.etrade-partner.kz/api/",
+    "baseUrl": "https://www.my-app.com/",
     "moduleResolution": "node",
     "paths": {
       "@/*": [
