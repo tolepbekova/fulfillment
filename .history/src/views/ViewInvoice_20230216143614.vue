@@ -203,7 +203,7 @@ export default {
                 }
 
                 if(error.response.data.error == 'Data is not valid'){
-                    this.error = 'Данные файла содержат ошибки'
+                    this.error = 'Данные файла не валидны'
                 }
             
             
