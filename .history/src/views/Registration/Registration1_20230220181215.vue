@@ -152,7 +152,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post(`${BASE_URL}/auth/users/`, 
+                axios.post('http://87.255.194.66:1337/auth/users/', 
                 {
                     username: this.username,
                     password: this.password

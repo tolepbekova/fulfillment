@@ -137,7 +137,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post(`${BASE_URL}/api/orders/`, 
+                axios.post('http://87.255.194.66:1337/api/orders/', 
                 {
                     date: this.date,
                     recipient: this.organization,
@@ -162,7 +162,7 @@ export default {
             }
         },
         getShippingTypes(){
-            axios.get(`${BASE_URL}/api/shipping_types/`,
+            axios.get('http://87.255.194.66:1337/api/shipping_types/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')

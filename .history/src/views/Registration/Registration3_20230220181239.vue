@@ -293,14 +293,14 @@ export default {
     }),
     methods:{
         getOrgType(){
-            axios.get(`${BASE_URL}/api/org_types/`)
+            axios.get('http://87.255.194.66:1337/api/org_types/')
             .then((response) => {
                 
                 this.typeList = response.data
             })
         },
         getBankList(){
-            axios.get(`${BASE_URL}/api/banks/`)
+            axios.get('http://87.255.194.66:1337/api/banks/')
             .then((response) => {
                 
                 this.bankList = response.data
@@ -309,7 +309,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post(`${BASE_URL}/api/user/organization/create/`, 
+                axios.post('http://87.255.194.66:1337/api/user/organization/create/', 
                 {
                     user: localStorage.getItem('id'),
                     type: this.typeId,

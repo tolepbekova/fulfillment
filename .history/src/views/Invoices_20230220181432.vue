@@ -89,7 +89,7 @@ import { BASE_URL } from '../helpers/const'
         //     }
         // },
         getOrganizationInvoices(){
-            axios.get(`${BASE_URL}/api/organization/invoices/`,
+            axios.get('http://87.255.194.66:1337/api/organization/invoices/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -113,7 +113,7 @@ import { BASE_URL } from '../helpers/const'
         //     })
         // },
         getOrganization(){
-            axios.get(`${BASE_URL}/api/organizations/1`,
+            axios.get('http://87.255.194.66:1337/api/organizations/1',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -133,7 +133,7 @@ import { BASE_URL } from '../helpers/const'
             this.role = localStorage.getItem('user_role')
         },
         getUserName(){
-            axios.get(`${BASE_URL}/auth/users/`,
+            axios.get('http://87.255.194.66:1337/auth/users/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -146,7 +146,7 @@ import { BASE_URL } from '../helpers/const'
             })
         },
         getUserRole(){
-            axios.get(`${BASE_URL}/users/`+ localStorage.getItem('user_id') +'/role/',
+            axios.get('http://87.255.194.66:1337/users/'+ localStorage.getItem('user_id') +'/role/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')

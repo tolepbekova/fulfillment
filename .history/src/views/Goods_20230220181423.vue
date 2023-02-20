@@ -91,7 +91,7 @@ export default {
     }),
     methods:{
         getGoodsList(){
-            axios.get(`${BASE_URL}/api/goods`,
+            axios.get('http://87.255.194.66:1337/api/goods',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')

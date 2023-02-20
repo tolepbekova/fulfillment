@@ -518,7 +518,7 @@ export default {
     }),
     methods:{
         getRequestData(){
-            axios.get(`${BASE_URL}/api/orders/` +  localStorage.getItem('orderId') + '/detail/',
+            axios.get('http://87.255.194.66:1337/api/orders/' +  localStorage.getItem('orderId') + '/detail/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -539,7 +539,7 @@ export default {
             })
         },
         getShippingTypes(){
-            axios.get(`${BASE_URL}/api/shipping_types/`,
+            axios.get('http://87.255.194.66:1337/api/shipping_types/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -551,7 +551,7 @@ export default {
         patchRequest(){
             this.$v.requestForm.$touch()
             if(!this.$v.requestForm.$invalid){
-                axios.put(`${BASE_URL}/api/orders/` + localStorage.getItem('orderId') +'/', 
+                axios.put('http://87.255.194.66:1337/api/orders/' + localStorage.getItem('orderId') +'/', 
                 {
                     organization: this.request.organization,
                     date: this.requestForm.date,
@@ -573,7 +573,7 @@ export default {
             
         },
         deleteGood(value){
-            axios.delete(`${BASE_URL}/api/order/` + this.request.id + '/good/' + value + '/good_to_send/delete', 
+            axios.delete('http://87.255.194.66:1337/api/order/' + this.request.id + '/good/' + value + '/good_to_send/delete', 
             {
                 headers:{
                    Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -588,7 +588,7 @@ export default {
             localStorage.setItem('orderId', value)
         },
         sendOrder(){
-            axios.patch(`${BASE_URL}/api/orders/`+ localStorage.getItem('orderId') +'/immutable/',
+            axios.patch('http://87.255.194.66:1337/api/orders/'+ localStorage.getItem('orderId') +'/immutable/',
             {
 
             },
@@ -602,7 +602,7 @@ export default {
             })
         },
         generateBarCode(){
-            axios.put(`${BASE_URL}/api/orders/` + localStorage.getItem('orderId') + '/barcode/generate/',
+            axios.put('http://87.255.194.66:1337/api/orders/' + localStorage.getItem('orderId') + '/barcode/generate/',
             {
                 
             },
@@ -625,7 +625,7 @@ export default {
             this.role = localStorage.getItem('user_role')
         },
         getOrderStatuses(){
-            axios.get(`${BASE_URL}/api/order_statuses/`,
+            axios.get('http://87.255.194.66:1337/api/order_statuses/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -638,7 +638,7 @@ export default {
         sendBox(){
             this.$v.box.$touch()
             if(!this.$v.box.$invalid){
-                axios.post(`${BASE_URL}/api/packages/`,
+                axios.post('http://87.255.194.66:1337/api/packages/',
                 {
                     order: this.request.id,
                     height_m: this.box.height_m,
@@ -691,7 +691,7 @@ export default {
         sendStatus(){
             this.$v.cellstatus.$touch()
             if(!this.$v.cellstatus.$invalid){
-                axios.put(`${BASE_URL}/api/orders/` + localStorage.getItem('orderId') + '/fulfillment/update/',
+                axios.put('http://87.255.194.66:1337/api/orders/' + localStorage.getItem('orderId') + '/fulfillment/update/',
                 {
                     cell_number: this.cellstatus.cell_number,
                     status: this.cellstatus.cstatus
