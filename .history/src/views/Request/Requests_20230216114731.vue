@@ -78,7 +78,7 @@
                         <td>{{ order.status }}</td>
                         <td v-if="role == 'Admin_ff'">{{ order.package }}</td>
                         <td v-if="role == 'Client'">
-                            <p  class="mb-1" style="color: red;" v-if="order.is_draft == true">Черновик</p>
+                            <p  class="mb-1"style="color: red;" v-if="order.is_draft == true">Черновик</p>
                             <p style="color: green;" v-if="order.is_draft == false">Отправлено</p>
                         </td>
                         <td>

@@ -35,8 +35,8 @@
                     </v-col>
                     <v-col v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
-                            <v-row class="mt-5">
-                                <v-col >
+                            <v-row class="mt-9">
+                                <v-col cols="4">
                                     <v-file-input
                                         
                                         id="file"
@@ -48,7 +48,7 @@
                                 </v-col>
 
                                 
-                                <v-col >
+                                <v-col cols="6">
                                     
                                     <v-btn
                                     dark
@@ -203,7 +203,7 @@ export default {
                 }
 
                 if(error.response.data.error == 'Data is not valid'){
-                    this.error = 'Данные файла содержат ошибки'
+                    this.error = 'Данные файла не валидны'
                 }
             
             
