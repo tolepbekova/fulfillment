@@ -79,7 +79,7 @@ export default
 
     methods:{
         getOrganizationList(){
-            axios.get(`${BASE_URL}/users/`,
+            axios.get('http://87.255.194.66:1337/users/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -90,7 +90,7 @@ export default
             })
         },
         changeUserStatus(value){
-            axios.patch(`${BASE_URL}/users/`+ value +'/set_activity_status/', 
+            axios.patch('http://87.255.194.66:1337/users/'+ value +'/set_activity_status/', 
                 {
                     
                 },

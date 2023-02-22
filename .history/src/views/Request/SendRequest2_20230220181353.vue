@@ -150,7 +150,7 @@ export default {
     }),
     methods:{
         getOrdersGoodList(){
-            axios.get(`${BASE_URL}/api/orders/good/list/`,
+            axios.get('http://87.255.194.66:1337/api/orders/good/list/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -201,7 +201,7 @@ export default {
                 this.errors.arrayLength = 'Пожалуйста, выберите товары перед сохранением'
             }
             else{
-                axios.post(`${BASE_URL}/api/good_to_send/`,
+                axios.post('http://87.255.194.66:1337/api/good_to_send/',
                 array,
                 {
                     headers:{

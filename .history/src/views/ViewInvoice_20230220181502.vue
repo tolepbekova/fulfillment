@@ -36,7 +36,7 @@
                     <v-col v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
                             <v-row class="mt-5">
-                                <v-col >
+                                <v-col cols="4">
                                     <v-file-input
                                         
                                         id="file"
@@ -48,7 +48,7 @@
                                 </v-col>
 
                                 
-                                <v-col >
+                                <v-col cols="6">
                                     
                                     <v-btn
                                     dark
@@ -73,7 +73,6 @@
                     </v-col>
                 </v-row>
             </v-container>
-            <v-btn class="mt-4 ml-16">Общий объем: {{ getSum() }} м3</v-btn>
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -176,7 +175,7 @@ export default {
             formData.append('file', this.file);
             formData.append('invoice', localStorage.getItem('invoiceId'))
             
-            axios.post(`${BASE_URL}/api/goods/download/`,
+            axios.post('http://87.255.194.66:1337/api/goods/download/',
             
                 formData,
             
@@ -204,7 +203,7 @@ export default {
                 }
 
                 if(error.response.data.error == 'Data is not valid'){
-                    this.error = 'Данные файла содержат ошибки'
+                    this.error = 'Данные файла не валидны'
                 }
             
             
@@ -217,7 +216,7 @@ export default {
             this.error = ''
         },
         getInvoiceGoods(){
-            axios.get(`${BASE_URL}/api/organization/invoice/` + localStorage.getItem('invoiceId'),
+            axios.get('http://87.255.194.66:1337/api/organization/invoice/' + localStorage.getItem('invoiceId'),
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -232,17 +231,11 @@ export default {
         },
         getUserRole(){
             this.role = localStorage.getItem('user_role')
-        }, 
-         getSum(){
-         console.log("goodlist",this.goodList)
-         const sum = this.goodList.reduce((a,b)=> + a + + b.capacity_m3, 0);
-
-         return sum;
         }
     },
-     async mounted(){
+    mounted(){
         this.getUserRole(),
-         await this.getInvoiceGoods()
+        this.getInvoiceGoods()
     }
 }
 
@@ -251,16 +244,5 @@ export default {
 <style lang="scss" scoped>
 .invalid-feedback{
     color: rgb(252, 20, 20);
-}
-.mt-4 {
-
-position: relative;
-left:85%;
-size: 20ch;
-height: 3px;
-font-size:10px ;
-color:rgb(78, 78, 78);
-align-content: end;
-
 }
 </style>

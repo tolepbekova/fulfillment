@@ -162,7 +162,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.patch(`${BASE_URL}/users/` + localStorage.getItem('id') + '/update/', 
+                axios.patch('http://87.255.194.66:1337/users/' + localStorage.getItem('id') + '/update/', 
                 {
                     first_name: this.first_name,
                     last_name: this.last_name,
