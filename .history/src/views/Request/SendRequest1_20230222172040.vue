@@ -75,7 +75,7 @@
                                     class="input" 
                                     label="Контактные данные:" 
                                     placeholder="Контакты"
-                                  
+                                    maxlength="18" 
                                     :error-messages="contactsErrors"
                                     required
                                     @input="$v.contacts.$touch()"
@@ -123,7 +123,6 @@
 <script>
 import axios from 'axios'
 import { required, minLength } from 'vuelidate/lib/validators'
-import { BASE_URL } from '../../helpers/const'
 export default {
     data:() => ({
         date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -138,7 +137,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post(`${BASE_URL}/api/orders/`, 
+                axios.post('http://87.255.194.66:1337/api/orders/', 
                 {
                     date: this.date,
                     recipient: this.organization,
@@ -163,7 +162,7 @@ export default {
             }
         },
         getShippingTypes(){
-            axios.get(`${BASE_URL}/api/shipping_types/`,
+            axios.get('http://87.255.194.66:1337/api/shipping_types/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')

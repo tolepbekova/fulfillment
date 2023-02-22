@@ -71,13 +71,17 @@
                                     @blur="$v.address.$touch()"
                                 />
                                 <v-text-field 
-                                    v-model="contacts" 
-                                    class="input" 
-                                    label="Контактные данные:" 
-                                    placeholder="Контакты"
-                                  
-                                    :error-messages="contactsErrors"
-                                    required
+                                v-model="phone" 
+                                class="input" 
+                                label="Телефон"
+                                maxlength="18" 
+
+                                v-mask="'+7 (###) ###-##-##'"
+                                placeholder="+777******"
+                            
+                                @keypress="isNumber"
+                                @accept="onAccept"
+                               
                                     @input="$v.contacts.$touch()"
                                     @blur="$v.contacts.$touch()"
                                 />

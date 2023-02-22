@@ -138,7 +138,7 @@ export default {
         submitHandler(){
             this.$v.$touch()
             if(!this.$v.$invalid){
-                axios.post(`${BASE_URL}/api/orders/`, 
+                axios.post(`${BASE_URL}//api/orders/`, 
                 {
                     date: this.date,
                     recipient: this.organization,
