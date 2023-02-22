@@ -127,10 +127,13 @@ export default {
 }
 
 .logo{
-    width: 250px;
-    height: 250px;
+     position: absolute;
+    // width: 150px;
+    // height: 150px;
+   
     img{
-        max-width: 100%;
+        // position:fixed;
+        max-width: 60%;
         border-radius: 40%;
     }
 }

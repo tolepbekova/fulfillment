@@ -130,7 +130,7 @@ export default {
     width: 250px;
     height: 250px;
     img{
-        max-width: 100%;
+        max-width: 60%;
         border-radius: 40%;
     }
 }

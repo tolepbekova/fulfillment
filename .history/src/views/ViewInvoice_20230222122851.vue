@@ -217,8 +217,8 @@ export default {
             this.error = ''
         },
 
-         async getInvoiceGoods(){
-           await axios.get(`${BASE_URL}/api/organization/invoice/` + localStorage.getItem('invoiceId')
+        getInvoiceGoods(){
+            axios.get(`${BASE_URL}/api/organization/invoice/` + localStorage.getItem('invoiceId')
         ,
             {
                 headers:{
