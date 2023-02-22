@@ -100,7 +100,6 @@
 
 <script>
 import axios from 'axios'
-import { BASE_URL } from '../../helpers/const'
 export default {
     data: () => ({
         ordersList: [],
@@ -109,7 +108,7 @@ export default {
     }),
     methods: {
         getOrderList(){
-            axios.get(`${BASE_URL}/api/orders/list/`,
+            axios.get('http://87.255.194.66:1337/api/orders/list/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
