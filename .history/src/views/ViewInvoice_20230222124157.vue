@@ -217,7 +217,7 @@ export default {
             this.error = ''
         },
          async getInvoiceGoods(){
-           await axios.get(`${BASE_URL}/api/organization/invoice/` + localStorage.getItem('invoiceId'),
+           await axios.get('http://87.255.194.66:1337/api/organization/invoice/' + localStorage.getItem('invoiceId'),
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
