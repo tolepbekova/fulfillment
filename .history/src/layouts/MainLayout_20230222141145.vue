@@ -92,7 +92,6 @@
 
 <script>
 import axios from 'axios'
-import { BASE_URL } from '../helpers/const'
 export default {
     data: () => ({
         username: '',
@@ -102,7 +101,7 @@ export default {
     }),
     methods:{
         logout(){
-            axios.post(`${BASE_URL}/auth/token/logout/`,
+            axios.post('http://213.166.81.7:1337/auth/token/logout/',
             {
 
             },
@@ -116,7 +115,7 @@ export default {
             })
         },
         getUserName(){
-            axios.get(`${BASE_URL}/auth/users/`,
+            axios.get('http://87.255.194.66:1337/auth/users/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
@@ -129,7 +128,7 @@ export default {
             })
         },
         getUserRole(){
-            axios.get(`${BASE_URL}/users/`+ localStorage.getItem('user_id') +'/role/',
+            axios.get('http://87.255.194.66:1337/users/'+ localStorage.getItem('user_id') +'/role/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
