@@ -78,7 +78,7 @@
                         <td>{{ order.status }}</td>
                         <td v-if="role == 'Admin_ff'">{{ order.package }}</td>
                         <td v-if="role == 'Client'">
-                            <p  class="mb-1" style="color: red;" v-if="order.is_draft == true">Черновик</p>
+                            <p  class="mb-1"style="color: red;" v-if="order.is_draft == true">Черновик</p>
                             <p style="color: green;" v-if="order.is_draft == false">Отправлено</p>
                         </td>
                         <td>
@@ -100,7 +100,6 @@
 
 <script>
 import axios from 'axios'
-import { BASE_URL } from '../../helpers/const'
 export default {
     data: () => ({
         ordersList: [],
@@ -109,7 +108,7 @@ export default {
     }),
     methods: {
         getOrderList(){
-            axios.get(`${BASE_URL}/api/orders/list/`,
+            axios.get('http://87.255.194.66:1337/api/orders/list/',
             {
                 headers:{
                     Authorization: 'Token ' + localStorage.getItem('usertoken')
