@@ -17,7 +17,7 @@
                         </v-btn>
                     </router-link>
                 <v-row>
-                    <v-col cols="6">
+                    <v-col cols="4">
                         <v-card
                         elevation="7"
                         shaped
@@ -33,7 +33,7 @@
                             </v-col>
                         </v-card>
                     </v-col>
-                    <v-col v-if="role == 'Client'">
+                    <v-col cols="8" v-if="role == 'Client'">
                         <form @submit.prevent="sendFile()" action="">
                             <v-row class="mt-5">
                                 <v-col >
@@ -73,7 +73,7 @@
                     </v-col>
                 </v-row>
             </v-container>
-            <v-btn class="mt-4 ml-16">Общий объем: {{ getSum() }} м3</v-btn>
+            <v-btn class="mt-4 mb-3 mr-10">Общий объем: {{ getSum() }} м3</v-btn>
             <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -196,9 +196,6 @@ export default {
                 // this.response = "Успешно"
 
             }) .catch((error) => {
-                
-
-                
                 if(error.response.data.error == 'No file uploaded or file data does not correspond required format to upload goods'){
                     this.error = 'Файл не прикреплен или формат не соответствует требованиям'
                 }
@@ -206,9 +203,6 @@ export default {
                 if(error.response.data.error == 'Data is not valid'){
                     this.error = 'Данные файла содержат ошибки'
                 }
-            
-            
-              
             })
             
         },
